@@ -6,5 +6,5 @@ from .hashing import Hashable
 
 from .wrappers import ObjectWrapper, Array
 
-from .basic_containers import tdict, tlist, tset
+from .basic_containers import tdict, tlist, tset, containerify
 
