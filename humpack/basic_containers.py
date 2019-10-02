@@ -353,13 +353,13 @@ class tlist(Container, list):
 		self._data.index(object, start, stop)
 	
 	def __mul__(self, other):
-		return self._data.__mul__(other)
+		return tlist(self._data.__mul__(other))
 	
 	def __rmul__(self, other):
-		return self._data.__rmul__(other)
+		return tlist(self._data.__rmul__(other))
 	
 	def __add__(self, other):
-		return self._data.__add__(other)
+		return tlist(self._data.__add__(other))
 	
 	def __iadd__(self, other):
 		self._data.__iadd__(other)
