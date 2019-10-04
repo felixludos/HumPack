@@ -775,11 +775,17 @@ class tdeque(Container, deque):
 
 class tstack(tdeque):
 	
+	def pop(self):
+		return super().popleft()
+	
+	def popend(self):
+		return super().pop()
+	
 	def push(self, item):
-		return self.appendleft(item)
+		return super().appendleft(item)
 	
 	def push_all(self, items):
-		return self.extendleft(items)
+		return super().extendleft(reversed(items))
 	
 	def peek(self, n=0):
 		return self[n]
