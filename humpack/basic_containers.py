@@ -209,7 +209,7 @@ class tdict(Container,
 		if item in self.__dict__:
 			# raise Exception('{} cannot be deleted'.format(item))
 			return super().__delattr__(item)
-		return self.__getitem__(item)
+		return self.__delitem__(item)
 	
 	def __str__(self):
 		return 'tdict({})'.format(', '.join([str(key) for key in iter(self)]))
