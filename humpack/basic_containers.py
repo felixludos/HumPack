@@ -361,7 +361,9 @@ class tlist(Container, list):
 		return tlist(self._data.__rmul__(other))
 	
 	def __add__(self, other):
-		return tlist(self._data.__add__(other))
+		out = self.copy()
+		out.extend(other)
+		return out
 	
 	def __iadd__(self, other):
 		self._data.__iadd__(other)
