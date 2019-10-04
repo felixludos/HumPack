@@ -1,5 +1,5 @@
 import numpy as np
-from collections import OrderedDict
+from collections import OrderedDict, deque
 
 from .errors import LoadInitFailureError
 from .saving import Savable
@@ -603,3 +603,183 @@ class tset(Container, set):
 		return '{' + ', '.join([str(x) for x in self]) + '}'
 
 
+class tdeque(Container, deque):
+	
+	def __new__(cls, *args, **kwargs):
+		
+		self = super().__new__(cls)
+		
+		self._data = deque()
+		self._shadow = None
+		
+		return self
+	
+	def __init__(self, *args, **kwargs):
+		super().__init__()
+		self._data = deque(*args, **kwargs)
+	
+	def in_transaction(self):
+		return self._shadow is not None
+	
+	def begin(self):
+		if self.in_transaction():
+			return
+			self.commit()  # partial transactions are committed
+		
+		self._shadow = self._data
+		self._data = self._data.copy()
+		
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.begin()
+	
+	def commit(self):
+		if not self.in_transaction():
+			return
+		
+		self._shadow = None
+		
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.commit()
+	
+	def abort(self):
+		if not self.in_transaction():
+			return
+		
+		self._data = self._shadow
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.abort()
+	
+	def copy(self):
+		copy = type(self)()
+		copy._data = self._data.copy()
+		if self._shadow is not None:
+			copy._shadow = self._shadow.copy()
+		return copy
+	
+	def __save__(self):
+		pack = self.__class__._pack_obj
+		state = {}
+		state['_entries'] = [pack(elm) for elm in iter(self)]
+		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
+			state['_shadow'] = [pack(elm) for elm in self._shadow]
+		return state
+	
+	def __load__(self, state):
+		unpack = self.__class__._unpack_obj
+		
+		# TODO: write warning about overwriting state - which can't be aborted
+		# if self.in_transaction():
+		# 	pass
+		
+		self._data.extend(unpack(elm) for elm in state['_entries'])
+		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
+			self._shadow = [unpack(elm) for elm in state['_shadow']]
+	
+	def __getitem__(self, item):
+		if isinstance(item, slice):
+			return tdeque(self._data[item])
+		return self._data[item]
+	
+	def __setitem__(self, key, value):
+		self._data[key] = value
+	
+	def __delitem__(self, idx):
+		del self._data[idx]
+	
+	def __hash__(self):
+		return id(self)
+	
+	def __eq__(self, other):
+		return id(self) == id(other)
+	
+	def count(self, object):
+		return self._data.count(object)
+	
+	def append(self, item):
+		return self._data.append(item)
+	
+	def appendleft(self, item):
+		return self._data.appendleft(item)
+	
+	def __contains__(self, item):
+		return self._data.__contains__(item)
+	
+	def extend(self, iterable):
+		return self._data.extend(iterable)
+	
+	def extendleft(self, iterable):
+		return self._data.extendleft(iterable)
+	
+	def insert(self, index, object):
+		self._data.insert(index, object)
+	
+	def remove(self, value):
+		self._data.remove(value)
+	
+	def __iter__(self):
+		return iter(self._data)
+	
+	def __reversed__(self):
+		return self._data.__reversed__()
+	
+	def reverse(self):
+		self._data.reverse()
+	
+	def pop(self):
+		return self._data.pop()
+		
+	def popleft(self):
+		return self._data.popleft()
+		
+	def __len__(self):
+		return len(self._data)
+	
+	def clear(self):
+		self._data.clear()
+	
+	def sort(self, key=None, reverse=False):
+		self._data.sort(key, reverse)
+	
+	def index(self, object, start=None, stop=None):
+		self._data.index(object, start, stop)
+	
+	def rotate(self, n=1):
+		return self._data.rotate(n=n)
+	
+	def __mul__(self, other):
+		return tlist(self._data.__mul__(other))
+	
+	def __rmul__(self, other):
+		return tlist(self._data.__rmul__(other))
+	
+	def __add__(self, other):
+		out = self.copy()
+		out.extend(other)
+		return out
+	
+	def __iadd__(self, other):
+		self._data.__iadd__(other)
+	
+	def __imul__(self, other):
+		self._data.__imul__(other)
+	
+	def __repr__(self):
+		return '[{}]'.format(', '.join(map(repr, self)))
+	
+	def __str__(self):
+		return '[{}]'.format(', '.join(map(str, self)))
+
+
+class tstack(tdeque):
+	
+	def push(self, item):
+		return self.appendleft(item)
+	
+	def push_all(self, items):
+		return self.extendleft(items)
+	
+	def peek(self, n=0):
+		return self[n]
