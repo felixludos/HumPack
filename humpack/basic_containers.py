@@ -294,6 +294,8 @@ class tlist(Container, list):
 			self._shadow = [unpack(elm) for elm in state['_shadow']]
 	
 	def __getitem__(self, item):
+		if isinstance(item, slice):
+			return tlist(self._data[item])
 		return self._data[item]
 	
 	def __setitem__(self, key, value):
