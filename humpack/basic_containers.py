@@ -24,6 +24,8 @@ class Container(Transactionable, Savable, Hashable):
 # 		return tdict({containerify(k): containerify(v) for k, v in obj.items()})
 # 	return obj
 def containerify(obj):
+	if isinstance(obj, deque):
+		return tdeque(containerify(o) for o in obj)
 	if isinstance(obj, list):
 		return tlist(containerify(o) for o in obj)
 	if isinstance(obj, set):
@@ -32,6 +34,7 @@ def containerify(obj):
 		return tuple(containerify(o) for o in obj)
 	if isinstance(obj, dict):
 		return tdict({containerify(k):containerify(v) for k,v in obj.items()})
+	
 	return obj
 
 
