@@ -1,4 +1,5 @@
 README.md
+setup.py
 humpack/__init__.py
 humpack/basic_containers.py
 humpack/errors.py

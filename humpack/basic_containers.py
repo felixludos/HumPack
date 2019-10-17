@@ -83,6 +83,7 @@ class tdict(Container,
 			return
 		
 		self._data = self._shadow
+		self._shadow = None
 		for child in self.values():  # if keys could be Transactionable instances: chain(self.keys(), self.values())
 			if isinstance(child, Transactionable):
 				child.abort()
@@ -171,6 +172,7 @@ class tdict(Container,
 		# if self.in_transaction():
 		# 	pass
 		
+		self.abort()
 		self._data.clear()
 		for key in data['_order']:
 			self._data[unpack(key)] = unpack(data['_pairs'][key])
@@ -266,6 +268,7 @@ class tlist(Container, list):
 			return
 		
 		self._data = self._shadow
+		self._shadow = None
 		for child in iter(self):
 			if isinstance(child, Transactionable):
 				child.abort()
@@ -428,6 +431,7 @@ class tset(Container, set):
 			return
 		
 		self._data = self._shadow
+		self._shadow = None
 		for child in iter(self):
 			if isinstance(child, Transactionable):
 				child.abort()
@@ -651,6 +655,7 @@ class tdeque(Container, deque):
 			return
 		
 		self._data = self._shadow
+		self._shadow = None
 		for child in iter(self):
 			if isinstance(child, Transactionable):
 				child.abort()
@@ -753,10 +758,10 @@ class tdeque(Container, deque):
 		return self._data.rotate(n=n)
 	
 	def __mul__(self, other):
-		return tlist(self._data.__mul__(other))
+		return tdeque(self._data.__mul__(other))
 	
 	def __rmul__(self, other):
-		return tlist(self._data.__rmul__(other))
+		return tdeque(self._data.__rmul__(other))
 	
 	def __add__(self, other):
 		out = self.copy()
