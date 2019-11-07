@@ -876,7 +876,7 @@ class theap(Container, object):
 			self._shadow = [unpack(elm) for elm in state['_shadow']]
 			
 	def __iter__(self): # Note: this actually pops entries - iterating through heap will empty it
-		return self
+		return self.copy()
 	
 	def __next__(self):
 		if len(self):
