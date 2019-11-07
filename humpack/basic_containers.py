@@ -1,11 +1,11 @@
 import numpy as np
 from collections import OrderedDict, deque
+import heapq
 
 from .errors import LoadInitFailureError
 from .saving import Savable
 from .transactions import Transactionable
 from .hashing import Hashable
-
 
 class Container(Transactionable, Savable, Hashable):
 	pass
@@ -797,3 +797,121 @@ class tstack(tdeque):
 	
 	def peek(self, n=0):
 		return self[n]
+
+class theap(Container, object):
+	
+	def __new__(cls, *args, **kwargs):
+		
+		self = super().__new__(cls)
+		
+		self._data = []
+		self._shadow = None
+		
+		return self
+	
+	def __init__(self, *args, **kwargs):
+		super().__init__()
+		self._data = list(*args, **kwargs)
+		heapq.heapify(self._data)
+	
+	def in_transaction(self):
+		return self._shadow is not None
+	
+	def begin(self):
+		if self.in_transaction():
+			return
+			self.commit()  # partial transactions are committed
+		
+		self._shadow = self._data
+		self._data = self._data.copy()
+		
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.begin()
+	
+	def commit(self):
+		if not self.in_transaction():
+			return
+		
+		self._shadow = None
+		
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.commit()
+	
+	def abort(self):
+		if not self.in_transaction():
+			return
+		
+		self._data = self._shadow
+		self._shadow = None
+		for child in iter(self):
+			if isinstance(child, Transactionable):
+				child.abort()
+	
+	def copy(self):
+		copy = type(self)()
+		copy._data = self._data.copy()
+		if self._shadow is not None:
+			copy._shadow = self._shadow.copy()
+		return copy
+	
+	def __save__(self):
+		pack = self.__class__._pack_obj
+		state = {}
+		state['_entries'] = [pack(elm) for elm in iter(self)]
+		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
+			state['_shadow'] = [pack(elm) for elm in self._shadow]
+		return state
+	
+	def __load__(self, state):
+		unpack = self.__class__._unpack_obj
+		
+		# TODO: write warning about overwriting state - which can't be aborted
+		# if self.in_transaction():
+		# 	pass
+		
+		self._data.extend(unpack(elm) for elm in state['_entries'])
+		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
+			self._shadow = [unpack(elm) for elm in state['_shadow']]
+			
+	def __iter__(self): # Note: this actually pops entries - iterating through heap will empty it
+		return self
+	
+	def __next__(self):
+		if len(self):
+			return self.pop()
+		raise StopIteration
+	
+	def __len__(self):
+		return len(self._data)
+		
+	def push(self, *items):
+		for item in items:
+			heapq.heappush(self._data, item)
+
+	def pop(self, n=None):
+		if n is None:
+			return heapq.heappop(self._data)
+		return tlist(heapq.heappop(self._data) for _ in range(n))
+	
+	def replace(self, item):
+		return heapq.heapreplace(self._data, item)
+	
+	def pushpop(self, item):
+		return heapq.heappushpop(self._data, item)
+	
+	def __hash__(self):
+		return id(self)
+	
+	def __eq__(self, other):
+		return id(self) == id(other)
+	
+	def __str__(self):
+		return str(self._data)
+	
+	def __repr__(self):
+		return repr(self._data)
+	
+	
+
