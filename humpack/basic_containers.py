@@ -798,6 +798,16 @@ class tstack(tdeque):
 	def peek(self, n=0):
 		return self[n]
 
+
+class _theap_iter(object):
+	def __init__(self, heap):
+		self._heap = heap
+	
+	def __next__(self):
+		if len(self._heap):
+			return self._heap.pop()
+		raise StopIteration
+
 class theap(Container, object):
 	
 	def __new__(cls, *args, **kwargs):
@@ -876,12 +886,7 @@ class theap(Container, object):
 			self._shadow = [unpack(elm) for elm in state['_shadow']]
 			
 	def __iter__(self): # Note: this actually pops entries - iterating through heap will empty it
-		return self.copy()
-	
-	def __next__(self):
-		if len(self):
-			return self.pop()
-		raise StopIteration
+		return _theap_iter(self.copy())
 	
 	def __len__(self):
 		return len(self._data)
@@ -913,5 +918,5 @@ class theap(Container, object):
 	def __repr__(self):
 		return repr(self._data)
 	
-	
+
 
