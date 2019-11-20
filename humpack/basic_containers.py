@@ -220,6 +220,7 @@ class tdict(Container,
 		return 'tdict({})'.format(', '.join([str(key) for key in iter(self)]))
 	
 	def __repr__(self):
+		return self.__str__()
 		return 'tdict({})'.format(', '.join(['{}:{}'.format(repr(key), repr(value)) for key, value in self.items()]))
 
 
