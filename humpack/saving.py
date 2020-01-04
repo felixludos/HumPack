@@ -41,8 +41,8 @@ class Savable(object):
 	
 	@staticmethod
 	def _full_name(cls):
-		name = cls.__name__
-		module = cls.__module__
+		name = str(cls.__name__)
+		module = str(cls.__module__)
 		if module is None:
 			return name
 		return '.'.join([module, name])
