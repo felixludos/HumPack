@@ -1,4 +1,4 @@
-import numpy as np
+
 from collections import OrderedDict, deque
 import heapq
 
@@ -10,19 +10,6 @@ from .hashing import Hashable
 class Container(Transactionable, Savable, Hashable):
 	pass
 
-
-# def containerify(obj, obj_tbl=None):
-# 	if isinstance(obj, list):
-# 		return tlist([containerify(o) for o in obj])
-# 	if isinstance(obj, dict):
-# 		if '_set' in obj and len(obj) == 1:
-# 			return tset([containerify(o) for o in obj['set']])
-# 		if '_tuple' in obj and len(obj) == 1:
-# 			return tuple(containerify(o) for o in obj['tuple'])
-# 		if '_ndarray' in obj and '_dtype' in obj:
-# 			return np.array(obj['_ndarray'], dtype=obj['_dtype'])
-# 		return tdict({containerify(k): containerify(v) for k, v in obj.items()})
-# 	return obj
 def containerify(obj):
 	if isinstance(obj, deque):
 		return tdeque(containerify(o) for o in obj)
@@ -37,10 +24,8 @@ def containerify(obj):
 	
 	return obj
 
-
-class tdict(Container,
-            OrderedDict):  # keys must be primitives, values can be primitives or Savable instances/subclasses
-	
+# keys must be primitives, values can be primitives or Savable instances/subclasses
+class tdict(Container, OrderedDict):
 	def __new__(cls, *args, **kwargs):
 		
 		self = super().__new__(cls)

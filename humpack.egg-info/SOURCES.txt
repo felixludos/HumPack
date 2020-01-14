@@ -1,6 +1,7 @@
 README.md
 setup.py
 humpack/__init__.py
+humpack/_lib_info.py
 humpack/basic_containers.py
 humpack/errors.py
 humpack/hashing.py

@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>gsm.signals &mdash; Game-Set-Match 0.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Game-Set-Match
+          
+
+          
+            
+            <img src="../../_static/gsm_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ttt.html">Tic-Tac-Toe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../catan.html">Catan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aristocracy.html">Aristocracy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai.html">AI Players</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common.html">Common Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core.html">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc.html">Miscellaneous</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Game-Set-Match</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>gsm.signals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for gsm.signals</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="c1"># general</span>
+
+<div class="viewcode-block" id="UnknownElementError"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownElementError">[docs]</a><span class="k">class</span> <span class="nc">UnknownElementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error thrown when trying to jsonify/unjsonify and an unknown object is found</span>
+<span class="sd">	A common solution for custom objects is to make them :ref gsm.util.Jsonable.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Cannot un/jsonify </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="n">obj</span><span class="p">))</span></div>
+
+<span class="c1"># Control flow Exceptions</span>
+
+<div class="viewcode-block" id="GameOver"><a class="viewcode-back" href="../../misc.html#gsm.signals.GameOver">[docs]</a><span class="k">class</span> <span class="nc">GameOver</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Flag to be raised anywhere in a GamePhase or GameObject to end a game.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="PhaseComplete"><a class="viewcode-back" href="../../misc.html#gsm.signals.PhaseComplete">[docs]</a><span class="k">class</span> <span class="nc">PhaseComplete</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Flag to be raised anywhere in a GamePhase or GameObject to end phase and move on to the next one in the GameStack.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transfer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> <span class="c1"># transfer action to next phase</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:param transfer: if true then the current action will be sent to the next phase (default: False)</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">transfer</span> <span class="o">=</span> <span class="n">transfer</span>
+		
+<div class="viewcode-block" id="PhaseComplete.transfer_action"><a class="viewcode-back" href="../../misc.html#gsm.signals.PhaseComplete.transfer_action">[docs]</a>	<span class="k">def</span> <span class="nf">transfer_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Says whether the action should be transferred</span>
+<span class="sd">		:return: bool whether or not the action should be sent to the next phase</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transfer</span></div></div>
+
+<div class="viewcode-block" id="SwitchPhase"><a class="viewcode-back" href="../../misc.html#gsm.signals.SwitchPhase">[docs]</a><span class="k">class</span> <span class="nc">SwitchPhase</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="c1"># possibly can include an action and player</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Flag to be raised anywhere in a GamePhase or GameObject to switch the current phase</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">send_action</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:param phase: name of a registered phase or an instance of a registered phase to switch to</span>
+<span class="sd">		:type phase: str or GamePhase</span>
+<span class="sd">		:param stack: Add current phase back to phase stack so the game will return to the current phase after this</span>
+<span class="sd">		new one is complete</span>
+<span class="sd">		:type stack: bool</span>
+<span class="sd">		:param send_action: Pass current action into the new phase</span>
+<span class="sd">		:type: send_action: bool</span>
+<span class="sd">		:param kwargs: optional kwargs to be passed into new phase if it is just the name of a phase</span>
+<span class="sd">		:type kwargs: any other keyword arguments</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">phase</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">stack</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">send_action</span> <span class="o">=</span> <span class="n">send_action</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+		
+<div class="viewcode-block" id="SwitchPhase.transfer_action"><a class="viewcode-back" href="../../misc.html#gsm.signals.SwitchPhase.transfer_action">[docs]</a>	<span class="k">def</span> <span class="nf">transfer_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:return: flag whether the action should be copied to the new phase</span>
+<span class="sd">		:rtype: bool</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_action</span></div>
+		
+<div class="viewcode-block" id="SwitchPhase.stacks"><a class="viewcode-back" href="../../misc.html#gsm.signals.SwitchPhase.stacks">[docs]</a>	<span class="k">def</span> <span class="nf">stacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:return: flag whether the current phase should be added back to the stack before beingging the new phase</span>
+<span class="sd">		:rtype: bool</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span></div>
+		
+<div class="viewcode-block" id="SwitchPhase.get_phase"><a class="viewcode-back" href="../../misc.html#gsm.signals.SwitchPhase.get_phase">[docs]</a>	<span class="k">def</span> <span class="nf">get_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:return: new phase to switch to</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span></div>
+	
+<div class="viewcode-block" id="SwitchPhase.get_phase_kwargs"><a class="viewcode-back" href="../../misc.html#gsm.signals.SwitchPhase.get_phase_kwargs">[docs]</a>	<span class="k">def</span> <span class="nf">get_phase_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		</span>
+<span class="sd">		:return: keyword arguments for new phase (only used if it must be created)</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span></div></div>
+
+<span class="c1"># Controller errors</span>
+
+<div class="viewcode-block" id="InvalidKeyError"><a class="viewcode-back" href="../../misc.html#gsm.signals.InvalidKeyError">[docs]</a><span class="k">class</span> <span class="nc">InvalidKeyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error if a key is not found in a dict like object</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InvalidPlayerError"><a class="viewcode-back" href="../../misc.html#gsm.signals.InvalidPlayerError">[docs]</a><span class="k">class</span> <span class="nc">InvalidPlayerError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error if an unregistered player is referenced</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Invalid player: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">player</span><span class="p">))</span></div>
+
+<span class="c1"># Controller registry errors</span>
+
+<div class="viewcode-block" id="ClosedRegistryError"><a class="viewcode-back" href="../../misc.html#gsm.signals.ClosedRegistryError">[docs]</a><span class="k">class</span> <span class="nc">ClosedRegistryError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	The registries close after the game begins, so no new players, phases types, game object types,</span>
+<span class="sd">	or config files can be registered.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="RegistryCollisionError"><a class="viewcode-back" href="../../misc.html#gsm.signals.RegistryCollisionError">[docs]</a><span class="k">class</span> <span class="nc">RegistryCollisionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	When registering a new key (in any registry), this error is thrown if such a key is already in the register.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;The key </span><span class="si">{}</span><span class="s1"> has already been registered&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MissingTypeError"><a class="viewcode-back" href="../../misc.html#gsm.signals.MissingTypeError">[docs]</a><span class="k">class</span> <span class="nc">MissingTypeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	When using an object, if the object is not registered but should be, this error is thrown.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">typs</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Before loading </span><span class="si">{}</span><span class="s1"> you must register: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">typs</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="MissingObjectError"><a class="viewcode-back" href="../../misc.html#gsm.signals.MissingObjectError">[docs]</a><span class="k">class</span> <span class="nc">MissingObjectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	When creating a GameObject this error is thrown if the obj_type of the GameObject has not been registered.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a recognized GameObject type, have you registered it?&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="NoActiveGameError"><a class="viewcode-back" href="../../misc.html#gsm.signals.NoActiveGameError">[docs]</a><span class="k">class</span> <span class="nc">NoActiveGameError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error thrown when GameController.step() is called before calling GameController.reset() (to start a game)</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<span class="c1"># host errors</span>
+
+<div class="viewcode-block" id="InvalidValueError"><a class="viewcode-back" href="../../misc.html#gsm.signals.InvalidValueError">[docs]</a><span class="k">class</span> <span class="nc">InvalidValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Unknown value given to the host&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Unknown value: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="UnknownUserError"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownUserError">[docs]</a><span class="k">class</span> <span class="nc">UnknownUserError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Users must be registered before they call host methods</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="UnknownPlayerError"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownPlayerError">[docs]</a><span class="k">class</span> <span class="nc">UnknownPlayerError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Players must be registered in the host.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="UnknownGameError"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownGameError">[docs]</a><span class="k">class</span> <span class="nc">UnknownGameError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error thrown if a game is selected that has not been registered to the host.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+<div class="viewcode-block" id="UnknownInterfaceError"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownInterfaceError">[docs]</a><span class="k">class</span> <span class="nc">UnknownInterfaceError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Error thrown if an unknown interface is used in the GameHost</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<span class="c1"># class LoadConsistencyError(Exception):</span>
+<span class="c1"># 	&#39;&#39;&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># 	&#39;&#39;&#39;</span>
+<span class="c1"># 	pass</span>
+
+<div class="viewcode-block" id="WrappedException"><a class="viewcode-back" href="../../misc.html#gsm.signals.WrappedException">[docs]</a><span class="k">class</span> <span class="nc">WrappedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Exception wrapper used for passing exceptions thrown in a parallel process to be thrown in the main process.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">etype</span><span class="p">,</span> <span class="n">emsg</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">etype</span> <span class="o">=</span> <span class="n">etype</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">emsg</span> <span class="o">=</span> <span class="n">emsg</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">where</span></div>
+
+<div class="viewcode-block" id="ExceptionWrapper"><a class="viewcode-back" href="../../misc.html#gsm.signals.ExceptionWrapper">[docs]</a><span class="k">class</span> <span class="nc">ExceptionWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps an exception plus traceback to communicate across threads&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="c1"># It is important that we don&#39;t store exc_info, see</span>
+		<span class="c1"># NOTE [ Python Traceback Reference Cycle Problem ]</span>
+		<span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">exc_type</span> <span class="o">=</span> <span class="n">exc_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">exc_msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="o">*</span><span class="n">exc_info</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">interface</span>
+
+<div class="viewcode-block" id="ExceptionWrapper.reraise"><a class="viewcode-back" href="../../misc.html#gsm.signals.ExceptionWrapper.reraise">[docs]</a>	<span class="k">def</span> <span class="nf">reraise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sa">r</span><span class="sd">&quot;&quot;&quot;Reraises the wrapped exception in the current thread&quot;&quot;&quot;</span>
+		<span class="c1"># Format a message such as: &quot;Caught ValueError in DataLoader worker</span>
+		<span class="c1"># process 2. Original Traceback:&quot;, followed by the traceback.</span>
+		<span class="c1"># msg = &quot;Caught {} {}.\nOriginal {}&quot;.format(</span>
+		<span class="c1"># 	self.exc_type.__name__, self.where, self.exc_msg)</span>
+		<span class="k">raise</span> <span class="n">WrappedException</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exc_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exc_msg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">)</span></div></div>
+
+<span class="c1"># action errors</span>
+		
+<div class="viewcode-block" id="InvalidActionError"><a class="viewcode-back" href="../../misc.html#gsm.signals.InvalidActionError">[docs]</a><span class="k">class</span> <span class="nc">InvalidActionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown if the action is not recognized&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is an invalid action&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">action</span><span class="p">)))</span></div>
+		
+<div class="viewcode-block" id="ActionMismatch"><a class="viewcode-back" href="../../misc.html#gsm.signals.ActionMismatch">[docs]</a><span class="k">class</span> <span class="nc">ActionMismatch</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Flag thrown by an ActionTuple if any element doesn&#39;t match (used while trying to match the received action</span>
+<span class="sd">	to the possible ones).&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="UnknownActionElement"><a class="viewcode-back" href="../../misc.html#gsm.signals.UnknownActionElement">[docs]</a><span class="k">class</span> <span class="nc">UnknownActionElement</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown if no possible action recognizes a certain element&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Unknown action element: </span><span class="si">{}</span><span class="s1">, type: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span></div>
+
+<span class="c1"># object errors</span>
+
+<div class="viewcode-block" id="InvalidInitializationError"><a class="viewcode-back" href="../../misc.html#gsm.signals.InvalidInitializationError">[docs]</a><span class="k">class</span> <span class="nc">InvalidInitializationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;GameObjects and phases should be created through the GameController using GameController.create_obj</span>
+<span class="sd">	and GameController.create_phase.&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;All GameObjects Must be created through the GameTable.create&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MissingValueError"><a class="viewcode-back" href="../../misc.html#gsm.signals.MissingValueError">[docs]</a><span class="k">class</span> <span class="nc">MissingValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;This error is thrown when a GameObject or GamePlayer is created without a required property</span>
+<span class="sd">	(required properties are specified when registering)&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">missing</span><span class="p">,</span> <span class="o">*</span><span class="n">reqs</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is missing </span><span class="si">{}</span><span class="s1">, requires a value for: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">missing</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reqs</span><span class="p">)))</span></div>
+
+
+<span class="c1"># game table errors</span>
+
+<div class="viewcode-block" id="ObjectIDCollisionError"><a class="viewcode-back" href="../../misc.html#gsm.signals.ObjectIDCollisionError">[docs]</a><span class="k">class</span> <span class="nc">ObjectIDCollisionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown when specifying a GameObject&#39;s ID when creating it, and the ID already exists&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;A GameObject with ID </span><span class="si">{}</span><span class="s1"> already exists&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID</span><span class="p">))</span></div>
+
+<span class="c1"># class ZombieObjectException(Exception): # gets thrown when a SETTER is called from a GameObject even after it was removed from the game table</span>
+<span class="c1"># 	def __init__(self, obj):</span>
+<span class="c1"># 		super().__init__(&#39;{} has already beem removed from the GameTable&#39;.format(repr(obj)))</span>
+
+<span class="c1"># logging</span>
+
+<div class="viewcode-block" id="FormatException"><a class="viewcode-back" href="../../misc.html#gsm.signals.FormatException">[docs]</a><span class="k">class</span> <span class="nc">FormatException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Unknown formatting information&#39;&#39;&#39;</span>
+	<span class="k">pass</span></div>
+
+<span class="c1"># wrapper for multiprocessing</span>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

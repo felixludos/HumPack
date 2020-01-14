@@ -1,0 +1,948 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Miscellaneous &mdash; Game-Set-Match 0.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Interface" href="io.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Game-Set-Match
+          
+
+          
+            
+            <img src="_static/gsm_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ttt.html">Tic-Tac-Toe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="catan.html">Catan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aristocracy.html">Aristocracy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ai.html">AI Players</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Miscellaneous</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mixins">Mixins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing">Writing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viz">Viz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Game-Set-Match</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Miscellaneous</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/misc.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="miscellaneous">
+<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
+<p>This category includes a few helpful utilities, a list of all GSM specific exceptions, and other potentially
+useful routines.</p>
+<div class="section" id="signals">
+<h2>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h2>
+<p>Almost all GSM specific errors and exceptions are included here. Additionally, this contains the exceptions for the control flow during the game.</p>
+<span class="target" id="module-gsm.signals"></span><dl class="exception">
+<dt id="gsm.signals.UnknownElementError">
+<em class="property">exception </em><code class="sig-name descname">UnknownElementError</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#UnknownElementError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownElementError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown when trying to jsonify/unjsonify and an unknown object is found
+A common solution for custom objects is to make them :ref gsm.util.Jsonable.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.GameOver">
+<em class="property">exception </em><code class="sig-name descname">GameOver</code><a class="reference internal" href="_modules/gsm/signals.html#GameOver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.GameOver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Flag to be raised anywhere in a GamePhase or GameObject to end a game.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.PhaseComplete">
+<em class="property">exception </em><code class="sig-name descname">PhaseComplete</code><span class="sig-paren">(</span><em class="sig-param">transfer=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#PhaseComplete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.PhaseComplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Flag to be raised anywhere in a GamePhase or GameObject to end phase and move on to the next one in the GameStack.</p>
+<dl class="method">
+<dt id="gsm.signals.PhaseComplete.transfer_action">
+<code class="sig-name descname">transfer_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#PhaseComplete.transfer_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.PhaseComplete.transfer_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Says whether the action should be transferred
+:return: bool whether or not the action should be sent to the next phase</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.SwitchPhase">
+<em class="property">exception </em><code class="sig-name descname">SwitchPhase</code><span class="sig-paren">(</span><em class="sig-param">phase</em>, <em class="sig-param">stack=True</em>, <em class="sig-param">send_action=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#SwitchPhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.SwitchPhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Flag to be raised anywhere in a GamePhase or GameObject to switch the current phase</p>
+<dl class="method">
+<dt id="gsm.signals.SwitchPhase.transfer_action">
+<code class="sig-name descname">transfer_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#SwitchPhase.transfer_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.SwitchPhase.transfer_action" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>flag whether the action should be copied to the new phase</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gsm.signals.SwitchPhase.stacks">
+<code class="sig-name descname">stacks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#SwitchPhase.stacks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.SwitchPhase.stacks" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>flag whether the current phase should be added back to the stack before beingging the new phase</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gsm.signals.SwitchPhase.get_phase">
+<code class="sig-name descname">get_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#SwitchPhase.get_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.SwitchPhase.get_phase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>new phase to switch to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gsm.signals.SwitchPhase.get_phase_kwargs">
+<code class="sig-name descname">get_phase_kwargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#SwitchPhase.get_phase_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.SwitchPhase.get_phase_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>keyword arguments for new phase (only used if it must be created)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.InvalidKeyError">
+<em class="property">exception </em><code class="sig-name descname">InvalidKeyError</code><a class="reference internal" href="_modules/gsm/signals.html#InvalidKeyError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.InvalidKeyError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error if a key is not found in a dict like object</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.InvalidPlayerError">
+<em class="property">exception </em><code class="sig-name descname">InvalidPlayerError</code><span class="sig-paren">(</span><em class="sig-param">player</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#InvalidPlayerError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.InvalidPlayerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error if an unregistered player is referenced</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.ClosedRegistryError">
+<em class="property">exception </em><code class="sig-name descname">ClosedRegistryError</code><a class="reference internal" href="_modules/gsm/signals.html#ClosedRegistryError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.ClosedRegistryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>The registries close after the game begins, so no new players, phases types, game object types,
+or config files can be registered.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.RegistryCollisionError">
+<em class="property">exception </em><code class="sig-name descname">RegistryCollisionError</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#RegistryCollisionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.RegistryCollisionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>When registering a new key (in any registry), this error is thrown if such a key is already in the register.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.MissingTypeError">
+<em class="property">exception </em><code class="sig-name descname">MissingTypeError</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">*typs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#MissingTypeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.MissingTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>When using an object, if the object is not registered but should be, this error is thrown.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.MissingObjectError">
+<em class="property">exception </em><code class="sig-name descname">MissingObjectError</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#MissingObjectError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.MissingObjectError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>When creating a GameObject this error is thrown if the obj_type of the GameObject has not been registered.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.NoActiveGameError">
+<em class="property">exception </em><code class="sig-name descname">NoActiveGameError</code><a class="reference internal" href="_modules/gsm/signals.html#NoActiveGameError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.NoActiveGameError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown when GameController.step() is called before calling GameController.reset() (to start a game)</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.InvalidValueError">
+<em class="property">exception </em><code class="sig-name descname">InvalidValueError</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#InvalidValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.InvalidValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Unknown value given to the host</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.UnknownUserError">
+<em class="property">exception </em><code class="sig-name descname">UnknownUserError</code><a class="reference internal" href="_modules/gsm/signals.html#UnknownUserError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownUserError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Users must be registered before they call host methods</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.UnknownPlayerError">
+<em class="property">exception </em><code class="sig-name descname">UnknownPlayerError</code><a class="reference internal" href="_modules/gsm/signals.html#UnknownPlayerError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownPlayerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Players must be registered in the host.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.UnknownGameError">
+<em class="property">exception </em><code class="sig-name descname">UnknownGameError</code><a class="reference internal" href="_modules/gsm/signals.html#UnknownGameError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownGameError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown if a game is selected that has not been registered to the host.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.UnknownInterfaceError">
+<em class="property">exception </em><code class="sig-name descname">UnknownInterfaceError</code><a class="reference internal" href="_modules/gsm/signals.html#UnknownInterfaceError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownInterfaceError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown if an unknown interface is used in the GameHost</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.WrappedException">
+<em class="property">exception </em><code class="sig-name descname">WrappedException</code><span class="sig-paren">(</span><em class="sig-param">etype</em>, <em class="sig-param">emsg</em>, <em class="sig-param">where=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#WrappedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.WrappedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception wrapper used for passing exceptions thrown in a parallel process to be thrown in the main process.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.signals.ExceptionWrapper">
+<em class="property">class </em><code class="sig-name descname">ExceptionWrapper</code><span class="sig-paren">(</span><em class="sig-param">interface=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#ExceptionWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.ExceptionWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wraps an exception plus traceback to communicate across threads</p>
+<dl class="method">
+<dt id="gsm.signals.ExceptionWrapper.reraise">
+<code class="sig-name descname">reraise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#ExceptionWrapper.reraise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.ExceptionWrapper.reraise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reraises the wrapped exception in the current thread</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.InvalidActionError">
+<em class="property">exception </em><code class="sig-name descname">InvalidActionError</code><span class="sig-paren">(</span><em class="sig-param">action</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#InvalidActionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.InvalidActionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown if the action is not recognized</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.ActionMismatch">
+<em class="property">exception </em><code class="sig-name descname">ActionMismatch</code><a class="reference internal" href="_modules/gsm/signals.html#ActionMismatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.ActionMismatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Flag thrown by an ActionTuple if any element doesn’t match (used while trying to match the received action
+to the possible ones).</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.UnknownActionElement">
+<em class="property">exception </em><code class="sig-name descname">UnknownActionElement</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#UnknownActionElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.UnknownActionElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown if no possible action recognizes a certain element</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.InvalidInitializationError">
+<em class="property">exception </em><code class="sig-name descname">InvalidInitializationError</code><a class="reference internal" href="_modules/gsm/signals.html#InvalidInitializationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.InvalidInitializationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>GameObjects and phases should be created through the GameController using GameController.create_obj
+and GameController.create_phase.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.MissingValueError">
+<em class="property">exception </em><code class="sig-name descname">MissingValueError</code><span class="sig-paren">(</span><em class="sig-param">typ</em>, <em class="sig-param">missing</em>, <em class="sig-param">*reqs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#MissingValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.MissingValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>This error is thrown when a GameObject or GamePlayer is created without a required property
+(required properties are specified when registering)</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.ObjectIDCollisionError">
+<em class="property">exception </em><code class="sig-name descname">ObjectIDCollisionError</code><span class="sig-paren">(</span><em class="sig-param">ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/signals.html#ObjectIDCollisionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.ObjectIDCollisionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Error thrown when specifying a GameObject’s ID when creating it, and the ID already exists</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="gsm.signals.FormatException">
+<em class="property">exception </em><code class="sig-name descname">FormatException</code><a class="reference internal" href="_modules/gsm/signals.html#FormatException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.signals.FormatException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Unknown formatting information</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mixins">
+<h2>Mixins<a class="headerlink" href="#mixins" title="Permalink to this headline">¶</a></h2>
+<p>Contains several commonly used mixins to add common specific features to classes.</p>
+<span class="target" id="module-gsm.mixins"></span><dl class="class">
+<dt id="gsm.mixins.Named">
+<em class="property">class </em><code class="sig-name descname">Named</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Named"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Named" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Creates a name that must be provided in __init__</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.mixins.Typed">
+<em class="property">class </em><code class="sig-name descname">Typed</code><span class="sig-paren">(</span><em class="sig-param">obj_type</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Typed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Typed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This specifies a type (in the form of a string) saved to “obj_type”, which must be passed in to __init__</p>
+<dl class="method">
+<dt id="gsm.mixins.Typed.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Typed.get_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Typed.get_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queries the obj_type (not related to type(self))
+:return: obj_type</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.mixins.Jsonable">
+<em class="property">class </em><code class="sig-name descname">Jsonable</code><a class="reference internal" href="_modules/gsm/mixins.html#Jsonable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Jsonable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object whose data can be formatted as a json object</p>
+<dl class="method">
+<dt id="gsm.mixins.Jsonable.jsonify">
+<code class="sig-name descname">jsonify</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Jsonable.jsonify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Jsonable.jsonify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from this object in the form of a json object.
+:return: A json object (only containing dict, list, and primitives)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.mixins.Pullable">
+<em class="property">class </em><code class="sig-name descname">Pullable</code><a class="reference internal" href="_modules/gsm/mixins.html#Pullable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Pullable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Can provide player specific information in the form of the standard GSM interface
+(eg. game objects visible to a certain player).</p>
+<dl class="method">
+<dt id="gsm.mixins.Pullable.pull">
+<code class="sig-name descname">pull</code><span class="sig-paren">(</span><em class="sig-param">player=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Pullable.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Pullable.pull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get player specific information using GSM interface.
+:param player: Optional to filter out information only visible to this player,
+otherwise returns only information visible to all players.
+:type player: gsm.core.GamePlayer
+:return: Must return a json object (only dict, list, and primitives)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.mixins.Writable">
+<em class="property">class </em><code class="sig-name descname">Writable</code><a class="reference internal" href="_modules/gsm/mixins.html#Writable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Writable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Can reformat object data to be written to a log.
+To be writable this object must provide a “text value” which is a string of data that can be directly printed,
+a “text type” which should be a string meant to specify certain formatting, and “text info” which is a dict
+(string -&gt; primitive) of any information.</p>
+<dl class="method">
+<dt id="gsm.mixins.Writable.get_text_val">
+<code class="sig-name descname">get_text_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Writable.get_text_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Writable.get_text_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>The “text value” is the string of data that should be directly printable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>text that can be displayed without formatting</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gsm.mixins.Writable.get_text_type">
+<code class="sig-name descname">get_text_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Writable.get_text_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Writable.get_text_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The “text type” is a string which should specify a specific kind of formatting for this type of object.
+:return: type of object that is written
+:rtype: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gsm.mixins.Writable.get_text_info">
+<code class="sig-name descname">get_text_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/mixins.html#Writable.get_text_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.mixins.Writable.get_text_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally, additional formatting instructions can be provided in the form of a dict here.
+Note that: all keys must be strings and all values must be primitives.
+:return: A dict of additional and optional formatting instructions of the text
+:rtype: dict(str -&gt; {str, int, float, bool})</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="writing">
+<h2>Writing<a class="headerlink" href="#writing" title="Permalink to this headline">¶</a></h2>
+<p>Contains various utilities for writing objects to the log.</p>
+<span class="target" id="module-gsm.writing"></span><dl class="function">
+<dt id="gsm.writing.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">*objs</em>, <em class="sig-param">end=None</em>, <em class="sig-param">indent_level=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsm.writing.writef">
+<code class="sig-name descname">writef</code><span class="sig-paren">(</span><em class="sig-param">txt</em>, <em class="sig-param">*objs</em>, <em class="sig-param">end=None</em>, <em class="sig-param">indent_level=None</em>, <em class="sig-param">**kwobjs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#writef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.writef" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="gsm.writing.RichWriter">
+<em class="property">class </em><code class="sig-name descname">RichWriter</code><span class="sig-paren">(</span><em class="sig-param">indent_level=None</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">end='n'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Savable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code>, <a class="reference internal" href="#gsm.mixins.Pullable" title="gsm.mixins.Pullable"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.mixins.Pullable</span></code></a></p>
+<dl class="method">
+<dt id="gsm.writing.RichWriter.zindent">
+<code class="sig-name descname">zindent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.zindent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.zindent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.iindent">
+<code class="sig-name descname">iindent</code><span class="sig-paren">(</span><em class="sig-param">n=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.iindent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.iindent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.dindent">
+<code class="sig-name descname">dindent</code><span class="sig-paren">(</span><em class="sig-param">n=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.dindent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.dindent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">*objs</em>, <em class="sig-param">end=None</em>, <em class="sig-param">indent_level=None</em>, <em class="sig-param">debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.writef">
+<code class="sig-name descname">writef</code><span class="sig-paren">(</span><em class="sig-param">txt</em>, <em class="sig-param">*objs</em>, <em class="sig-param">end=None</em>, <em class="sig-param">indent_level=None</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">**kwobjs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.writef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.writef" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichWriter.pull">
+<code class="sig-name descname">pull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichWriter.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichWriter.pull" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.writing.LogWriter">
+<em class="property">class </em><code class="sig-name descname">LogWriter</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gsm.writing.RichWriter" title="gsm.writing.RichWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.writing.RichWriter</span></code></a></p>
+<dl class="method">
+<dt id="gsm.writing.LogWriter.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.LogWriter.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.LogWriter.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.LogWriter.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.LogWriter.get_log">
+<code class="sig-name descname">get_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.get_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.LogWriter.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#LogWriter.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.LogWriter.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.writing.RichText">
+<em class="property">class </em><code class="sig-name descname">RichText</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">obj_type='Regular'</em>, <em class="sig-param">**info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gsm.mixins.Typed" title="gsm.mixins.Typed"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.mixins.Typed</span></code></a>, <a class="reference internal" href="#gsm.mixins.Writable" title="gsm.mixins.Writable"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.mixins.Writable</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Savable</span></code></p>
+<dl class="method">
+<dt id="gsm.writing.RichText.get_text_type">
+<code class="sig-name descname">get_text_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichText.get_text_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichText.get_text_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichText.get_text_val">
+<code class="sig-name descname">get_text_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichText.get_text_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichText.get_text_val" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.writing.RichText.get_text_info">
+<code class="sig-name descname">get_text_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#RichText.get_text_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.RichText.get_text_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.writing.WarningText">
+<em class="property">class </em><code class="sig-name descname">WarningText</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#WarningText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.WarningText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gsm.writing.RichText" title="gsm.writing.RichText"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.writing.RichText</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gsm.writing.ErrorText">
+<em class="property">class </em><code class="sig-name descname">ErrorText</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/writing.html#ErrorText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.writing.ErrorText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gsm.writing.RichText" title="gsm.writing.RichText"><code class="xref py py-class docutils literal notranslate"><span class="pre">gsm.writing.RichText</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="viz">
+<h2>Viz<a class="headerlink" href="#viz" title="Permalink to this headline">¶</a></h2>
+<p>Routines to help test, debug, and visualize the games.</p>
+<span class="target" id="module-gsm.viz"></span><dl class="class">
+<dt id="gsm.viz.Ipython_Runner">
+<em class="property">class </em><code class="sig-name descname">Ipython_Runner</code><span class="sig-paren">(</span><em class="sig-param">addr</em>, <em class="sig-param">*users</em>, <em class="sig-param">seed=None</em>, <em class="sig-param">full_log=False</em>, <em class="sig-param">god_mode=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.restart">
+<code class="sig-name descname">restart</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.print_error">
+<code class="sig-name descname">print_error</code><span class="sig-paren">(</span><em class="sig-param">error</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.print_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.print_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.available_games">
+<code class="sig-name descname">available_games</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.available_games"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.available_games" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.select_game">
+<code class="sig-name descname">select_game</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.select_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.select_game" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.game_info">
+<code class="sig-name descname">game_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.game_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.game_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.game_players">
+<code class="sig-name descname">game_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.game_players"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.game_players" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.add_client">
+<code class="sig-name descname">add_client</code><span class="sig-paren">(</span><em class="sig-param">*users</em>, <em class="sig-param">port=None</em>, <em class="sig-param">interface=None</em>, <em class="sig-param">agent_type=None</em>, <em class="sig-param">timeout=5</em>, <em class="sig-param">**settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.add_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.add_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.go">
+<code class="sig-name descname">go</code><span class="sig-paren">(</span><em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.go"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.go" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.toggle_pause">
+<code class="sig-name descname">toggle_pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.toggle_pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.toggle_pause" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.ping">
+<code class="sig-name descname">ping</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.ping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.ping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.add_player">
+<code class="sig-name descname">add_player</code><span class="sig-paren">(</span><em class="sig-param">user=None</em>, <em class="sig-param">player=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.add_player"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.add_player" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.add_advisor">
+<code class="sig-name descname">add_advisor</code><span class="sig-paren">(</span><em class="sig-param">user=None</em>, <em class="sig-param">player=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.add_advisor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.add_advisor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.add_spectator">
+<code class="sig-name descname">add_spectator</code><span class="sig-paren">(</span><em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.add_spectator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.add_spectator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.set_user">
+<code class="sig-name descname">set_user</code><span class="sig-paren">(</span><em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.set_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.set_user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.get_active_players">
+<code class="sig-name descname">get_active_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.get_active_players"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.get_active_players" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.get_roles">
+<code class="sig-name descname">get_roles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.get_roles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.get_roles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.cheat">
+<code class="sig-name descname">cheat</code><span class="sig-paren">(</span><em class="sig-param">code=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.cheat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.cheat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.status">
+<code class="sig-name descname">status</code><span class="sig-paren">(</span><em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.step">
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><em class="sig-param">idx=None</em>, <em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.get_log">
+<code class="sig-name descname">get_log</code><span class="sig-paren">(</span><em class="sig-param">user=None</em>, <em class="sig-param">god=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.get_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.view">
+<code class="sig-name descname">view</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.viz.Ipython_Runner.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">load_interface=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#Ipython_Runner.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.Ipython_Runner.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="gsm.viz.render_format">
+<code class="sig-name descname">render_format</code><span class="sig-paren">(</span><em class="sig-param">raw</em>, <em class="sig-param">unfolded=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#render_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.render_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="gsm.viz.render_dict">
+<em class="property">class </em><code class="sig-name descname">render_dict</code><span class="sig-paren">(</span><em class="sig-param">json_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/viz.html#render_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.viz.render_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<p>General utilties.</p>
+<span class="target" id="module-gsm.util"></span><dl class="function">
+<dt id="gsm.util.jsonify">
+<code class="sig-name descname">jsonify</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">tfm=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#jsonify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.jsonify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from a nested python data structure (containing dict, set, list, tuples, humpack objects etc.)
+to a json conpatible object (only dicts, lists, and primitives).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – Input data structure to be jsonified</p></li>
+<li><p><strong>tfm</strong> – Custom transform function to jsonify special data structures (use with caution)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>obj that can be transformed to json string using json.dump</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsm.util.unjsonify">
+<code class="sig-name descname">unjsonify</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">tfm=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#unjsonify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.unjsonify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from a json readable python data structure (containing dict, list, tuples, humpack objects etc.)
+to a json conpatible object (only dicts, lists, and primitives).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – Input data structure to be unjsonified</p></li>
+<li><p><strong>tfm</strong> – Custom transform function to unjsonify certain data structures (use with caution)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsm.util.obj_unjsonify">
+<code class="sig-name descname">obj_unjsonify</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">table=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#obj_unjsonify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.obj_unjsonify" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – data to be</p></li>
+<li><p><strong>table</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsm.util.obj_cross_ref">
+<code class="sig-name descname">obj_cross_ref</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#obj_cross_ref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.obj_cross_ref" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="gsm.util.RandomGenerator">
+<em class="property">class </em><code class="sig-name descname">RandomGenerator</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Savable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">random.Random</span></code></p>
+<dl class="method">
+<dt id="gsm.util.RandomGenerator.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.util.RandomGenerator.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.util.RandomGenerator.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.util.RandomGenerator.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsm.util.RandomGenerator.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gsm/util.html#RandomGenerator.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsm.util.RandomGenerator.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="io.html" class="btn btn-neutral float-left" title="Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

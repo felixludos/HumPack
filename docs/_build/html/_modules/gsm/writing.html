@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>gsm.writing &mdash; Game-Set-Match 0.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Game-Set-Match
+          
+
+          
+            
+            <img src="../../_static/gsm_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ttt.html">Tic-Tac-Toe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../catan.html">Catan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aristocracy.html">Aristocracy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai.html">AI Players</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common.html">Common Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core.html">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc.html">Miscellaneous</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Game-Set-Match</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>gsm.writing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for gsm.writing</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">Formatter</span>
+
+<span class="kn">from</span> <span class="nn">humpack</span> <span class="k">import</span> <span class="n">tset</span><span class="p">,</span> <span class="n">tdict</span><span class="p">,</span> <span class="n">tlist</span>
+<span class="kn">from</span> <span class="nn">.mixins</span> <span class="k">import</span> <span class="n">Typed</span><span class="p">,</span> <span class="n">Savable</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">,</span> <span class="n">Pullable</span><span class="p">,</span> <span class="n">Writable</span>
+<span class="kn">from</span> <span class="nn">.signals</span> <span class="k">import</span> <span class="n">FormatException</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_primitives</span>
+
+<span class="n">FMT</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">_process_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_primitives</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">obj</span>
+	<span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Writable</span><span class="p">):</span>
+		<span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get_text_info</span><span class="p">())</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_text_type</span><span class="p">()</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_text_val</span><span class="p">()</span>
+	<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Typed</span><span class="p">):</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+		<span class="n">info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+	
+	<span class="k">return</span> <span class="n">info</span>
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../misc.html#gsm.writing.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+	
+	<span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">end</span><span class="p">):</span>
+		<span class="n">objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
+		<span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+	
+	<span class="n">line</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;line&#39;</span><span class="p">:[</span><span class="n">_process_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]}</span>
+	
+	<span class="k">if</span> <span class="n">indent_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">line</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">indent_level</span>
+		
+	<span class="k">return</span> <span class="n">line</span></div>
+
+<div class="viewcode-block" id="writef"><a class="viewcode-back" href="../../misc.html#gsm.writing.writef">[docs]</a><span class="k">def</span> <span class="nf">writef</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwobjs</span><span class="p">):</span>
+	<span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+	
+	<span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+	
+	<span class="k">for</span> <span class="n">pre</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">FMT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+		
+		<span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
+		
+		<span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">continue</span>
+		<span class="k">elif</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">kwobjs</span><span class="p">:</span>
+			<span class="n">obj</span> <span class="o">=</span> <span class="n">kwobjs</span><span class="p">[</span><span class="n">info</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">info</span><span class="p">)]</span>
+			<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">info</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+					<span class="n">obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+					<span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">raise</span> <span class="n">FormatException</span><span class="p">(</span><span class="s1">&#39;Unknown object info, type </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">info</span><span class="p">))</span>
+		
+		<span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+			<span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="fm">__format__</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+		
+		<span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+		
+	<span class="k">return</span> <span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="n">indent_level</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RichWriter"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter">[docs]</a><span class="k">class</span> <span class="nc">RichWriter</span><span class="p">(</span><span class="n">Savable</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">,</span> <span class="n">Pullable</span><span class="p">):</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">tlist</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">=</span> <span class="n">indent_level</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span>
+	
+<div class="viewcode-block" id="RichWriter.zindent"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.zindent">[docs]</a>	<span class="k">def</span> <span class="nf">zindent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># reset indent</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">=</span> <span class="mi">0</span></div>
+	
+<div class="viewcode-block" id="RichWriter.iindent"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.iindent">[docs]</a>	<span class="k">def</span> <span class="nf">iindent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># increment indent</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">+=</span> <span class="n">n</span></div>
+	
+<div class="viewcode-block" id="RichWriter.dindent"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.dindent">[docs]</a>	<span class="k">def</span> <span class="nf">dindent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># decrement indent</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+	
+<div class="viewcode-block" id="RichWriter.clear"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.clear">[docs]</a>	<span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+		
+	<span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+	
+<div class="viewcode-block" id="RichWriter.write"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.write">[docs]</a>	<span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		
+		<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>  <span class="c1"># Dont write a debug line unless specified</span>
+			<span class="k">return</span>
+		
+		<span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span>
+		
+		<span class="k">if</span> <span class="n">indent_level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">indent_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span>
+			
+		<span class="n">line</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="n">indent_level</span><span class="p">)</span>
+		
+		<span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+			<span class="n">line</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+			
+		<span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+		
+<div class="viewcode-block" id="RichWriter.writef"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.writef">[docs]</a>	<span class="k">def</span> <span class="nf">writef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">,</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwobjs</span><span class="p">):</span>
+		
+		<span class="k">if</span> <span class="n">debug</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>  <span class="c1"># Dont write a debug line unless specified</span>
+			<span class="k">return</span>
+		
+		<span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span>
+		
+		<span class="k">if</span> <span class="n">indent_level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">indent_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span>
+		
+		<span class="n">line</span> <span class="o">=</span> <span class="n">writef</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="n">indent_level</span><span class="p">,</span>
+		              <span class="o">**</span><span class="n">kwobjs</span><span class="p">)</span>
+			
+		<span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+			<span class="n">line</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+			
+		<span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+		
+<div class="viewcode-block" id="RichWriter.extend"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.extend">[docs]</a>	<span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+	
+	<span class="k">def</span> <span class="nf">__save__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">pack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_pack_obj</span>
+		
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;indent_level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;_shadow_indent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;in_transaction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+		
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">__load__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+		<span class="n">unpack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_unpack_obj</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;indent_level&#39;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;_shadow_indent&#39;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;in_transaction&#39;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span>
+		
+<div class="viewcode-block" id="RichWriter.begin"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span></div>
+		
+
+<div class="viewcode-block" id="RichWriter.in_transaction"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.in_transaction">[docs]</a>	<span class="k">def</span> <span class="nf">in_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span></div>
+
+<div class="viewcode-block" id="RichWriter.commit"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span> <span class="o">=</span> <span class="kc">None</span></div>
+		
+
+<div class="viewcode-block" id="RichWriter.abort"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_in_transaction</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">indent_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shadow_indent</span> <span class="o">=</span> <span class="kc">None</span></div>
+		
+		
+<div class="viewcode-block" id="RichWriter.pull"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichWriter.pull">[docs]</a>	<span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LogWriter"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter">[docs]</a><span class="k">class</span> <span class="nc">LogWriter</span><span class="p">(</span><span class="n">RichWriter</span><span class="p">):</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">tlist</span><span class="p">()</span>
+		
+<div class="viewcode-block" id="LogWriter.begin"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LogWriter.commit"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LogWriter.abort"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span></div>
+		
+<div class="viewcode-block" id="LogWriter.extend"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.extend">[docs]</a>	<span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+		
+<div class="viewcode-block" id="LogWriter.get_log"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.get_log">[docs]</a>	<span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">)</span></div>
+	
+<div class="viewcode-block" id="LogWriter.reset"><a class="viewcode-back" href="../../misc.html#gsm.writing.LogWriter.reset">[docs]</a>	<span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+		
+	<span class="k">def</span> <span class="nf">__save__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__save__</span><span class="p">()</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_pack_obj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+	
+	<span class="k">def</span> <span class="nf">__load__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__load__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_unpack_obj</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">])</span></div>
+		
+<span class="c1"># the dev can write instance of RichText, but all written objects are stored as simple objects (dict, list, primitives)</span>
+<span class="c1"># class RichLine(dict):</span>
+<span class="c1"># 	pass</span>
+
+
+<div class="viewcode-block" id="RichText"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichText">[docs]</a><span class="k">class</span> <span class="nc">RichText</span><span class="p">(</span><span class="n">Typed</span><span class="p">,</span> <span class="n">Writable</span><span class="p">,</span> <span class="n">Savable</span><span class="p">):</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">obj_type</span><span class="o">=</span><span class="s1">&#39;Regular&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">info</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj_type</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">msg</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+	
+<div class="viewcode-block" id="RichText.get_text_type"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichText.get_text_type">[docs]</a>	<span class="k">def</span> <span class="nf">get_text_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span></div>
+	
+<div class="viewcode-block" id="RichText.get_text_val"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichText.get_text_val">[docs]</a>	<span class="k">def</span> <span class="nf">get_text_val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span></div>
+	
+<div class="viewcode-block" id="RichText.get_text_info"><a class="viewcode-back" href="../../misc.html#gsm.writing.RichText.get_text_info">[docs]</a>	<span class="k">def</span> <span class="nf">get_text_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># dev can provide frontend with format instructions, this is added to the info for each line in the log using this LogFormat</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="c1"># by default no additional info is sent</span></div>
+	
+	<span class="k">def</span> <span class="nf">__save__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">pack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_pack_obj</span>
+		
+		<span class="k">return</span> <span class="p">{</span>
+			<span class="s1">&#39;val&#39;</span> <span class="p">:</span><span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">),</span>
+			<span class="s1">&#39;info&#39;</span> <span class="p">:</span><span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">),</span>
+		<span class="p">}</span>
+	
+	<span class="k">def</span> <span class="nf">__load__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+		<span class="n">unpack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_unpack_obj</span>
+		<span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]),</span> <span class="o">**</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]))</span>
+	
+	<span class="k">def</span> <span class="nf">__format__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format_spec</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="WarningText"><a class="viewcode-back" href="../../misc.html#gsm.writing.WarningText">[docs]</a><span class="k">class</span> <span class="nc">WarningText</span><span class="p">(</span><span class="n">RichText</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s1">&#39;Warning&#39;</span><span class="p">)</span></div>
+
+<span class="c1"># def get_info(self):</span>
+<span class="c1"># 	return tdict(color=&#39;yellow&#39;) # example</span>
+
+<div class="viewcode-block" id="ErrorText"><a class="viewcode-back" href="../../misc.html#gsm.writing.ErrorText">[docs]</a><span class="k">class</span> <span class="nc">ErrorText</span><span class="p">(</span><span class="n">RichText</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s1">&#39;Error&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,14 +1,13 @@
 from setuptools import setup
+from humpack import _lib_info as info
 
-setup(name='humpack',
-      version='0.1',
-      description='Human Readable Object Serialization',
-      url='https://github.com/fleeb24/HumPack',
-      author='Felix Leeb',
-      author_email='fleeb@tuebingen.mpg.edu',
-      license='MIT',
-      packages=['humpack'],
-      install_requires=[
-            'wrapt',
-      ],
+setup(name=info.name,
+      version=info.version,
+      description=info.description,
+      url=info.url,
+      author=info.author,
+      author_email=info.author_email,
+      license=info.license,
+      packages=info.packages,
+      install_requires=info.install_requires,
       zip_safe=False)

@@ -1,5 +1,9 @@
 
-import numpy as np
+try:
+	import numpy as np
+except:
+	print('No numpy found') # use logging instead
+
 from wrapt import ObjectProxy
 
 from .saving import Savable
