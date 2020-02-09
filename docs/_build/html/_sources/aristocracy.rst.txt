@@ -1,4 +1,0 @@
-Aristocracy
-===========
-
-Coming soon.

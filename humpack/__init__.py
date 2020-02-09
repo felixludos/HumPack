@@ -1,6 +1,6 @@
 
 
-from .saving import Savable
+from .packing import Packable, primitive, PRIMITIVE, SERIALIZABLE, JSONABLE
 from .transactions import Transactionable
 from .hashing import Hashable
 

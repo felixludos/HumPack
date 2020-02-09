@@ -4,15 +4,26 @@ try:
 except:
 	print('No numpy found') # use logging instead
 
+from typing import Any
 from wrapt import ObjectProxy
 
-from .saving import Savable
+from .saving import Packable
 from .transactions import Transactionable
 from .basic_containers import tdict, tset, tlist
 
+def _nothing(a1: str, a3: Any) -> str:
+	'''
+	Doesnt do all that much, more for testing the documentation.
+	
+	:param a1: this is very important
+	:param a3: what happened to `a2`?
+	:return: something i guess
+	'''
+	return '{} and {}'.format(a1, a3)
+
 # all wrapped objects must be able to be copied (shallow copy) using
 # note: Transactionable objects cant be wrapped
-class ObjectWrapper(Transactionable, Savable, ObjectProxy):
+class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 	
 	def __new__(cls, *args, **kwargs):
 		obj = super().__new__(cls, _gen_id=False) # delay adding a pack_id until after initialization
@@ -21,7 +32,7 @@ class ObjectWrapper(Transactionable, Savable, ObjectProxy):
 	def __init__(self, obj):
 		super().__init__(obj)
 		
-		self._self_pack_id = Savable._Savable__gen_obj_id()
+		self._self_pack_id = Packable._Savable__gen_obj_id()
 		
 		self._self_shadow = None
 		self._self_children = tset()
@@ -88,14 +99,14 @@ class ObjectWrapper(Transactionable, Savable, ObjectProxy):
 	# 		return out
 	# 	return _exec
 	
-	def __load__(self, data):
+	def __unpack__(self, data):
 		obj = self.__build__(data)
 		
 		self.__init__(obj)
 	
 	# must be overridden
 	
-	def __save__(self): # save everything from the internal state
+	def __pack__(self): # save everything from the internal state
 		raise NotImplementedError
 	
 	def __build__(self, data): # recover wrapped object in correct state from data, return wrapped object
@@ -104,7 +115,7 @@ class ObjectWrapper(Transactionable, Savable, ObjectProxy):
 
 class Array(ObjectWrapper): # wraps numpy arrays
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = type(self)._pack_obj
 		
 		data = {}

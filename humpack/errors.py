@@ -12,11 +12,11 @@ class ObjectIDReadOnlyError(Exception):
 
 class SavableClassCollisionError(Exception):
 	def __init__(self, addr, cls):
-		super().__init__('A class with the address {} is already in the class register of Savable'.format(addr))
+		super().__init__('A class with the address {} is already in the class register of Packable'.format(addr))
 		self.cls = cls
 
 class UnregisteredClassError(Exception):
 	def __init__(self, name):
-		super().__init__('"{}" is not registered (does it subclass Savable?)'.format(name))
+		super().__init__('"{}" is not registered (does it subclass Packable?)'.format(name))
 
 

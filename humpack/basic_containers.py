@@ -3,11 +3,11 @@ from collections import OrderedDict, deque
 import heapq
 
 from .errors import LoadInitFailureError
-from .saving import Savable
+from .packing import Packable
 from .transactions import Transactionable
 from .hashing import Hashable
 
-class Container(Transactionable, Savable, Hashable):
+class Container(Transactionable, Packable, Hashable):
 	pass
 
 def containerify(obj):
@@ -24,7 +24,7 @@ def containerify(obj):
 	
 	return obj
 
-# keys must be primitives, values can be primitives or Savable instances/subclasses
+# keys must be primitives, values can be primitives or Packable instances/subclasses
 class tdict(Container, OrderedDict):
 	def __new__(cls, *args, **kwargs):
 		
@@ -72,6 +72,9 @@ class tdict(Container, OrderedDict):
 		for child in self.values():  # if keys could be Transactionable instances: chain(self.keys(), self.values())
 			if isinstance(child, Transactionable):
 				child.abort()
+	
+	def todict(self):
+		return {k:v for k,v in self.items()}
 	
 	def update(self, other):
 		self._data.update(other)
@@ -125,7 +128,7 @@ class tdict(Container, OrderedDict):
 	def move_to_end(self, key, last=True):
 		self._data.move_to_end(key, last)
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = self.__class__._pack_obj
 		
 		data = {}
@@ -150,7 +153,7 @@ class tdict(Container, OrderedDict):
 		
 		return data
 	
-	def __load__(self, data):
+	def __unpack__(self, data):
 		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
@@ -179,7 +182,7 @@ class tdict(Container, OrderedDict):
 		return self._data[item]
 	
 	def __setitem__(self, key,
-	                value):  # TODO: write warning if key is not a primitive, subclass of Savable, or instance of Savable
+	                value):  # TODO: write warning if key is not a primitive, subclass of Packable, or instance of Packable
 		self._data[key] = value
 	
 	def __delitem__(self, key):
@@ -259,6 +262,9 @@ class tlist(Container, list):
 			if isinstance(child, Transactionable):
 				child.abort()
 	
+	def tolist(self):
+		return [x for x in self]
+	
 	def copy(self):
 		copy = type(self)()
 		copy._data = self._data.copy()
@@ -266,7 +272,7 @@ class tlist(Container, list):
 			copy._shadow = self._shadow.copy()
 		return copy
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = self.__class__._pack_obj
 		state = {}
 		state['_entries'] = [pack(elm) for elm in iter(self)]
@@ -274,7 +280,7 @@ class tlist(Container, list):
 			state['_shadow'] = [pack(elm) for elm in self._shadow]
 		return state
 	
-	def __load__(self, state):
+	def __unpack__(self, state):
 		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
@@ -422,6 +428,9 @@ class tset(Container, set):
 			if isinstance(child, Transactionable):
 				child.abort()
 	
+	def toset(self):
+		return {x for x in self}
+	
 	def copy(self):
 		copy = type(self)()
 		copy._data = self._data.copy()
@@ -429,7 +438,7 @@ class tset(Container, set):
 			copy._shadow = self._shadow.copy()
 		return copy
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = self.__class__._pack_obj
 		state = {}
 		state['_elements'] = [pack(elm) for elm in iter(self)]
@@ -437,7 +446,7 @@ class tset(Container, set):
 			state['_shadow'] = [pack(elm) for elm in self._shadow]
 		return state
 	
-	def __load__(self, data):
+	def __unpack__(self, data):
 		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
@@ -653,7 +662,7 @@ class tdeque(Container, deque):
 			copy._shadow = self._shadow.copy()
 		return copy
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = self.__class__._pack_obj
 		state = {}
 		state['_entries'] = [pack(elm) for elm in iter(self)]
@@ -661,7 +670,7 @@ class tdeque(Container, deque):
 			state['_shadow'] = [pack(elm) for elm in self._shadow]
 		return state
 	
-	def __load__(self, state):
+	def __unpack__(self, state):
 		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
@@ -852,7 +861,7 @@ class theap(Container, object):
 			copy._shadow = self._shadow.copy()
 		return copy
 	
-	def __save__(self):
+	def __pack__(self):
 		pack = self.__class__._pack_obj
 		state = {}
 		state['_entries'] = [pack(elm) for elm in iter(self)]
@@ -860,7 +869,7 @@ class theap(Container, object):
 			state['_shadow'] = [pack(elm) for elm in self._shadow]
 		return state
 	
-	def __load__(self, state):
+	def __unpack__(self, state):
 		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted

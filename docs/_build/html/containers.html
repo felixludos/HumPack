@@ -1,0 +1,1145 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Containers &mdash; HumPack 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Errors" href="errors.html" />
+    <link rel="prev" title="Transactionable" href="transactionable.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HumPack
+          
+
+          
+            
+            <img src="_static/logo_border.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serialization.html">Serialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transactions.html">Transactions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transactionable.html">Transactionable</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hashing.html">Hashing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HumPack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Containers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/containers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-humpack.basic_containers">
+<span id="containers"></span><h1>Containers<a class="headerlink" href="#module-humpack.basic_containers" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="humpack.basic_containers.Container">
+<em class="property">class </em><code class="sig-name descname">Container</code><a class="reference internal" href="_modules/humpack/basic_containers.html#Container"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.Container" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="transactionable.html#humpack.transactions.Transactionable" title="humpack.transactions.Transactionable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code></a>, <a class="reference internal" href="savable.html#humpack.saving.Packable" title="humpack.saving.Packable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Packable</span></code></a>, <a class="reference internal" href="hashing.html#humpack.hashing.Hashable" title="humpack.hashing.Hashable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.hashing.Hashable</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="humpack.basic_containers.containerify">
+<code class="sig-name descname">containerify</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#containerify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.containerify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.tdict">
+<em class="property">class </em><code class="sig-name descname">tdict</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.fromkeys">
+<code class="sig-name descname">fromkeys</code><span class="sig-paren">(</span><em class="sig-param">keys</em>, <em class="sig-param">value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.fromkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.fromkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__reversed__">
+<code class="sig-name descname">__reversed__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__reversed__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.values">
+<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.popitem">
+<code class="sig-name descname">popitem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.popitem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.popitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.move_to_end">
+<code class="sig-name descname">move_to_end</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">last=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.move_to_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.move_to_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__pack__">
+<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__unpack__">
+<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.setdefault">
+<code class="sig-name descname">setdefault</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.setdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__delitem__">
+<code class="sig-name descname">__delitem__</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__getattr__">
+<code class="sig-name descname">__getattr__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__setattr__">
+<code class="sig-name descname">__setattr__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__setattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__delattr__">
+<code class="sig-name descname">__delattr__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__delattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.tlist">
+<em class="property">class </em><code class="sig-name descname">tlist</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__pack__">
+<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__unpack__">
+<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__delitem__">
+<code class="sig-name descname">__delitem__</code><span class="sig-paren">(</span><em class="sig-param">idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.count">
+<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param">object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">iterable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.remove">
+<code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__reversed__">
+<code class="sig-name descname">__reversed__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__reversed__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.reverse">
+<code class="sig-name descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.reverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.reverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param">index=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.sort">
+<code class="sig-name descname">sort</code><span class="sig-paren">(</span><em class="sig-param">key=None</em>, <em class="sig-param">reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.index">
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">object</em>, <em class="sig-param">start=None</em>, <em class="sig-param">stop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__mul__">
+<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__rmul__">
+<code class="sig-name descname">__rmul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__rmul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__add__">
+<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__add__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__iadd__">
+<code class="sig-name descname">__iadd__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__imul__">
+<code class="sig-name descname">__imul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__imul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__imul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.tset">
+<em class="property">class </em><code class="sig-name descname">tset</code><span class="sig-paren">(</span><em class="sig-param">iterable=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">iterable=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__pack__">
+<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__unpack__">
+<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__and__">
+<code class="sig-name descname">__and__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__and__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__and__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__or__">
+<code class="sig-name descname">__or__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__or__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__or__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__xor__">
+<code class="sig-name descname">__xor__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__xor__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__xor__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__sub__">
+<code class="sig-name descname">__sub__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__rand__">
+<code class="sig-name descname">__rand__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__rand__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__rand__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__ror__">
+<code class="sig-name descname">__ror__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__ror__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__ror__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__rxor__">
+<code class="sig-name descname">__rxor__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__rxor__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__rxor__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__rsub__">
+<code class="sig-name descname">__rsub__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__rsub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__rsub__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.difference_update">
+<code class="sig-name descname">difference_update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.difference_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.difference_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.intersection_update">
+<code class="sig-name descname">intersection_update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.intersection_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.intersection_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.union_update">
+<code class="sig-name descname">union_update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.union_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.union_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.symmetric_difference_update">
+<code class="sig-name descname">symmetric_difference_update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.symmetric_difference_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.symmetric_difference_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.symmetric_difference">
+<code class="sig-name descname">symmetric_difference</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.symmetric_difference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.symmetric_difference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.union">
+<code class="sig-name descname">union</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.union" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.intersection">
+<code class="sig-name descname">intersection</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.intersection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.difference">
+<code class="sig-name descname">difference</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.difference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.difference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.issubset">
+<code class="sig-name descname">issubset</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.issubset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.issubset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.issuperset">
+<code class="sig-name descname">issuperset</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.issuperset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.issuperset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.isdisjoint">
+<code class="sig-name descname">isdisjoint</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.isdisjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.isdisjoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__iand__">
+<code class="sig-name descname">__iand__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__iand__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__iand__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__ior__">
+<code class="sig-name descname">__ior__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__ior__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__ior__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__ixor__">
+<code class="sig-name descname">__ixor__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__ixor__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__ixor__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__isub__">
+<code class="sig-name descname">__isub__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__isub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__isub__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.remove">
+<code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.discard">
+<code class="sig-name descname">discard</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.discard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.discard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.tdeque">
+<em class="property">class </em><code class="sig-name descname">tdeque</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__pack__">
+<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__unpack__">
+<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__delitem__">
+<code class="sig-name descname">__delitem__</code><span class="sig-paren">(</span><em class="sig-param">idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.count">
+<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param">object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.appendleft">
+<code class="sig-name descname">appendleft</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.appendleft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.appendleft" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">iterable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.extendleft">
+<code class="sig-name descname">extendleft</code><span class="sig-paren">(</span><em class="sig-param">iterable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.extendleft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.extendleft" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.remove">
+<code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__reversed__">
+<code class="sig-name descname">__reversed__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__reversed__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.reverse">
+<code class="sig-name descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.reverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.reverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.popleft">
+<code class="sig-name descname">popleft</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.popleft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.popleft" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.sort">
+<code class="sig-name descname">sort</code><span class="sig-paren">(</span><em class="sig-param">key=None</em>, <em class="sig-param">reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.index">
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">object</em>, <em class="sig-param">start=None</em>, <em class="sig-param">stop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.rotate">
+<code class="sig-name descname">rotate</code><span class="sig-paren">(</span><em class="sig-param">n=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.rotate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__mul__">
+<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__rmul__">
+<code class="sig-name descname">__rmul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__rmul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__add__">
+<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__add__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__iadd__">
+<code class="sig-name descname">__iadd__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__imul__">
+<code class="sig-name descname">__imul__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__imul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__imul__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdeque.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.tstack">
+<em class="property">class </em><code class="sig-name descname">tstack</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.tdeque" title="humpack.basic_containers.tdeque"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.tdeque</span></code></a></p>
+<dl class="method">
+<dt id="humpack.basic_containers.tstack.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tstack.popend">
+<code class="sig-name descname">popend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.popend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.popend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tstack.push">
+<code class="sig-name descname">push</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tstack.push_all">
+<code class="sig-name descname">push_all</code><span class="sig-paren">(</span><em class="sig-param">items</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.push_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.push_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tstack.peek">
+<code class="sig-name descname">peek</code><span class="sig-paren">(</span><em class="sig-param">n=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.peek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.peek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers._theap_iter">
+<em class="property">class </em><code class="sig-name descname">_theap_iter</code><span class="sig-paren">(</span><em class="sig-param">heap</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#_theap_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers._theap_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers._theap_iter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">heap</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#_theap_iter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers._theap_iter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers._theap_iter.__next__">
+<code class="sig-name descname">__next__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#_theap_iter.__next__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers._theap_iter.__next__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="humpack.basic_containers.theap">
+<em class="property">class </em><code class="sig-name descname">theap</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.in_transaction">
+<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.in_transaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.begin">
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.commit">
+<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.commit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.abort">
+<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__pack__">
+<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__unpack__">
+<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.push">
+<code class="sig-name descname">push</code><span class="sig-paren">(</span><em class="sig-param">*items</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param">n=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.replace">
+<code class="sig-name descname">replace</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.replace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.pushpop">
+<code class="sig-name descname">pushpop</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.pushpop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.pushpop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.theap.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="errors.html" class="btn btn-neutral float-right" title="Errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="transactionable.html" class="btn btn-neutral float-left" title="Transactionable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

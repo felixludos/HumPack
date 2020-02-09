@@ -1,4 +1,0 @@
-AI Players
-==========
-
-Coming soon.

@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>humpack.wrappers &mdash; HumPack 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> HumPack
+          
+
+          
+            
+            <img src="../../_static/logo_border.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../serialization.html">Serialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transactions.html">Transactions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transactionable.html">Transactionable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hashing.html">Hashing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">HumPack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>humpack.wrappers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for humpack.wrappers</h1><div class="highlight"><pre>
+<span></span>
+<span class="k">try</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">except</span><span class="p">:</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No numpy found&#39;</span><span class="p">)</span> <span class="c1"># use logging instead</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">wrapt</span> <span class="k">import</span> <span class="n">ObjectProxy</span>
+
+<span class="kn">from</span> <span class="nn">.saving</span> <span class="k">import</span> <span class="n">Packable</span>
+<span class="kn">from</span> <span class="nn">.transactions</span> <span class="k">import</span> <span class="n">Transactionable</span>
+<span class="kn">from</span> <span class="nn">.basic_containers</span> <span class="k">import</span> <span class="n">tdict</span><span class="p">,</span> <span class="n">tset</span><span class="p">,</span> <span class="n">tlist</span>
+
+<div class="viewcode-block" id="_nothing"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers._nothing">[docs]</a><span class="k">def</span> <span class="nf">_nothing</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">a3</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Doesnt do all that much, more for testing the documentation.</span>
+<span class="sd">	</span>
+<span class="sd">	:param a1: this is very important</span>
+<span class="sd">	:param a3: what happened to `a2`?</span>
+<span class="sd">	:return: something i guess</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a3</span><span class="p">)</span></div>
+
+<span class="c1"># all wrapped objects must be able to be copied (shallow copy) using</span>
+<span class="c1"># note: Transactionable objects cant be wrapped</span>
+<div class="viewcode-block" id="ObjectWrapper"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper">[docs]</a><span class="k">class</span> <span class="nc">ObjectWrapper</span><span class="p">(</span><span class="n">Transactionable</span><span class="p">,</span> <span class="n">Packable</span><span class="p">,</span> <span class="n">ObjectProxy</span><span class="p">):</span>
+	
+	<span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_gen_id</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># delay adding a pack_id until after initialization</span>
+		<span class="k">return</span> <span class="n">obj</span>
+	
+<div class="viewcode-block" id="ObjectWrapper.__init__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_pack_id</span> <span class="o">=</span> <span class="n">Packable</span><span class="o">.</span><span class="n">_Savable__gen_obj_id</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span> <span class="o">=</span> <span class="n">tset</span><span class="p">()</span></div>
+	
+	<span class="k">def</span> <span class="nf">_getref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_pack_id</span>
+	
+<div class="viewcode-block" id="ObjectWrapper.begin"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.in_transaction"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.in_transaction">[docs]</a>	<span class="k">def</span> <span class="nf">in_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.commit"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+	
+	
+<div class="viewcode-block" id="ObjectWrapper.abort"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+			<span class="k">return</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.__repr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__repr__">[docs]</a>	<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.__str__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__str__">[docs]</a>	<span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+	
+	<span class="c1"># def __getattribute__(self, item):</span>
+	<span class="c1"># 	if item in super().__getattribute__(&#39;_self_special_attrs&#39;):</span>
+	<span class="c1"># 		return</span>
+	
+<div class="viewcode-block" id="ObjectWrapper.__setattr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__setattr__">[docs]</a>	<span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;_self_children&#39;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.__delattr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__delattr__">[docs]</a>	<span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__delattr__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+	
+	<span class="c1"># @staticmethod</span>
+	<span class="c1"># def _simple_method_wrapper(method, typ, wrapper):</span>
+	<span class="c1"># 	def _exec(*args, **kwargs):</span>
+	<span class="c1"># 		print(&#39;executing&#39;, method)</span>
+	<span class="c1"># 		out = method(*args, **kwargs)</span>
+	<span class="c1"># 		print(type(out), typ, wrapper)</span>
+	<span class="c1"># 		if isinstance(out, typ):</span>
+	<span class="c1"># 			return wrapper(out)</span>
+	<span class="c1"># 		return out</span>
+	<span class="c1"># 	return _exec</span>
+	
+<div class="viewcode-block" id="ObjectWrapper.__unpack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__unpack__">[docs]</a>	<span class="k">def</span> <span class="nf">__unpack__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+		<span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__build__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+	
+	<span class="c1"># must be overridden</span>
+	
+<div class="viewcode-block" id="ObjectWrapper.__pack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__pack__">[docs]</a>	<span class="k">def</span> <span class="nf">__pack__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># save everything from the internal state</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+	
+<div class="viewcode-block" id="ObjectWrapper.__build__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__build__">[docs]</a>	<span class="k">def</span> <span class="nf">__build__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> <span class="c1"># recover wrapped object in correct state from data, return wrapped object</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">ObjectWrapper</span><span class="p">):</span> <span class="c1"># wraps numpy arrays</span>
+	
+<div class="viewcode-block" id="Array.__pack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__pack__">[docs]</a>	<span class="k">def</span> <span class="nf">__pack__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">pack</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_pack_obj</span>
+		
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+		
+		<span class="k">return</span> <span class="n">data</span></div>
+	
+<div class="viewcode-block" id="Array.__build__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__build__">[docs]</a>	<span class="k">def</span> <span class="nf">__build__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="n">unpack</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_unpack_obj</span>
+		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]))</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
