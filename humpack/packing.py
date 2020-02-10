@@ -53,8 +53,9 @@ class Packable(object):
 	
 	@classmethod
 	def pack(cls, obj: 'SERIALIZABLE', meta: Dict[str,'PACKED'] = None, include_timestamp: bool = False) -> 'JSONABLE':
-		
-		counter = 0
+
+		cls.__obj_table = {}
+		cls.__obj_counter = 0
 		
 		out = cls._pack_obj(obj)
 		
