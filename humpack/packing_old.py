@@ -16,6 +16,13 @@ class Packable(object):
 	Any subclass of this mixin can be serialized using `pack`
 	'''
 	__subclasses = {}
+	__obj_id_counter = 0
+	
+	# temporary data for saving/loading
+	__obj_table = None
+	__ref_table = None
+	__py_table = None
+	
 	def __init_subclass__(cls, *args, **kwargs):
 		'''
 		This method automatically registers any subclass that is declared.
@@ -29,6 +36,18 @@ class Packable(object):
 		if name in cls.__subclasses:
 			raise SavableClassCollisionError(name, cls)
 		cls.__subclasses[name] = cls
+	
+	def __new__(cls, *args, _gen_id=True, **kwargs):
+		obj = super().__new__(cls)
+		if _gen_id:
+			obj.__dict__[_savable_id_attr] = cls.__gen_obj_id() # all instances of Packable have a unique obj_id
+		return obj
+	
+	def __setattr__(self, key: str, value: Any):
+		# if key == self.__class__._savable_id_attr:
+		if key == _savable_id_attr:
+			raise ObjectIDReadOnlyError()
+		return super().__setattr__(key, value)
 	
 	@staticmethod
 	def _full_name(cls: ClassVar) -> str:
@@ -54,7 +73,10 @@ class Packable(object):
 	@classmethod
 	def pack(cls, obj: 'SERIALIZABLE', meta: Dict[str,'PACKED'] = None, include_timestamp: bool = False) -> 'JSONABLE':
 		
-		counter = 0
+		# savefile contains
+		assert cls.__ref_table is None, 'There shouldnt be a object table already here'
+		cls.__ref_table = {}  # create object table
+		cls.__py_table = {}
 		
 		out = cls._pack_obj(obj)
 		

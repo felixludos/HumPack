@@ -7,19 +7,9 @@ except:
 from typing import Any
 from wrapt import ObjectProxy
 
-from .saving import Packable
+from .packing import Packable
 from .transactions import Transactionable
 from .basic_containers import tdict, tset, tlist
-
-def _nothing(a1: str, a3: Any) -> str:
-	'''
-	Doesnt do all that much, more for testing the documentation.
-	
-	:param a1: this is very important
-	:param a3: what happened to `a2`?
-	:return: something i guess
-	'''
-	return '{} and {}'.format(a1, a3)
 
 # all wrapped objects must be able to be copied (shallow copy) using
 # note: Transactionable objects cant be wrapped
@@ -88,17 +78,6 @@ class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 			self._self_children.remove(value)
 		return super().__delattr__(item)
 	
-	# @staticmethod
-	# def _simple_method_wrapper(method, typ, wrapper):
-	# 	def _exec(*args, **kwargs):
-	# 		print('executing', method)
-	# 		out = method(*args, **kwargs)
-	# 		print(type(out), typ, wrapper)
-	# 		if isinstance(out, typ):
-	# 			return wrapper(out)
-	# 		return out
-	# 	return _exec
-	
 	def __unpack__(self, data):
 		obj = self.__build__(data)
 		
@@ -113,7 +92,10 @@ class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 		raise NotImplementedError
 
 
-class Array(ObjectWrapper): # wraps numpy arrays
+class Array(ObjectWrapper):
+	'''
+	Wraps numpy arrays.
+	'''
 	
 	def __pack__(self):
 		pack = type(self)._pack_obj

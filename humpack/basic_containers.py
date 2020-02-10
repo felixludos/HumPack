@@ -2,6 +2,7 @@
 from collections import OrderedDict, deque
 import heapq
 
+from ._utils import safe_self_execute
 from .errors import LoadInitFailureError
 from .packing import Packable
 from .transactions import Transactionable
@@ -11,6 +12,12 @@ class Container(Transactionable, Packable, Hashable):
 	pass
 
 def containerify(obj):
+	'''
+	Recursively, convert `obj` from using standard python containers to HumPack containers.
+	
+	:param obj: object using python containers (dict, list, set, tuple, etc.)
+	:return: deep copy of the object using HumPack containers
+	'''
 	if isinstance(obj, deque):
 		return tdeque(containerify(o) for o in obj)
 	if isinstance(obj, list):
@@ -26,6 +33,10 @@ def containerify(obj):
 
 # keys must be primitives, values can be primitives or Packable instances/subclasses
 class tdict(Container, OrderedDict):
+	'''
+	Humpack dictionary, replaces the standard dict
+	Has all the same functionality of a dict, plus being Transactionable or Packable
+	'''
 	def __new__(cls, *args, **kwargs):
 		
 		self = super().__new__(cls)
@@ -181,8 +192,7 @@ class tdict(Container, OrderedDict):
 	def __getitem__(self, item):
 		return self._data[item]
 	
-	def __setitem__(self, key,
-	                value):  # TODO: write warning if key is not a primitive, subclass of Packable, or instance of Packable
+	def __setitem__(self, key, value):  # TODO: write warning if key is not a primitive, subclass of Packable, or instance of Packable
 		self._data[key] = value
 	
 	def __delitem__(self, key):
@@ -204,15 +214,20 @@ class tdict(Container, OrderedDict):
 			return super().__delattr__(item)
 		return self.__delitem__(item)
 	
-	def __str__(self):
-		return 'tdict({})'.format(', '.join([str(key) for key in iter(self)]))
+	def __str__(self, default='{...}'):
+		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(str(key) for key in iter(self)), '}'),
+		                         default=default, flag='self printed flag')
 	
-	def __repr__(self):
-		return self.__str__()
-		return 'tdict({})'.format(', '.join(['{}:{}'.format(repr(key), repr(value)) for key, value in self.items()]))
-
+	def __repr__(self, default='{...}'):
+		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(
+			('{}:{}'.format(repr(key), repr(value)) for key, value in self.items())), '}'),
+		                         default=default, flag='self printed flag')
 
 class tlist(Container, list):
+	'''
+	Humpack list, replaces the standard list
+	Has all the same functionality of a list, plus being Transactionable or Packable
+	'''
 	
 	def __new__(cls, *args, **kwargs):
 		
@@ -369,14 +384,19 @@ class tlist(Container, list):
 	def __imul__(self, other):
 		self._data.__imul__(other)
 	
-	def __repr__(self):
-		return '[{}]'.format(', '.join(map(repr, self)))
+	def __str__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(str, self))),
+		                         default=default, flag='self printed flag')
 	
-	def __str__(self):
-		return '[{}]'.format(', '.join(map(str, self)))
-
+	def __repr__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(repr, self))),
+		                         default=default, flag='self printed flag')
 
 class tset(Container, set):
+	'''
+	Humpack set, replaces the standard set
+	Has all the same functionality of a set, plus being Transactionable or Packable
+	'''
 	
 	def __new__(cls, *args, **kwargs):
 		
@@ -598,14 +618,20 @@ class tset(Container, set):
 	def add(self, item):
 		self._data[item] = None
 	
-	def __repr__(self):
-		return '{' + ', '.join([repr(x) for x in self]) + '}'
+	def __str__(self, default='{...}'):
+		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(map(str, self)), '}'),
+		                         default=default, flag='self printed flag')
 	
-	def __str__(self):
-		return '{' + ', '.join([str(x) for x in self]) + '}'
+	def __repr__(self, default='{...}'):
+		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(map(repr, self)), '}'),
+		                         default=default, flag='self printed flag')
 
 
 class tdeque(Container, deque):
+	'''
+	Humpack queue, replaces the standard deque
+	Has all the same functionality of a set, plus being Transactionable or Packable
+	'''
 	
 	def __new__(cls, *args, **kwargs):
 		
@@ -769,14 +795,20 @@ class tdeque(Container, deque):
 	def __imul__(self, other):
 		self._data.__imul__(other)
 	
-	def __repr__(self):
-		return '[{}]'.format(', '.join(map(repr, self)))
+	def __str__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(str, self))),
+		                         default=default, flag='self printed flag')
 	
-	def __str__(self):
-		return '[{}]'.format(', '.join(map(str, self)))
-
+	def __repr__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(repr, self))),
+		                         default=default, flag='self printed flag')
 
 class tstack(tdeque):
+	'''
+	Humpack stack
+	Has all the same functionality of a deque, except it's a stack (FIFO)
+	Also implements Transactionable and Packable
+	'''
 	
 	def pop(self):
 		return super().popleft()
@@ -804,6 +836,11 @@ class _theap_iter(object):
 		raise StopIteration
 
 class theap(Container, object):
+	'''
+	Humpack heap
+	Unordered for adding/removing, ordered when iterating.
+	Note that iterating through the heap empties it.
+	'''
 	
 	def __new__(cls, *args, **kwargs):
 		
@@ -907,11 +944,12 @@ class theap(Container, object):
 	def __eq__(self, other):
 		return id(self) == id(other)
 	
-	def __str__(self):
-		return str(self._data)
+	def __str__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(str, self._data))),
+		                         default=default, flag='self printed flag')
 	
-	def __repr__(self):
-		return repr(self._data)
-	
+	def __repr__(self, default='[...]'):
+		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(repr, self._data))),
+		                         default=default, flag='self printed flag')
 
 
