@@ -1,6 +1,6 @@
 
 from typing import Any, Union, Dict, List, Set, Tuple, NoReturn, ClassVar
-
+import json
 from collections import namedtuple
 import time
 from .errors import SavableClassCollisionError, ObjectIDReadOnlyError, UnregisteredClassError
@@ -248,58 +248,51 @@ def pack(obj: SERIALIZABLE, meta: Dict[str, PACKED] = None, include_timestamp: b
 	global _ref_table
 	_ref_table = {}
 
-	out = pack_data(obj)
+	try:
+		out = pack_data(obj)
 
-	# additional meta info
-	if meta is None:
-		meta = {}
-	if include_timestamp:
-		meta['timestamp'] = time.strftime('%Y-%m-%d_%H%M%S')
+		# additional meta info
+		if meta is None:
+			meta = {}
+		if include_timestamp:
+			meta['timestamp'] = time.strftime('%Y-%m-%d_%H%M%S')
 
-	data = {
-		'table': _ref_table,
-		'meta': meta,
-	}
+		data = {
+			'table': _ref_table,
+			'meta': meta,
+			'head': out, # save parent object separately
+		}
 
-	# save parent object separately
-	data['head'] = out
-
-	_ref_table = None
+	except Exception as e:
+		raise e
+	finally:
+		_ref_table = None
 
 	return data
 
 def unpack(data: PACKED, return_meta: bool = False) -> SERIALIZABLE:
 	# add the current cls.__ID_counter to all loaded objs
 	global _ref_table, _obj_table
-
 	_ref_table = data['table'].copy()
 	_obj_table = {}
 
-	obj = unpack_data(data['head'])
-
-	_ref_table = None
-	_obj_table = None
+	try:
+		obj = unpack_data(data['head'])
+	except Exception as e:
+		raise e
+	finally:
+		_ref_table = None
+		_obj_table = None
 
 	if return_meta:
 		return obj, data['meta']
 	return obj
 
 
-# def pack(obj: SERIALIZABLE) -> JSONABLE:
-# 	'''
-# 	Serialize `obj`
-#
-# 	:param obj: data to be serialized
-# 	:return: serialized data
-# 	'''
-# 	return Packable.pack(obj)
-#
-# def unpack(data: JSONABLE) -> SERIALIZABLE:
-# 	'''
-# 	Use data to unserialize and recover object
-#
-# 	:param data: data
-# 	:return:
-# 	'''
-# 	return Packable.unpack(data)
+def pack_json(obj, include_timestamp=False):
+	return json.dumps(pack(obj, include_timestamp=include_timestamp))
+
+def unpack_json(data, return_meta=False):
+	return unpack(json.loads(data), return_meta=return_meta)
+
 
