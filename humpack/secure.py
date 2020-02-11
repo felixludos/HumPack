@@ -40,12 +40,16 @@ def prompt_password_hash(salt=None):
 
 
 
-def encrypt(data, hsh): # Data
+def encrypt(data, hsh=None):
+	if hsh is None:
+		hsh = prompt_password_hash()
 	key = format_key(hsh)
 	f = Fernet(key)
 	return f.encrypt(data)
 
-def decrypt(data, hsh):
+def decrypt(data, hsh=None):
+	if hsh is None:
+		hsh = prompt_password_hash()
 	key = format_key(hsh)
 	f = Fernet(key)
 	return f.decrypt(data)
