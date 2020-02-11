@@ -1,21 +1,84 @@
 
 from typing import Any, Union, Dict, List, Set, Tuple, NoReturn, ClassVar
 
+from _collections import namedtuple
 import time
 from .errors import SavableClassCollisionError, ObjectIDReadOnlyError, UnregisteredClassError
 
-primitive = (type(None), str, int, float, bool) # all json readable and no sub elements
+primitive = (str, int, float, bool, ) # all json readable and no sub elements
+all_primitives = type(None), *primitive
 
-_savable_id_attr = '_pack_id' # instances of all subclasses cant use this identifier as an attribute
-_py_cls_codes = {dict: '_dict', list: '_list', set: '_set', tuple: '_tuple'}
-_py_code_cls = {v: k for k, v in _py_cls_codes.items()}
+py_containers = (dict, list, set, tuple, range, bytes, complex)
+
+_py_cls = {c: c.__name__ for c in (*all_primitives, *py_containers)}
+_py_names = {n: c for c, n in _py_cls.items()}
+
+def _full_name(cls: ClassVar) -> str:
+	name = str(cls.__name__)
+	module = str(cls.__module__)
+	if module is None:
+		return name
+	return '.'.join([module, name])
+
 _ref_prefix = '<>'
+def _get_obj_id(obj: 'SERIALIZABLE') -> str:
+	'''
+	Compute the object ID for packing objects, which must be unique and use the reference prefix
+	
+	:param obj:
+	:return: unique ID associated with `obj` for packing
+	'''
+	return '{}{}'.format(_ref_prefix, id(obj))
+
+def _get_cls_id(cls: ClassVar) -> str:
+	'''
+	Compute the object ID for packing classes, which must be unique and use the reference prefix
+
+	:param cls: class to be packed
+	:return: unique ID associated with `cls` for packing
+	'''
+	if cls in _packable_subclass_names:
+		name = _packable_subclass_names[cls]
+	elif cls in _py_cls:
+		name = _py_cls[cls]
+	else:
+		raise TypeError('Unknown class: {}'.format(cls))
+	
+	return '{}:{}'.format(_ref_prefix, name)
+
+_packable_cls = {}
+_packable_names = {}
+def get_cls(name: str) -> ClassVar:
+	try:
+		return _packable_cls[name]
+	except KeyError:
+		raise UnregisteredClassError(name)
+
+_packable_registry = {}
+_packable_item = namedtuple('Packable_Item', ['pack_fn', 'unpack_fn'])
+def register_packable(cls, pack_fn, unpack_fn, name=None):
+	if name is None:
+		name = cls.__name__
+		
+	if name in _packable_cls:
+		raise SavableClassCollisionError(name, cls)
+	
+	_packable_registry[name] = _packable_item(pack_fn, unpack_fn)
+	_packable_cls[name] = cls
+	_packable_names[cls] = name
+
+def Pack(pack_fn, unpack_fn, name=None):
+	def _register(cls):
+		nonlocal pack_fn, unpack_fn, name
+		register_packable(cls=cls, pack_fn=pack_fn, unpack_fn=unpack_fn, name=name)
+		return cls
+	return _register
+
 
 class Packable(object):
 	'''
 	Any subclass of this mixin can be serialized using `pack`
 	'''
-	__subclasses = {}
 	def __init_subclass__(cls, *args, **kwargs):
 		'''
 		This method automatically registers any subclass that is declared.
@@ -25,187 +88,12 @@ class Packable(object):
 		:return:
 		'''
 		super().__init_subclass__()
-		name = cls._full_name(cls)
-		if name in cls.__subclasses:
+		name = _full_name(cls)
+		if name in _packable_cls: # TODO: this should be a warning
 			raise SavableClassCollisionError(name, cls)
-		cls.__subclasses[name] = cls
-	
-	@staticmethod
-	def _full_name(cls: ClassVar) -> str:
-		name = str(cls.__name__)
-		module = str(cls.__module__)
-		if module is None:
-			return name
-		return '.'.join([module, name])
-	
-	@staticmethod
-	def __gen_obj_id() -> int:
-		ID = Packable.__obj_id_counter  # TODO: make thread safe (?)
-		Packable.__obj_id_counter += 1
-		return ID
-	
-	@classmethod
-	def get_cls(cls, name: str) -> ClassVar:
-		try:
-			return cls.__subclasses[name]
-		except KeyError:
-			raise UnregisteredClassError(name)
-	
-	@classmethod
-	def pack(cls, obj: 'SERIALIZABLE', meta: Dict[str,'PACKED'] = None, include_timestamp: bool = False) -> 'JSONABLE':
+		_packable_subclasses[name] = cls
+		_packable_subclass_names[cls] = name
 
-		cls.__obj_table = {}
-		cls.__obj_counter = 0
-		
-		out = cls._pack_obj(obj)
-		
-		# additional meta info
-		if meta is None:
-			meta = {}
-		if include_timestamp:
-			meta['timestamp'] = time.strftime('%Y-%m-%d_%H%M%S')
-		
-		data = {
-			'table': cls.__ref_table,
-			'meta': meta,
-		}
-		
-		cls.__ref_table = None  # clear built up object table
-		cls.__py_table = None
-		
-		# save parent object separately
-		data['head'] = out
-		
-		return data
-	
-	@classmethod
-	def unpack(cls, data: 'PACKED', return_meta: bool = False) -> 'SERIALIZABLE':
-		# add the current cls.__ID_counter to all loaded objs
-		cls.__ref_table = data['table']
-		cls.__obj_table = {}
-		
-		obj = cls._unpack_obj(data['head'])
-		
-		cls.__ref_table = None
-		cls.__obj_table = None
-		
-		if return_meta:
-			return obj, data['meta']
-		return obj
-	
-	@classmethod
-	def _pack_obj(cls, obj: 'SERIALIZABLE') -> 'PACKED':
-		refs = cls.__ref_table
-		pys = cls.__py_table
-		
-		if isinstance(obj, primitive):
-			if isinstance(obj, str) and obj.startswith(_ref_prefix):
-				ref = cls.__gen_obj_id()
-				refs[ref] = {'_type': '_str', '_data': obj}
-			else:
-				return obj
-		elif isinstance(obj, Packable):
-			# if refs is not None:
-			ref = obj._getref()
-			if ref not in refs:
-				refs[ref] = None # create entry in refs to stop reference loops
-				refs[ref] = {'_type': Packable._full_name(type(obj)), '_data': obj.__pack__()}
-		elif type(obj) in _py_cls_codes:  # known python objects
-			ID = id(obj)
-			if ID not in pys:
-				pys[ID] = cls.__gen_obj_id()
-			ref = pys[ID]
-			
-			if ref not in refs:
-				data = {}
-				
-				refs[ref] = data
-				
-				if type(obj) == dict:
-					data['_data'] = {cls._pack_obj(k): cls._pack_obj(v) for k, v in obj.items()}
-				else:
-					data['_data'] = [cls._pack_obj(x) for x in obj]
-				data['_type'] = _py_cls_codes[type(obj)]
-		
-		elif issubclass(obj, Packable):
-			return '{}:{}'.format(_ref_prefix, Packable._full_name(obj))
-		
-		elif obj in _py_cls_codes:
-			return '{}:{}'.format(_ref_prefix, obj.__name__)
-		
-		else:
-			raise TypeError('Unrecognized type: {}'.format(type(obj)))
-		
-		return '{}{}'.format(_ref_prefix, ref)
-	
-	@classmethod
-	def _unpack_obj(cls, data: 'PACKED') -> 'SERIALIZABLE':
-		refs = cls.__ref_table
-		objs = cls.__obj_table
-		
-		if isinstance(data, str) and data.startswith(_ref_prefix):  # reference or class
-			
-			if ':' in data:  # class
-				
-				cls_name = data[len(_ref_prefix) + 1:]
-				
-				try:
-					return cls.get_cls(cls_name)
-				except UnregisteredClassError:
-					return eval(cls_name)
-			
-			else:  # reference
-				
-				ID = int(data[len(_ref_prefix):])
-				
-				if ID in objs:
-					return objs[ID]
-				
-				typ = refs[ID]['_type']
-				data = refs[ID]['_data']
-				
-				if typ == '_str':
-					obj = refs[ID]['_data']
-				elif typ == '_tuple':  # since tuples are immutable they have to created right away (no loop issues)
-					obj = tuple(cls._unpack_obj(x) for x in data)
-				elif typ in _py_code_cls:
-					obj = _py_code_cls[typ]()
-				else:  # must be an instance of Packable
-					new = cls.get_cls(typ)
-					obj = new.__new__(new,
-					                  data=data)  # use data carefully (usually not at all, unless __new__ requires args)
-				
-				del refs[ID]
-				objs[ID] = obj
-				
-				# after adding empty obj to obj table, populate obj with state from data
-				if typ in _py_code_cls:
-					if typ == '_dict':
-						obj.update({cls._unpack_obj(k): cls._unpack_obj(v) for k, v in data.items()})
-					elif typ == '_set':
-						obj.update(cls._unpack_obj(x) for x in data)
-					elif typ == '_list':
-						obj.extend(cls._unpack_obj(x) for x in data)
-					elif typ == '_tuple':
-						pass # already loaded
-					else:
-						raise TypeError('Unrecognized type {}: {}'.format(type(obj) ,obj))
-				elif isinstance(obj, Packable):
-					obj.__unpack__(data)
-		
-		else:
-			assert isinstance(data, primitive), '{}, {}'.format(type(data), data)
-			obj = data
-		
-		return obj
-	
-	def _getref(self) -> int:
-		'''
-		Returns the unique ID of `self`
-		
-		:return: the unique ID to this instance (ie. `self`)
-		'''
-		return self.__dict__[_savable_id_attr]
 	
 	def __deepcopy__(self, memodict: Dict[Any,Any] = None) -> Any:
 		'''
@@ -239,6 +127,155 @@ class Packable(object):
 		:return: Nothing. Once returned, the object should be in the same state as when it was packed.
 		'''
 		raise NotImplementedError
+
+_ref_table = None
+_obj_table = None
+
+def pack(obj: 'SERIALIZABLE', meta: Dict[str, 'PACKED'] = None, include_timestamp: bool = False) -> 'JSONABLE':
+	
+	_ref_table = {}
+	
+	out = pack_data(obj)
+	
+	# additional meta info
+	if meta is None:
+		meta = {}
+	if include_timestamp:
+		meta['timestamp'] = time.strftime('%Y-%m-%d_%H%M%S')
+	
+	data = {
+		'table': _ref_table,
+		'meta': meta,
+	}
+	
+	# save parent object separately
+	data['head'] = out
+	
+	return data
+
+def unpack(data: 'PACKED', return_meta: bool = False) -> 'SERIALIZABLE':
+	# add the current cls.__ID_counter to all loaded objs
+	_ref_table = data['table']
+	_obj_table = {}
+	
+	obj = unpack_data(data['head'])
+	
+	_ref_table = None
+	_obj_table = None
+	
+	if return_meta:
+		return obj, data['meta']
+	return obj
+
+def pack_data(obj: 'SERIALIZABLE', force_str: bool = False) -> 'PACKED':
+	# refs = _ref_table
+	if isinstance(obj, all_primitives):
+		if isinstance(obj, str) and obj.startswith(_ref_prefix):
+			ref = _get_obj_id(obj)
+			_ref_table[ref] = {'_type': _py_cls[type(obj)], '_data': obj}
+		elif force_str and not isinstance(obj, str):
+			ref = _get_obj_id(obj)
+			_ref_table[ref] = {'_type': _py_cls[type(obj)], '_data': obj}
+		else:
+			return obj
+	else:
+		ref = _get_obj_id(obj)
+		typ = type(obj)
+		
+		if isinstance(obj, Packable):
+			if ref not in _ref_table:
+				_ref_table[ref] = None  # create entry in refs to stop reference loops
+				_ref_table[ref] = {'_type': _packable_names[typ],
+				                    '_data': obj.__pack__()}  # TODO: maybe run _pack_obj to be safe
+		elif typ in _py_cls:  # known python types
+			if ref not in _ref_table:
+				data = {}
+				
+				_ref_table[ref] = data
+				
+				if typ == dict:
+					data['_data'] = {pack_data(k, force_str=True): pack_data(v)
+					                 for k, v in obj.items()}
+				elif typ == range:
+					data['_data'] = {'start': obj.start, 'stop': obj.stop, 'step': obj.step}
+				elif typ == complex:
+					data['_data'] = str(obj)
+				elif typ == bytes:
+					data['_data'] = 
+				else:
+					data['_data'] = [pack_data(x) for x in obj]
+				data['_type'] = _py_names[typ]
+		
+		elif issubclass(obj, Packable):
+			return _get_cls_id(obj)
+		
+		elif obj in _py_cls:
+			return '{}:{}'.format(_ref_prefix, obj.__name__)
+		
+		else:
+			raise TypeError('Unrecognized type: {}'.format(type(obj)))
+	
+	return '{}{}'.format(_ref_prefix, ref)
+
+def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
+	refs = cls.__ref_table
+	objs = cls.__obj_table
+	
+	if isinstance(data, str) and data.startswith(_ref_prefix):  # reference or class
+		
+		if ':' in data:  # class
+			
+			cls_name = data[len(_ref_prefix) + 1:]
+			
+			try:
+				return cls.get_cls(cls_name)
+			except UnregisteredClassError:
+				return eval(cls_name)
+		
+		else:  # reference
+			
+			ID = int(data[len(_ref_prefix):])
+			
+			if ID in objs:
+				return objs[ID]
+			
+			typ = refs[ID]['_type']
+			data = refs[ID]['_data']
+			
+			if typ == '_str':
+				obj = refs[ID]['_data']
+			elif typ == '_tuple':  # since tuples are immutable they have to created right away (no loop issues)
+				obj = tuple(cls._unpack_obj(x) for x in data)
+			elif typ in _py_code_cls:
+				obj = _py_code_cls[typ]()
+			else:  # must be an instance of Packable
+				new = cls.get_cls(typ)
+				obj = new.__new__(new,
+				                  data=data)  # use data carefully (usually not at all, unless __new__ requires args)
+			
+			del refs[ID]
+			objs[ID] = obj
+			
+			# after adding empty obj to obj table, populate obj with state from data
+			if typ in _py_code_cls:
+				if typ == '_dict':
+					obj.update({cls._unpack_obj(k): cls._unpack_obj(v) for k, v in data.items()})
+				elif typ == '_set':
+					obj.update(cls._unpack_obj(x) for x in data)
+				elif typ == '_list':
+					obj.extend(cls._unpack_obj(x) for x in data)
+				elif typ == '_tuple':
+					pass  # already loaded
+				else:
+					raise TypeError('Unrecognized type {}: {}'.format(type(obj), obj))
+			elif isinstance(obj, Packable):
+				obj.__unpack__(data)
+	
+	else:
+		assert isinstance(data, primitive), '{}, {}'.format(type(data), data)
+		obj = data
+	
+	return obj
 
 PRIMITIVE = Union[primitive]
 '''Valid primitives'''

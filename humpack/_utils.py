@@ -11,8 +11,7 @@ def safe_self_execute(obj, fn, default='<<short circuit>>',
 		out = fn()
 	except Exception as e:
 		raise e
-	else:
-		return out
 	finally:
 		del obj.__dict__['self printed flag']
-
+	
+	return out
