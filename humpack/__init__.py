@@ -1,6 +1,6 @@
 
 
-from .packing import Packable, primitive, PRIMITIVE, SERIALIZABLE, JSONABLE
+from .packing import Packable, primitive, PRIMITIVE, SERIALIZABLE, JSONABLE, pack, unpack, pack_data, unpack_data
 from .transactions import Transactionable
 from .hashing import Hashable
 

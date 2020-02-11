@@ -4,7 +4,7 @@ import heapq
 
 from ._utils import safe_self_execute
 from .errors import LoadInitFailureError
-from .packing import Packable
+from .packing import Packable, pack_data, unpack_data
 from .transactions import Transactionable
 from .hashing import Hashable
 
@@ -140,7 +140,6 @@ class tdict(Container, OrderedDict):
 		self._data.move_to_end(key, last)
 	
 	def __pack__(self):
-		pack = self.__class__._pack_obj
 		
 		data = {}
 		
@@ -148,7 +147,7 @@ class tdict(Container, OrderedDict):
 		data['_order'] = []
 		
 		for key, value in self.items():
-			k, v = pack(key), pack(value)
+			k, v = pack_data(key, force_str=True), pack_data(value)
 			data['_pairs'][k] = v
 			data['_order'].append(k)
 		
@@ -158,14 +157,13 @@ class tdict(Container, OrderedDict):
 			data['_shadow_order'] = []
 			
 			for key, value in self._shadow.items():
-				k, v = pack(key), pack(value)
+				k, v = pack_data(key, force_str=True), pack_data(value)
 				data['_shadow_pairs'][k] = v
 				data['_shadow_order'].append(k)
 		
 		return data
 	
 	def __unpack__(self, data):
-		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
 		# if self.in_transaction():
@@ -174,12 +172,12 @@ class tdict(Container, OrderedDict):
 		self.abort()
 		self._data.clear()
 		for key in data['_order']:
-			self._data[unpack(key)] = unpack(data['_pairs'][key])
+			self._data[unpack_data(key)] = unpack_data(data['_pairs'][key])
 		
 		if '_shadow_pairs' in data:  # TODO: maybe write warning about loading into a partially completed transaction
 			self._shadow = OrderedDict()
 			for key in data['_shadow_order']:
-				self._shadow[unpack(key)] = unpack(data['_shadow_pairs'][key])
+				self._shadow[unpack_data(key)] = unpack_data(data['_shadow_pairs'][key])
 		
 		return self
 	
@@ -288,23 +286,21 @@ class tlist(Container, list):
 		return copy
 	
 	def __pack__(self):
-		pack = self.__class__._pack_obj
 		state = {}
-		state['_entries'] = [pack(elm) for elm in iter(self)]
+		state['_entries'] = [pack_data(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
-		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack(elm) for elm in state['_entries'])
+		self._data.extend(unpack_data(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
 	
 	def __getitem__(self, item):
 		if isinstance(item, slice):
@@ -459,26 +455,24 @@ class tset(Container, set):
 		return copy
 	
 	def __pack__(self):
-		pack = self.__class__._pack_obj
 		state = {}
-		state['_elements'] = [pack(elm) for elm in iter(self)]
+		state['_elements'] = [pack_data(elm) for elm in iter(self)]
 		if self.in_transaction():
-			state['_shadow'] = [pack(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, data):
-		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
 		# if self.in_transaction():
 		# 	pass
 		
-		self.update(unpack(elm) for elm in data['_elements'])
+		self.update(unpack_data(elm) for elm in data['_elements'])
 		
 		if '_shadow' in data:  # TODO: maybe write warning about loading into a partially completed transaction
 			self._shadow = OrderedDict()
 			for elm in data['_shadow']:
-				self._shadow[unpack(elm)] = None
+				self._shadow[unpack_data(elm)] = None
 	
 	def __hash__(self):
 		return id(self)
@@ -689,23 +683,21 @@ class tdeque(Container, deque):
 		return copy
 	
 	def __pack__(self):
-		pack = self.__class__._pack_obj
 		state = {}
-		state['_entries'] = [pack(elm) for elm in iter(self)]
+		state['_entries'] = [pack_data(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
-		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack(elm) for elm in state['_entries'])
+		self._data.extend(unpack_data(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
 	
 	def __getitem__(self, item):
 		if isinstance(item, slice):
@@ -899,23 +891,21 @@ class theap(Container, object):
 		return copy
 	
 	def __pack__(self):
-		pack = self.__class__._pack_obj
 		state = {}
-		state['_entries'] = [pack(elm) for elm in iter(self)]
+		state['_entries'] = [pack_data(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
-		unpack = self.__class__._unpack_obj
 		
 		# TODO: write warning about overwriting state - which can't be aborted
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack(elm) for elm in state['_entries'])
+		self._data.extend(unpack_data(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
 			
 	def __iter__(self): # Note: this actually pops entries - iterating through heap will empty it
 		return _theap_iter(self.copy())
