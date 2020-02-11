@@ -289,10 +289,15 @@ def unpack(data: PACKED, return_meta: bool = False) -> SERIALIZABLE:
 	return obj
 
 
-def pack_json(obj, include_timestamp=False):
+def pack_json(obj, fp, include_timestamp=False):
+	return json.dump(pack(obj, include_timestamp=include_timestamp), fp)
+
+def unpack_json(fp, return_meta=False):
+	return unpack(json.loads(fp), return_meta=return_meta)
+
+
+def pack_jsons(obj, include_timestamp=False):
 	return json.dumps(pack(obj, include_timestamp=include_timestamp))
 
-def unpack_json(data, return_meta=False):
+def unpack_jsons(data, return_meta=False):
 	return unpack(json.loads(data), return_meta=return_meta)
-
-
