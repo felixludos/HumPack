@@ -1,6 +1,10 @@
 
 
-# saving
+# packing
+
+class WrongKeyError(Exception):
+	def __init__(self):
+		super().__init__('Unable to decrypt the data because provided hash is invalid')
 
 class LoadInitFailureError(Exception):
 	'''Error thrown when an object cannot be recreated'''

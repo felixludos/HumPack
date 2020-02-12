@@ -21,18 +21,24 @@ def _full_name(cls: ClassVar) -> str:
 		return name
 	return '.'.join([module, name])
 
+
+_packable_registry = {}
+_packable_cls = {}
+_packable_item = namedtuple('Packable_Item', ['name', 'cls', 'pack_fn', 'create_fn', 'unpack_fn'])
+
+
 _ref_prefix = '<>'
 def _get_obj_id(obj: 'SERIALIZABLE') -> str:
 	'''
 	Compute the object ID for packing objects, which must be unique and use the reference prefix
-	
+
 	:param obj:
 	:return: unique ID associated with `obj` for packing
 	'''
-
+	
 	if type(obj) == type:
 		return _get_cls_id(obj)
-
+	
 	return '{}{}'.format(_ref_prefix, id(obj))
 
 def _get_cls_id(cls: ClassVar) -> str:
@@ -43,17 +49,13 @@ def _get_cls_id(cls: ClassVar) -> str:
 	:return: unique ID associated with `cls` for packing
 	'''
 	if cls in _packable_cls:
-		name = _packable_names[cls]
-	elif cls in _py_cls:
-		name = _py_cls[cls]
+		name = _packable_cls[cls].name
+	elif cls in _py_cls2name:
+		name = _py_cls2name[cls]
 	else:
 		raise TypeError('Unknown class: {}'.format(cls))
 	
 	return '{}:{}'.format(_ref_prefix, name)
-
-_packable_registry = {}
-_packable_cls = {}
-_packable_item = namedtuple('Packable_Item', ['name', 'cls', 'pack_fn', 'unpack_fn'])
 
 def get_cls(name: str) -> ClassVar:
 	try:
@@ -61,24 +63,32 @@ def get_cls(name: str) -> ClassVar:
 	except KeyError:
 		raise UnregisteredClassError(name)
 
-def register_packable(cls, pack_fn, unpack_fn, name=None):
+def get_cls_from_ref(name: str) -> ClassVar:
+	name = name[len(_ref_prefix) + 1:]
+	return get_cls(name)
+
+def register_packable(pack_fn, unpack_fn, cls=None, name=None, create_fn=None):
+	
+	assert cls is not None or (name is not None and create_fn is not None), 'Must provide either a class or ' \
+	                                                                        'name and create_fn'
+	
 	if name is None:
 		name = _full_name(cls)
 		
 	if name in _packable_cls:
 		raise SavableClassCollisionError(name, cls)
 
-	item = _packable_item(name, cls, pack_fn, unpack_fn)
+	item = _packable_item(name, cls, pack_fn, create_fn, unpack_fn)
 	_packable_registry[name] = item
-	_packable_cls[cls] = item
+	if cls is not None:
+		_packable_cls[cls] = item
 
-def Pack(pack_fn, unpack_fn, name=None):
-	def _register(cls):
-		nonlocal pack_fn, unpack_fn, name
-		register_packable(cls=cls, pack_fn=pack_fn, unpack_fn=unpack_fn, name=name)
-		return cls
-	return _register
-
+# def Pack(pack_fn, unpack_fn, name=None):
+# 	def _register(cls):
+# 		nonlocal pack_fn, unpack_fn, name
+# 		register_packable(cls=cls, pack_fn=pack_fn, unpack_fn=unpack_fn, name=name)
+# 		return cls
+# 	return _register
 
 class Packable(object):
 	'''
@@ -93,7 +103,7 @@ class Packable(object):
 		:return:
 		'''
 		super().__init_subclass__()
-		register_packable(cls, cls.__pack__, cls.__unpack__)
+		register_packable(cls, cls.__pack__, cls.__unpack__, create_fn=cls.__create__)
 
 	def __deepcopy__(self, memodict: Dict[Any,Any] = None) -> Any:
 		'''
@@ -102,7 +112,11 @@ class Packable(object):
 		:param memodict: Unused
 		:return: A deep copy of self
 		'''
-		return self.__class__.unpack(self.__class__.pack(self))
+		return unpack_data(pack_data(self))
+	
+	@classmethod
+	def __create__(cls, data: Dict[str, 'PACKED']) -> 'Packable':
+		return cls.__new__(cls)
 	
 	def __pack__(self) -> Dict[str,'PACKED']:
 		'''
@@ -179,13 +193,11 @@ def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
 	if isinstance(data, str) and data.startswith(_ref_prefix):  # reference or class
 
 		if ':' in data:  # class
-			
-			cls_name = data[len(_ref_prefix) + 1:]
-			
-			try:
-				return cls.get_cls(cls_name)
-			except UnregisteredClassError:
-				return eval(cls_name)
+			return get_cls_from_ref(data)
+			# try:
+			# 	return get_cls(cls_name)
+			# except UnregisteredClassError:
+			# 	return eval(cls_name)
 		
 		elif data in _obj_table:  # reference
 			return _obj_table[data]
@@ -289,15 +301,15 @@ def unpack(data: PACKED, return_meta: bool = False) -> SERIALIZABLE:
 	return obj
 
 
-def pack_json(obj, fp, include_timestamp=False):
+def save_pack(obj, fp, include_timestamp=False):
 	return json.dump(pack(obj, include_timestamp=include_timestamp), fp)
 
-def unpack_json(fp, return_meta=False):
+def load_pack(fp, return_meta=False):
 	return unpack(json.loads(fp), return_meta=return_meta)
 
 
-def pack_jsons(obj, include_timestamp=False):
+def json_pack(obj, include_timestamp=False):
 	return json.dumps(pack(obj, include_timestamp=include_timestamp))
 
-def unpack_jsons(data, return_meta=False):
+def json_unpack(data, return_meta=False):
 	return unpack(json.loads(data), return_meta=return_meta)

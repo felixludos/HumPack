@@ -1,22 +1,23 @@
 
 import base64
-import os
-from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-from .packing import pack_json, unpack_json
-from cryptography.fernet import Fernet
+from .packing import json_pack, json_unpack
+from .errors import WrongKeyError
+from cryptography.fernet import Fernet, InvalidToken, InvalidSignature
 from crypt import crypt, mksalt
 from getpass import getpass
-from hmac import compare_digest
-from cryptography.fernet import Fernet
+# from hmac import compare_digest
 
 
 _master_salt = '6FwLrxJb5mTPVwthumpackMASTERsalt'
 
 def format_key(hsh):
+	if isinstance(hsh, str):
+		hsh = hsh.encode('latin1')
+	
 	kdf = PBKDF2HMAC(
 		algorithm=hashes.SHA256(),
 		length=32,
@@ -52,25 +53,29 @@ def decrypt(data, hsh=None):
 		hsh = prompt_password_hash()
 	key = format_key(hsh)
 	f = Fernet(key)
-	return f.decrypt(data)
+	try:
+		return f.decrypt(data)
+	except (InvalidToken, InvalidSignature):
+		pass
+	raise WrongKeyError
 
 
 
 def secure_pack(obj, hsh=None, include_timestamp=False):
-	data = pack_json(obj, include_timestamp=include_timestamp)
+	data = json_pack(obj, include_timestamp=include_timestamp)
 	data = data.encode('latin1')
 
 	if hsh is None:
-		hsh = prompt_password_hash().encode('latin1')
+		hsh = prompt_password_hash()
 
 	return encrypt(data, hsh)
 
 def secure_unpack(data, hsh=None, return_meta=False):
 	if hsh is None:
-		hsh = prompt_password_hash().encode('latin1')
-
+		hsh = prompt_password_hash()
+	
 	data = decrypt(data, hsh).decode('latin1')
-	data = unpack_json(data, return_meta=return_meta)
+	data = json_unpack(data, return_meta=return_meta)
 
 	return data
 

@@ -7,28 +7,27 @@ except:
 from typing import Any
 from wrapt import ObjectProxy
 
-from .packing import Packable
+from .packing import Packable, pack_data, unpack_data
 from .transactions import Transactionable
 from .basic_containers import tdict, tset, tlist
 
 # all wrapped objects must be able to be copied (shallow copy) using
 # note: Transactionable objects cant be wrapped
 class ObjectWrapper(Transactionable, Packable, ObjectProxy):
+	'''
+	Wrapper to transform an object to be transactionable and poackable.
 	
-	def __new__(cls, *args, **kwargs):
-		obj = super().__new__(cls, _gen_id=False) # delay adding a pack_id until after initialization
-		return obj
+	Note: wrapped object must be copyable (shallow copy using `.copy()`)
+	
+	WARNING: It is NOT recommended to use this wrapper, instead,
+	
+	'''
 	
 	def __init__(self, obj):
 		super().__init__(obj)
 		
-		self._self_pack_id = Packable._Savable__gen_obj_id()
-		
 		self._self_shadow = None
 		self._self_children = tset()
-	
-	def _getref(self):
-		return self._self_pack_id
 	
 	def begin(self):
 		if self.in_transaction():
@@ -63,10 +62,6 @@ class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 	def __str__(self):
 		return self.__wrapped__.__str__()
 	
-	# def __getattribute__(self, item):
-	# 	if item in super().__getattribute__('_self_special_attrs'):
-	# 		return
-	
 	def __setattr__(self, key, value):
 		if isinstance(value, Transactionable) and not key == '_self_children':
 			self._self_children.add(value)
@@ -86,28 +81,39 @@ class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 	# must be overridden
 	
 	def __pack__(self): # save everything from the internal state
+		'''
+		Save all the necessary data from the internal state (and pack any subdata)
+		
+		:return: packed data
+		'''
 		raise NotImplementedError
 	
-	def __build__(self, data): # recover wrapped object in correct state from data, return wrapped object
+	def __build__(self, data):
+		'''
+		Recover the wrapped object in the correct state from data and return wrapped object
+		
+		:param data: packed data
+		:return: wrapped object with the loaded state
+		'''
 		raise NotImplementedError
 
 
 class Array(ObjectWrapper):
 	'''
+	This is an example of how to use the `ObjectWrapper`.
 	Wraps numpy arrays.
+	
+	WARNING: it is NOT recommended to use this wrapper for numpy arrays (they are already registered).
 	'''
 	
 	def __pack__(self):
-		pack = type(self)._pack_obj
-		
 		data = {}
 		
-		data['dtype'] = pack(self.dtype.name)
-		data['data'] = pack(self.tolist())
+		data['dtype'] = pack_data(self.dtype.name)
+		data['data'] = pack_data(self.tolist())
 		
 		return data
 	
 	def __build__(self, data=None):
-		unpack = type(self)._unpack_obj
-		return np.array(unpack(data['data']), dtype=unpack(data['dtype']))
+		return np.array(unpack_data(data['data']), dtype=unpack_data(data['dtype']))
 
