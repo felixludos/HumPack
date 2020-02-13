@@ -1,5 +1,5 @@
 
-
+from _util_test import get_tdict
 from humpack import tdict, tlist, tset
 
 
@@ -37,5 +37,21 @@ def test_tdict():
 	
 	assert x.a == 'a'
 	assert x['a'] == 'a'
+
+
+def test_elements():
+	data = get_tdict()
 	
+	data[dict] = data
+	assert len(data) == len(data[dict])
 	
+	data[1234] = 'element'
+	assert 1234 in data
+	assert 'element' == data[1234]
+	
+	data.abc = 123
+	assert 'abc' in data
+	assert data.abc == 123
+	assert data['abc'] == 123
+
+
