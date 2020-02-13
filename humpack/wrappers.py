@@ -1,5 +1,8 @@
 
-import numpy as np
+try:
+	import numpy as np
+except ImportError:
+	print('WARNING: unable to import numpy')
 from .packing import Packable, pack_data, unpack_data
 
 
