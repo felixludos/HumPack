@@ -1,12 +1,16 @@
 
-.. image:: docs/_static/img/logo_border.png
-    :scale: 20 %
-    :align: center
+.. raw:: html
+
+    <img src="docs/_static/img/logo_border.png" height="100px">
 
 
+-------
 HumPack
-=======
+-------
 Human Readable Serialization of Python Objects and other useful mixins.
+
+
+
 
 .. image:: https://readthedocs.org/projects/humpack/badge/?version=latest
     :target: https://humpack.readthedocs.io/en/latest/?badge=latest
@@ -21,7 +25,7 @@ Including Packable/Transactionable versions of python containers (dict, list, se
 
 
 Install
--------
+=======
 
 [missing]
 
@@ -30,7 +34,7 @@ Install
 
 
 TODO
-----
+====
 
 [missing]
 
