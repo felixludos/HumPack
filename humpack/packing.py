@@ -202,7 +202,7 @@ PACKED = NewType('PACKED', object)
 _ref_table = None
 _obj_table = None
 
-def pack_data(obj: SERIALIZABLE, force_str: bool = False) -> PACKED:
+def pack_data(obj: 'SERIALIZABLE', force_str: bool = False) -> PACKED:
 	'''
 	Store the object state by packing it, possibly returning a reference.
 	
@@ -255,7 +255,7 @@ def pack_data(obj: SERIALIZABLE, force_str: bool = False) -> PACKED:
 	
 	return ref
 
-def unpack_data(data: PACKED) -> SERIALIZABLE:
+def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
 	'''
 	Restore the object data by unpacking it.
 	
@@ -316,7 +316,7 @@ def unpack_data(data: PACKED) -> SERIALIZABLE:
 	
 	return obj
 
-def pack(obj: SERIALIZABLE, meta: Dict[str, PACKED] = None, include_timestamp: bool = False) -> JSONABLE:
+def pack(obj: 'SERIALIZABLE', meta: Dict[str, 'PACKED'] = None, include_timestamp: bool = False) -> 'JSONABLE':
 	'''
 	Serializes any object, returning a json object that can be converted to a json string.
 	
@@ -350,7 +350,7 @@ def pack(obj: SERIALIZABLE, meta: Dict[str, PACKED] = None, include_timestamp: b
 
 	return data
 
-def unpack(data: PACKED, return_meta: bool = False) -> SERIALIZABLE:
+def unpack(data: 'PACKED', return_meta: bool = False) -> 'SERIALIZABLE':
 	'''
 	Deserialize a packed object to recover the original state.
 	
@@ -376,7 +376,7 @@ def unpack(data: PACKED, return_meta: bool = False) -> SERIALIZABLE:
 	return obj
 
 
-def save_pack(obj: SERIALIZABLE, fp: TextIO, meta: Dict[str, JSONABLE] = None,
+def save_pack(obj: 'SERIALIZABLE', fp: TextIO, meta: Dict[str, 'JSONABLE'] = None,
               include_timestamp: bool = False) -> NoReturn:
 	'''
 	Pack (serialize) the object and store it as a json file
@@ -388,7 +388,7 @@ def save_pack(obj: SERIALIZABLE, fp: TextIO, meta: Dict[str, JSONABLE] = None,
 	'''
 	return json.dump(pack(obj, meta=meta, include_timestamp=include_timestamp), fp)
 
-def load_pack(fp: TextIO, return_meta: bool = False) -> SERIALIZABLE:
+def load_pack(fp: TextIO, return_meta: bool = False) -> 'SERIALIZABLE':
 	'''
 	Loads json file of packed object and unpacks the object
 	
@@ -399,7 +399,7 @@ def load_pack(fp: TextIO, return_meta: bool = False) -> SERIALIZABLE:
 	return unpack(json.loads(fp), return_meta=return_meta)
 
 
-def json_pack(obj: SERIALIZABLE, meta: Dict[str, JSONABLE] = None, include_timestamp:bool = False) -> str:
+def json_pack(obj: 'SERIALIZABLE', meta: Dict[str, 'JSONABLE'] = None, include_timestamp:bool = False) -> str:
 	'''
 	Pack object and return a json string of the serialized object
 	
@@ -410,7 +410,7 @@ def json_pack(obj: SERIALIZABLE, meta: Dict[str, JSONABLE] = None, include_times
 	'''
 	return json.dumps(pack(obj, include_timestamp=include_timestamp))
 
-def json_unpack(data: str, return_meta: bool = False) -> SERIALIZABLE:
+def json_unpack(data: str, return_meta: bool = False) -> 'SERIALIZABLE':
 	'''
 	Unpack json string of a packed object.
 	
