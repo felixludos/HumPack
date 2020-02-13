@@ -5,7 +5,8 @@ from .packing import save_pack, load_pack, json_pack, json_unpack
 from .transactions import Transactionable
 from .hashing import Hashable
 
-from .wrappers import ObjectWrapper, Array
+# from .wrappers import ObjectWrapper, Array
+from .wrappers import Array as _Array
 
 from .basic_containers import tdict, tlist, tset, tstack, tdeque, theap, containerify
 

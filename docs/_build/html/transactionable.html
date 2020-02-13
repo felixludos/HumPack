@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Containers" href="containers.html" />
-    <link rel="prev" title="Saving" href="savable.html" /> 
+    <link rel="prev" title="Packing" href="packable.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -96,9 +96,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packable.html">Packing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wrappers.html">Wrappers</a></li>
@@ -172,25 +173,98 @@
 <dt id="humpack.transactions.Transactionable">
 <em class="property">class </em><code class="sig-name descname">Transactionable</code><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Mixin to enable beginning, committing, and aborting transactions (multiple statements).
+To use Transactionable functionality, subclasses must implement begin(), in_transaction(), commit(), and abort().</p>
 <dl class="method">
 <dt id="humpack.transactions.Transactionable.begin">
 <code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.begin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Must be overridden by subclasses.
+This prepares <cite>self</cite> to track all changes to <cite>self</cite> until commit() or abort() is called.
+If any attributes or data kept by <cite>self</cite>, this method should probably also call begin() in them.</p>
+<p>Has no effect if <cite>self</cite> is already in a transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">NoReturn</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="humpack.transactions.Transactionable.in_transaction">
 <code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.in_transaction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query whether <cite>self</cite> is in a transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if and only if <cite>self</cite> is currently in a transaction.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="humpack.transactions.Transactionable.commit">
 <code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.commit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Make all the changes to <cite>self</cite> since transaction began, and stop tracking changes from now on.</p>
+<p>Has no effect if <cite>self</cite> is not in a transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">NoReturn</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="humpack.transactions.Transactionable.abort">
 <code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.abort" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Revert all changes to <cite>self</cite> since the transaction began, and stop tracking changes from now on.</p>
+<p>Has no effect if <cite>self</cite> is not in a transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">NoReturn</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="humpack.transactions.Transactionable.__enter__">
+<code class="sig-name descname">__enter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.__enter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">NoReturn</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="humpack.transactions.Transactionable.__exit__">
+<code class="sig-name descname">__exit__</code><span class="sig-paren">(</span><em class="sig-param">type</em>, <em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/transactions.html#Transactionable.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.transactions.Transactionable.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once the context is ended, if no exception was raised the transaction is committed, otherwise,</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>]) – Either None or an Exception type, if an Exception was raised in the context.</p></li>
+<li><p><strong>args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – Other possible args provided by the raised Exception</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>If there was no exception, or the</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -207,7 +281,7 @@
         <a href="containers.html" class="btn btn-neutral float-right" title="Containers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="savable.html" class="btn btn-neutral float-left" title="Saving" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="packable.html" class="btn btn-neutral float-left" title="Packing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

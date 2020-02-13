@@ -24,9 +24,10 @@ Welcome to HumPack!
    :maxdepth: 3
    :caption: Documentation
 
-   savable
+   packable
    transactionable
    containers
+   security
    errors
    hashing
    wrappers

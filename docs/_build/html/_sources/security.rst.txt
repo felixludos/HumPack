@@ -1,8 +1,8 @@
-Saving
+Secure
 ==========
 
-.. automodule:: humpack.saving
-    :members: Packable,pack,unpack,PRIMITIVE,SERIALIZABLE,JSONABLE
+.. automodule:: humpack.secure
+    :members: format_key,secure_key,prompt_password_hash,encrypt,decrypt,secure_pack,secure_unpack
     :undoc-members:
     :show-inheritance:
     :private-members:

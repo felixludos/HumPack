@@ -1,5 +1,5 @@
 
-from typing import Any, Union, Dict, List, Set, Tuple, NoReturn, ClassVar, TextIO, Callable
+from typing import Any, Union, Dict, List, Set, Tuple, NoReturn, ClassVar, TextIO, Callable, NewType
 import json
 from collections import namedtuple
 import time
@@ -100,7 +100,7 @@ def register_packable(cls: ClassVar, pack_fn: Callable, create_fn: Callable, unp
 	:param unpack_fn: callable input is the instance of packed data and then restores that instance to the original
 	state using the packed data by unpacking any values therein.
 	:param name: (optional) name of the class used for storing
-	:return:
+	:return: A `SavableClassCollisionError` if the name is already registered
 	'''
 	
 	if name is None:
@@ -161,7 +161,7 @@ class Packable(object):
 		.. warning:: All data must be "packed" storing it. This is done by passing the data into
 		`Packable._pack_obj` and using what is returned.
 		
-		:return: A dict of packed data necessary to recover the state of self.
+		:return: A dict of packed data necessary to recover the state of self
 		'''
 		raise NotImplementedError
 	
@@ -174,24 +174,29 @@ class Packable(object):
 		`Packable._unpack_obj` and using what is returned.
 		
 		:param data: The information that is returned by `__pack__`.
-		:return: Nothing. Once returned, the object should be in the same state as when it was packed.
+		:return: Nothing. Once returned, the object should be in the same state as when it was packed
 		'''
 		raise NotImplementedError
 
 
 PRIMITIVE = Union[primitive]
 '''Valid primitives'''
+#
+# SERIALIZABLE = Union[Packable, PRIMITIVE, Dict['SERIALIZABLE', 'SERIALIZABLE'],
+#                      List['SERIALIZABLE'], Set['SERIALIZABLE'], Tuple['SERIALIZABLE']]
+# '''Types that can be serialized using `pack`'''
+#
+# JSONABLE = Union[Dict[str,'JSONABLE'], List['JSONABLE'], PRIMITIVE]
+# '''Any object that is valid in json (eg. using `json.dumps`)'''
+#
+# PACKED = Union[PRIMITIVE, List['PACKED'], Dict['PACKED', 'PACKED']]
+# '''Any information that is valid json and can be unpacked to recover the state of `Packable` subclasses.'''
 
-SERIALIZABLE = Union[Packable, PRIMITIVE, Dict['SERIALIZABLE', 'SERIALIZABLE'],
-                     List['SERIALIZABLE'], Set['SERIALIZABLE'], Tuple['SERIALIZABLE']]
-'''Types that can be serialized using `pack`'''
 
-JSONABLE = Union[Dict[str,'JSONABLE'], List['JSONABLE'], PRIMITIVE]
-'''Any object that is valid in json (eg. using `json.dumps`)'''
 
-PACKED = Union[PRIMITIVE, List['PACKED'], Dict['PACKED', 'PACKED']]
-'''Any information that is valid json and can be unpacked to recover the state of `Packable` subclasses.'''
-
+SERIALIZABLE = NewType('SERIALIZABLE', object)
+JSONABLE = NewType('JSONABLE', object)
+PACKED = NewType('PACKED', object)
 
 
 _ref_table = None

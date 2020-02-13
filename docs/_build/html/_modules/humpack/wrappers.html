@@ -94,9 +94,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transactionable.html">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">Wrappers</a></li>
@@ -169,130 +170,60 @@
 <span class="k">except</span><span class="p">:</span>
 	<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No numpy found&#39;</span><span class="p">)</span> <span class="c1"># use logging instead</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">wrapt</span> <span class="k">import</span> <span class="n">ObjectProxy</span>
+<span class="kn">from</span> <span class="nn">.packing</span> <span class="k">import</span> <span class="n">Packable</span><span class="p">,</span> <span class="n">pack_data</span><span class="p">,</span> <span class="n">unpack_data</span>
 
-<span class="kn">from</span> <span class="nn">.saving</span> <span class="k">import</span> <span class="n">Packable</span>
-<span class="kn">from</span> <span class="nn">.transactions</span> <span class="k">import</span> <span class="n">Transactionable</span>
-<span class="kn">from</span> <span class="nn">.basic_containers</span> <span class="k">import</span> <span class="n">tdict</span><span class="p">,</span> <span class="n">tset</span><span class="p">,</span> <span class="n">tlist</span>
-
-<div class="viewcode-block" id="_nothing"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers._nothing">[docs]</a><span class="k">def</span> <span class="nf">_nothing</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">a3</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Packable</span><span class="p">,</span> <span class="n">use_cls</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Doesnt do all that much, more for testing the documentation.</span>
+<span class="sd">	Wrapper to allow saving numpy arrays.</span>
+<span class="sd">	Aside from being rather useful, this serves as an example for how to write a Packable wrapper.</span>
 <span class="sd">	</span>
-<span class="sd">	:param a1: this is very important</span>
-<span class="sd">	:param a3: what happened to `a2`?</span>
-<span class="sd">	:return: something i guess</span>
+<span class="sd">	Note the necessary Packable methods are all static, and the use of &quot;use_cls&quot; in the class declaration.</span>
 <span class="sd">	&#39;&#39;&#39;</span>
-	<span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a3</span><span class="p">)</span></div>
-
-<span class="c1"># all wrapped objects must be able to be copied (shallow copy) using</span>
-<span class="c1"># note: Transactionable objects cant be wrapped</span>
-<div class="viewcode-block" id="ObjectWrapper"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper">[docs]</a><span class="k">class</span> <span class="nc">ObjectWrapper</span><span class="p">(</span><span class="n">Transactionable</span><span class="p">,</span> <span class="n">Packable</span><span class="p">,</span> <span class="n">ObjectProxy</span><span class="p">):</span>
 	
-	<span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_gen_id</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># delay adding a pack_id until after initialization</span>
-		<span class="k">return</span> <span class="n">obj</span>
+<div class="viewcode-block" id="Array.__create__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__create__">[docs]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">__create__</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Creates an empty np.array</span>
+<span class="sd">		</span>
+<span class="sd">		:param data: packed data</span>
+<span class="sd">		:return: empty array with the correct size</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 	
-<div class="viewcode-block" id="ObjectWrapper.__init__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_pack_id</span> <span class="o">=</span> <span class="n">Packable</span><span class="o">.</span><span class="n">_Savable__gen_obj_id</span><span class="p">()</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span> <span class="o">=</span> <span class="n">tset</span><span class="p">()</span></div>
-	
-	<span class="k">def</span> <span class="nf">_getref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_pack_id</span>
-	
-<div class="viewcode-block" id="ObjectWrapper.begin"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
-			<span class="k">return</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.in_transaction"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.in_transaction">[docs]</a>	<span class="k">def</span> <span class="nf">in_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.commit"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
-			<span class="k">return</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
-	
-	
-<div class="viewcode-block" id="ObjectWrapper.abort"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
-			<span class="k">return</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_shadow</span> <span class="o">=</span> <span class="kc">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.__repr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__repr__">[docs]</a>	<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.__str__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__str__">[docs]</a>	<span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wrapped__</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
-	
-	<span class="c1"># def __getattribute__(self, item):</span>
-	<span class="c1"># 	if item in super().__getattribute__(&#39;_self_special_attrs&#39;):</span>
-	<span class="c1"># 		return</span>
-	
-<div class="viewcode-block" id="ObjectWrapper.__setattr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__setattr__">[docs]</a>	<span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;_self_children&#39;</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.__delattr__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__delattr__">[docs]</a>	<span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Transactionable</span><span class="p">):</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">_self_children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__delattr__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
-	
-	<span class="c1"># @staticmethod</span>
-	<span class="c1"># def _simple_method_wrapper(method, typ, wrapper):</span>
-	<span class="c1"># 	def _exec(*args, **kwargs):</span>
-	<span class="c1"># 		print(&#39;executing&#39;, method)</span>
-	<span class="c1"># 		out = method(*args, **kwargs)</span>
-	<span class="c1"># 		print(type(out), typ, wrapper)</span>
-	<span class="c1"># 		if isinstance(out, typ):</span>
-	<span class="c1"># 			return wrapper(out)</span>
-	<span class="c1"># 		return out</span>
-	<span class="c1"># 	return _exec</span>
-	
-<div class="viewcode-block" id="ObjectWrapper.__unpack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__unpack__">[docs]</a>	<span class="k">def</span> <span class="nf">__unpack__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__build__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-		
-		<span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
-	
-	<span class="c1"># must be overridden</span>
-	
-<div class="viewcode-block" id="ObjectWrapper.__pack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__pack__">[docs]</a>	<span class="k">def</span> <span class="nf">__pack__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># save everything from the internal state</span>
-		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-	
-<div class="viewcode-block" id="ObjectWrapper.__build__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.ObjectWrapper.__build__">[docs]</a>	<span class="k">def</span> <span class="nf">__build__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> <span class="c1"># recover wrapped object in correct state from data, return wrapped object</span>
-		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
-
-
-<div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">ObjectWrapper</span><span class="p">):</span> <span class="c1"># wraps numpy arrays</span>
-	
-<div class="viewcode-block" id="Array.__pack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__pack__">[docs]</a>	<span class="k">def</span> <span class="nf">__pack__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="n">pack</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_pack_obj</span>
+<div class="viewcode-block" id="Array.__pack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__pack__">[docs]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">__pack__</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Pack the np.array data.</span>
+<span class="sd">		</span>
+<span class="sd">		Note: that the information necessary for creating thet instance (shape, dtype) is not packed,</span>
+<span class="sd">		but still valid json objects</span>
+<span class="sd">		</span>
+<span class="sd">		:param obj: instance of numpy.ndarray to be packed</span>
+<span class="sd">		:return: packed data</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		
 		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 		
-		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
+		
+		<span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack_data</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 		
 		<span class="k">return</span> <span class="n">data</span></div>
 	
-<div class="viewcode-block" id="Array.__build__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__build__">[docs]</a>	<span class="k">def</span> <span class="nf">__build__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-		<span class="n">unpack</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_unpack_obj</span>
-		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]))</span></div></div>
+<div class="viewcode-block" id="Array.__unpack__"><a class="viewcode-back" href="../../wrappers.html#humpack.wrappers.Array.__unpack__">[docs]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">__unpack__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Unpack the data and save the data to the created object</span>
+<span class="sd">		</span>
+<span class="sd">		:param obj: instance with empty data to populate with the unpacked data</span>
+<span class="sd">		:param data: packed data</span>
+<span class="sd">		:return: None</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		
+		<span class="n">obj</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unpack_data</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">])</span></div></div>
+		
 
 </pre></div>
 

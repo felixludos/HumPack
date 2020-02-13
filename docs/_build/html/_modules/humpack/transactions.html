@@ -94,9 +94,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transactionable.html">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">Wrappers</a></li>
@@ -164,35 +165,72 @@
             
   <h1>Source code for humpack.transactions</h1><div class="highlight"><pre>
 <span></span>
-
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
 
 
 
 <div class="viewcode-block" id="Transactionable"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable">[docs]</a><span class="k">class</span> <span class="nc">Transactionable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Mixin to enable beginning, committing, and aborting transactions (multiple statements).</span>
+<span class="sd">	To use Transactionable functionality, subclasses must implement begin(), in_transaction(), commit(), and abort().</span>
+<span class="sd">	&#39;&#39;&#39;</span>
 	
-<div class="viewcode-block" id="Transactionable.begin"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Transactionable.begin"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.begin">[docs]</a>	<span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Must be overridden by subclasses.</span>
+<span class="sd">		This prepares `self` to track all changes to `self` until commit() or abort() is called.</span>
+<span class="sd">		If any attributes or data kept by `self`, this method should probably also call begin() in them.</span>
+<span class="sd">		</span>
+<span class="sd">		Has no effect if `self` is already in a transaction.</span>
+<span class="sd">		</span>
+<span class="sd">		:return: None</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 	
-<div class="viewcode-block" id="Transactionable.in_transaction"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.in_transaction">[docs]</a>	<span class="k">def</span> <span class="nf">in_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Transactionable.in_transaction"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.in_transaction">[docs]</a>	<span class="k">def</span> <span class="nf">in_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Query whether `self` is in a transaction.</span>
+<span class="sd">		</span>
+<span class="sd">		:return: True if and only if `self` is currently in a transaction.</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 	
-<div class="viewcode-block" id="Transactionable.commit"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Transactionable.commit"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.commit">[docs]</a>	<span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Make all the changes to `self` since transaction began, and stop tracking changes from now on.</span>
+<span class="sd">		</span>
+<span class="sd">		Has no effect if `self` is not in a transaction.</span>
+<span class="sd">		</span>
+<span class="sd">		:return: None</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 	
-<div class="viewcode-block" id="Transactionable.abort"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+<div class="viewcode-block" id="Transactionable.abort"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.abort">[docs]</a>	<span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Revert all changes to `self` since the transaction began, and stop tracking changes from now on.</span>
+<span class="sd">		</span>
+<span class="sd">		Has no effect if `self` is not in a transaction.</span>
+<span class="sd">		</span>
+<span class="sd">		:return: None</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<span class="c1"># def __enter__(self):</span>
-<span class="c1"># 	# self._context = True</span>
-<span class="c1"># 	self.begin()</span>
-<span class="c1">#</span>
-<span class="c1"># def __exit__(self, type, *args):</span>
-<span class="c1"># 	# self._context = False</span>
-<span class="c1"># 	if type is None:</span>
-<span class="c1"># 		self.commit()</span>
-<span class="c1"># 	else:</span>
-<span class="c1"># 		self.abort()</span>
-<span class="c1"># 	return None if type is None else type.__name__ == &#39;AbortTransaction&#39;</span>
+<div class="viewcode-block" id="Transactionable.__enter__"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.__enter__">[docs]</a>	<span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span></div>
+	
+<div class="viewcode-block" id="Transactionable.__exit__"><a class="viewcode-back" href="../../transactionable.html#humpack.transactions.Transactionable.__exit__">[docs]</a>	<span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">Type</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">Type</span><span class="p">]:</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Once the context is ended, if no exception was raised the transaction is committed, otherwise,</span>
+<span class="sd">		</span>
+<span class="sd">		:param type: Either None or an Exception type, if an Exception was raised in the context.</span>
+<span class="sd">		:param args: Other possible args provided by the raised Exception</span>
+<span class="sd">		:return: If there was no exception, or the</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+		<span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">type</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;AbortTransaction&#39;</span></div></div>
 </pre></div>
 
            </div>

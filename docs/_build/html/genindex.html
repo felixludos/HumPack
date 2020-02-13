@@ -95,9 +95,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transactionable.html">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wrappers.html">Wrappers</a></li>
@@ -188,6 +189,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -201,12 +203,6 @@
       </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tset.__and__">__and__() (tset method)</a>
 </li>
-      <li><a href="wrappers.html#humpack.wrappers.Array.__build__">__build__() (Array method)</a>
-
-      <ul>
-        <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__build__">(ObjectWrapper method)</a>
-</li>
-      </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__contains__">__contains__() (tdeque method)</a>
 
       <ul>
@@ -217,14 +213,16 @@
         <li><a href="containers.html#humpack.basic_containers.tset.__contains__">(tset method)</a>
 </li>
       </ul></li>
-      <li><a href="savable.html#humpack.saving.Packable.__deepcopy__">__deepcopy__() (Packable method)</a>
-</li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__delattr__">__delattr__() (ObjectWrapper method)</a>
+      <li><a href="wrappers.html#humpack.wrappers.Array.__create__">__create__() (Array static method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdict.__delattr__">(tdict method)</a>
+        <li><a href="packable.html#humpack.packing.Packable.__create__">(Packable class method)</a>
 </li>
       </ul></li>
+      <li><a href="packable.html#humpack.packing.Packable.__deepcopy__">__deepcopy__() (Packable method)</a>
+</li>
+      <li><a href="containers.html#humpack.basic_containers.tdict.__delattr__">__delattr__() (tdict method)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__delitem__">__delitem__() (tdeque method)</a>
 
       <ul>
@@ -233,6 +231,8 @@
         <li><a href="containers.html#humpack.basic_containers.tlist.__delitem__">(tlist method)</a>
 </li>
       </ul></li>
+      <li><a href="transactionable.html#humpack.transactions.Transactionable.__enter__">__enter__() (Transactionable method)</a>
+</li>
       <li><a href="hashing.html#humpack.hashing.Hashable.__eq__">__eq__() (Hashable method)</a>
 
       <ul>
@@ -247,6 +247,8 @@
         <li><a href="containers.html#humpack.basic_containers.tset.__eq__">(tset method)</a>
 </li>
       </ul></li>
+      <li><a href="transactionable.html#humpack.transactions.Transactionable.__exit__">__exit__() (Transactionable method)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tdict.__getattr__">__getattr__() (tdict method)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__getitem__">__getitem__() (tdeque method)</a>
@@ -292,8 +294,6 @@
 </li>
         <li><a href="errors.html#humpack.errors.ObjectIDReadOnlyError.__init__">(ObjectIDReadOnlyError method)</a>
 </li>
-        <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__init__">(ObjectWrapper method)</a>
-</li>
         <li><a href="errors.html#humpack.errors.SavableClassCollisionError.__init__">(SavableClassCollisionError method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.tdeque.__init__">(tdeque method)</a>
@@ -308,8 +308,10 @@
 </li>
         <li><a href="errors.html#humpack.errors.UnregisteredClassError.__init__">(UnregisteredClassError method)</a>
 </li>
+        <li><a href="errors.html#humpack.errors.WrongKeyError.__init__">(WrongKeyError method)</a>
+</li>
       </ul></li>
-      <li><a href="savable.html#humpack.saving.Packable.__init_subclass__">__init_subclass__() (Packable class method)</a>
+      <li><a href="packable.html#humpack.packing.Packable.__init_subclass__">__init_subclass__() (Packable class method)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tset.__ior__">__ior__() (tset method)</a>
 </li>
@@ -327,6 +329,8 @@
         <li><a href="containers.html#humpack.basic_containers.tset.__iter__">(tset method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="containers.html#humpack.basic_containers.tset.__ixor__">__ixor__() (tset method)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__len__">__len__() (tdeque method)</a>
@@ -341,26 +345,20 @@
         <li><a href="containers.html#humpack.basic_containers.tset.__len__">(tset method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__mul__">__mul__() (tdeque method)</a>
 
       <ul>
         <li><a href="containers.html#humpack.basic_containers.tlist.__mul__">(tlist method)</a>
 </li>
       </ul></li>
-      <li><a href="savable.html#humpack.saving.Packable.__new__">__new__() (Packable static method)</a>
-</li>
       <li><a href="containers.html#humpack.basic_containers._theap_iter.__next__">__next__() (_theap_iter method)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tset.__or__">__or__() (tset method)</a>
 </li>
-      <li><a href="wrappers.html#humpack.wrappers.Array.__pack__">__pack__() (Array method)</a>
+      <li><a href="wrappers.html#humpack.wrappers.Array.__pack__">__pack__() (Array static method)</a>
 
       <ul>
-        <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__pack__">(ObjectWrapper method)</a>
-</li>
-        <li><a href="savable.html#humpack.saving.Packable.__pack__">(Packable method)</a>
+        <li><a href="packable.html#humpack.packing.Packable.__pack__">(Packable method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.tdeque.__pack__">(tdeque method)</a>
 </li>
@@ -375,11 +373,9 @@
       </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tset.__rand__">__rand__() (tset method)</a>
 </li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__repr__">__repr__() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.__repr__">__repr__() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.__repr__">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.__repr__">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.__repr__">(theap method)</a>
@@ -409,14 +405,8 @@
 </li>
       <li><a href="containers.html#humpack.basic_containers.tset.__rxor__">__rxor__() (tset method)</a>
 </li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__setattr__">__setattr__() (ObjectWrapper method)</a>
-
-      <ul>
-        <li><a href="savable.html#humpack.saving.Packable.__setattr__">(Packable method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdict.__setattr__">__setattr__() (tdict method)</a>
 </li>
-        <li><a href="containers.html#humpack.basic_containers.tdict.__setattr__">(tdict method)</a>
-</li>
-      </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.__setitem__">__setitem__() (tdeque method)</a>
 
       <ul>
@@ -425,11 +415,9 @@
         <li><a href="containers.html#humpack.basic_containers.tlist.__setitem__">(tlist method)</a>
 </li>
       </ul></li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__str__">__str__() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.__str__">__str__() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.__str__">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.__str__">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.__str__">(theap method)</a>
@@ -441,10 +429,10 @@
       </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tset.__sub__">__sub__() (tset method)</a>
 </li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.__unpack__">__unpack__() (ObjectWrapper method)</a>
+      <li><a href="wrappers.html#humpack.wrappers.Array.__unpack__">__unpack__() (Array static method)</a>
 
       <ul>
-        <li><a href="savable.html#humpack.saving.Packable.__unpack__">(Packable method)</a>
+        <li><a href="packable.html#humpack.packing.Packable.__unpack__">(Packable method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.tdeque.__unpack__">(tdeque method)</a>
 </li>
@@ -459,29 +447,7 @@
       </ul></li>
       <li><a href="containers.html#humpack.basic_containers.tset.__xor__">__xor__() (tset method)</a>
 </li>
-      <li><a href="savable.html#humpack.saving.Packable._full_name">_full_name() (Packable static method)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._getref">_getref() (Packable method)</a>
-</li>
-      <li><a href="wrappers.html#humpack.wrappers._nothing">_nothing() (in module humpack.wrappers)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._pack_obj">_pack_obj() (Packable class method)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__gen_obj_id">_Packable__gen_obj_id() (Packable static method)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__obj_id_counter">_Packable__obj_id_counter (Packable attribute)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__obj_table">_Packable__obj_table (Packable attribute)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__py_table">_Packable__py_table (Packable attribute)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__ref_table">_Packable__ref_table (Packable attribute)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._Packable__subclasses">_Packable__subclasses (Packable attribute)</a>
-</li>
       <li><a href="containers.html#humpack.basic_containers._theap_iter">_theap_iter (class in humpack.basic_containers)</a>
-</li>
-      <li><a href="savable.html#humpack.saving.Packable._unpack_obj">_unpack_obj() (Packable class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -489,11 +455,9 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.abort">abort() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.abort">abort() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.abort">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.abort">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.abort">(theap method)</a>
@@ -525,11 +489,9 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.begin">begin() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.begin">begin() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.begin">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.begin">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.begin">(theap method)</a>
@@ -557,11 +519,9 @@
         <li><a href="containers.html#humpack.basic_containers.tset.clear">(tset method)</a>
 </li>
       </ul></li>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.commit">commit() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.commit">commit() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.commit">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.commit">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.commit">(theap method)</a>
@@ -603,6 +563,8 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="security.html#humpack.secure.decrypt">decrypt() (in module humpack.secure)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tset.difference">difference() (tset method)</a>
 </li>
   </ul></td>
@@ -617,6 +579,8 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="security.html#humpack.secure.encrypt">encrypt() (in module humpack.secure)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.extend">extend() (tdeque method)</a>
 
       <ul>
@@ -633,6 +597,10 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="security.html#humpack.secure.format_key">format_key() (in module humpack.secure)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="containers.html#humpack.basic_containers.tdict.fromkeys">fromkeys() (tdict method)</a>
 </li>
   </ul></td>
@@ -642,10 +610,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="containers.html#humpack.basic_containers.tdict.get">get() (tdict method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="savable.html#humpack.saving.Packable.get_cls">get_cls() (Packable class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -659,11 +623,13 @@
 </li>
       <li><a href="errors.html#module-humpack.errors">humpack.errors (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="hashing.html#module-humpack.hashing">humpack.hashing (module)</a>
 </li>
-      <li><a href="savable.html#module-humpack.saving">humpack.saving (module)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#module-humpack.packing">humpack.packing (module)</a>
+</li>
+      <li><a href="security.html#module-humpack.secure">humpack.secure (module)</a>
 </li>
       <li><a href="transactionable.html#module-humpack.transactions">humpack.transactions (module)</a>
 </li>
@@ -675,11 +641,9 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper.in_transaction">in_transaction() (ObjectWrapper method)</a>
+      <li><a href="containers.html#humpack.basic_containers.tdeque.in_transaction">in_transaction() (tdeque method)</a>
 
       <ul>
-        <li><a href="containers.html#humpack.basic_containers.tdeque.in_transaction">(tdeque method)</a>
-</li>
         <li><a href="containers.html#humpack.basic_containers.tdict.in_transaction">(tdict method)</a>
 </li>
         <li><a href="containers.html#humpack.basic_containers.theap.in_transaction">(theap method)</a>
@@ -723,7 +687,13 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="savable.html#humpack.saving.JSONABLE">JSONABLE (in module humpack.saving)</a>
+      <li><a href="packable.html#humpack.packing.json_pack">json_pack() (in module humpack.packing)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#humpack.packing.json_unpack">json_unpack() (in module humpack.packing)</a>
+</li>
+      <li><a href="packable.html#humpack.packing.JSONABLE">JSONABLE() (in module humpack.packing)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -738,6 +708,10 @@
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#humpack.packing.load_pack">load_pack() (in module humpack.packing)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="errors.html#humpack.errors.LoadInitFailureError">LoadInitFailureError</a>
 </li>
@@ -758,22 +732,16 @@
       <li><a href="errors.html#humpack.errors.ObjectIDReadOnlyError">ObjectIDReadOnlyError</a>
 </li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="wrappers.html#humpack.wrappers.ObjectWrapper">ObjectWrapper (class in humpack.wrappers)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="savable.html#humpack.saving.pack">pack() (in module humpack.saving)</a>
-
-      <ul>
-        <li><a href="savable.html#humpack.saving.Packable.pack">(Packable class method)</a>
+      <li><a href="packable.html#humpack.packing.pack">pack() (in module humpack.packing)</a>
 </li>
-      </ul></li>
-      <li><a href="savable.html#humpack.saving.Packable">Packable (class in humpack.saving)</a>
+      <li><a href="packable.html#humpack.packing.pack_data">pack_data() (in module humpack.packing)</a>
+</li>
+      <li><a href="packable.html#humpack.packing.Packable">Packable (class in humpack.packing)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tstack.peek">peek() (tstack method)</a>
 </li>
@@ -799,7 +767,9 @@
 </li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.popleft">popleft() (tdeque method)</a>
 </li>
-      <li><a href="savable.html#humpack.saving.PRIMITIVE">PRIMITIVE (in module humpack.saving)</a>
+      <li><a href="packable.html#humpack.packing.PRIMITIVE">PRIMITIVE (in module humpack.packing)</a>
+</li>
+      <li><a href="security.html#humpack.secure.prompt_password_hash">prompt_password_hash() (in module humpack.secure)</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.theap.push">push() (theap method)</a>
 
@@ -817,6 +787,8 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#humpack.packing.register_packable">register_packable() (in module humpack.packing)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.remove">remove() (tdeque method)</a>
 
       <ul>
@@ -845,12 +817,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="errors.html#humpack.errors.SavableClassCollisionError">SavableClassCollisionError</a>
 </li>
-      <li><a href="savable.html#humpack.saving.SERIALIZABLE">SERIALIZABLE (in module humpack.saving)</a>
+      <li><a href="packable.html#humpack.packing.save_pack">save_pack() (in module humpack.packing)</a>
 </li>
-      <li><a href="containers.html#humpack.basic_containers.tdict.setdefault">setdefault() (tdict method)</a>
+      <li><a href="security.html#humpack.secure.secure_key">secure_key() (in module humpack.secure)</a>
+</li>
+      <li><a href="security.html#humpack.secure.secure_pack">secure_pack() (in module humpack.secure)</a>
+</li>
+      <li><a href="security.html#humpack.secure.secure_unpack">secure_unpack() (in module humpack.secure)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#humpack.packing.SERIALIZABLE">SERIALIZABLE() (in module humpack.packing)</a>
+</li>
+      <li><a href="containers.html#humpack.basic_containers.tdict.setdefault">setdefault() (tdict method)</a>
+</li>
       <li><a href="containers.html#humpack.basic_containers.tdeque.sort">sort() (tdeque method)</a>
 
       <ul>
@@ -873,9 +853,15 @@
 </li>
       <li><a href="containers.html#humpack.basic_containers.theap">theap (class in humpack.basic_containers)</a>
 </li>
+      <li><a href="containers.html#humpack.basic_containers.tlist">tlist (class in humpack.basic_containers)</a>
+</li>
+      <li><a href="containers.html#humpack.basic_containers.tdict.todict">todict() (tdict method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="containers.html#humpack.basic_containers.tlist">tlist (class in humpack.basic_containers)</a>
+      <li><a href="containers.html#humpack.basic_containers.tlist.tolist">tolist() (tlist method)</a>
+</li>
+      <li><a href="containers.html#humpack.basic_containers.tset.toset">toset() (tset method)</a>
 </li>
       <li><a href="transactionable.html#humpack.transactions.Transactionable">Transactionable (class in humpack.transactions)</a>
 </li>
@@ -893,14 +879,12 @@
 </li>
       <li><a href="containers.html#humpack.basic_containers.tset.union_update">union_update() (tset method)</a>
 </li>
-      <li><a href="savable.html#humpack.saving.unpack">unpack() (in module humpack.saving)</a>
-
-      <ul>
-        <li><a href="savable.html#humpack.saving.Packable.unpack">(Packable class method)</a>
+      <li><a href="packable.html#humpack.packing.unpack">unpack() (in module humpack.packing)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packable.html#humpack.packing.unpack_data">unpack_data() (in module humpack.packing)</a>
+</li>
       <li><a href="errors.html#humpack.errors.UnregisteredClassError">UnregisteredClassError</a>
 </li>
       <li><a href="containers.html#humpack.basic_containers.tdict.update">update() (tdict method)</a>
@@ -916,6 +900,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="containers.html#humpack.basic_containers.tdict.values">values() (tdict method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="errors.html#humpack.errors.WrongKeyError">WrongKeyError</a>
 </li>
   </ul></td>
 </tr></table>

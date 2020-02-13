@@ -95,9 +95,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transactionable.html">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hashing.html">Hashing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Wrappers</a></li>
@@ -167,105 +168,59 @@
             
   <div class="section" id="module-humpack.wrappers">
 <span id="wrappers"></span><h1>Wrappers<a class="headerlink" href="#module-humpack.wrappers" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="humpack.wrappers._nothing">
-<code class="sig-name descname">_nothing</code><span class="sig-paren">(</span><em class="sig-param">a1</em>, <em class="sig-param">a3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#_nothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers._nothing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Doesnt do all that much, more for testing the documentation.</p>
+<dl class="class">
+<dt id="humpack.wrappers.Array">
+<em class="property">class </em><code class="sig-name descname">Array</code><a class="reference internal" href="_modules/humpack/wrappers.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="packable.html#humpack.packing.Packable" title="humpack.packing.Packable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.packing.Packable</span></code></a></p>
+<p>Wrapper to allow saving numpy arrays.
+Aside from being rather useful, this serves as an example for how to write a Packable wrapper.</p>
+<p>Note the necessary Packable methods are all static, and the use of “use_cls” in the class declaration.</p>
+<dl class="method">
+<dt id="humpack.wrappers.Array.__create__">
+<em class="property">static </em><code class="sig-name descname">__create__</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array.__create__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array.__create__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an empty np.array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – this is very important</p></li>
-<li><p><strong>a3</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – what happened to <cite>a2</cite>?</p></li>
-</ul>
+<dd class="field-odd"><p><strong>data</strong> – packed data</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>something i guess</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>empty array with the correct size</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="class">
-<dt id="humpack.wrappers.ObjectWrapper">
-<em class="property">class </em><code class="sig-name descname">ObjectWrapper</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="transactionable.html#humpack.transactions.Transactionable" title="humpack.transactions.Transactionable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code></a>, <a class="reference internal" href="savable.html#humpack.saving.Packable" title="humpack.saving.Packable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Packable</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectProxy</span></code></p>
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.begin">
-<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.begin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.in_transaction">
-<code class="sig-name descname">in_transaction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.in_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.in_transaction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.commit">
-<code class="sig-name descname">commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.commit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.abort">
-<code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.abort" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__repr__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__str__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__setattr__">
-<code class="sig-name descname">__setattr__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__setattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__setattr__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__delattr__">
-<code class="sig-name descname">__delattr__</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__delattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__delattr__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__unpack__">
-<code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__unpack__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__pack__">
-<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__pack__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="humpack.wrappers.ObjectWrapper.__build__">
-<code class="sig-name descname">__build__</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#ObjectWrapper.__build__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.ObjectWrapper.__build__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="humpack.wrappers.Array">
-<em class="property">class </em><code class="sig-name descname">Array</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#humpack.wrappers.ObjectWrapper" title="humpack.wrappers.ObjectWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.wrappers.ObjectWrapper</span></code></a></p>
 <dl class="method">
 <dt id="humpack.wrappers.Array.__pack__">
-<code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array.__pack__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">static </em><code class="sig-name descname">__pack__</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array.__pack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array.__pack__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pack the np.array data.</p>
+<p>Note: that the information necessary for creating thet instance (shape, dtype) is not packed,
+but still valid json objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> – instance of numpy.ndarray to be packed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>packed data</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
-<dt id="humpack.wrappers.Array.__build__">
-<code class="sig-name descname">__build__</code><span class="sig-paren">(</span><em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array.__build__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array.__build__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="humpack.wrappers.Array.__unpack__">
+<em class="property">static </em><code class="sig-name descname">__unpack__</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/wrappers.html#Array.__unpack__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.wrappers.Array.__unpack__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack the data and save the data to the created object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – instance with empty data to populate with the unpacked data</p></li>
+<li><p><strong>data</strong> – packed data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

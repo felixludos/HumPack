@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Errors" href="errors.html" />
+    <link rel="next" title="Secure" href="security.html" />
     <link rel="prev" title="Transactionable" href="transactionable.html" /> 
 </head>
 
@@ -96,9 +96,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transactionable.html">Transactionable</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wrappers.html">Wrappers</a></li>
@@ -171,18 +172,29 @@
 <dl class="class">
 <dt id="humpack.basic_containers.Container">
 <em class="property">class </em><code class="sig-name descname">Container</code><a class="reference internal" href="_modules/humpack/basic_containers.html#Container"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.Container" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="transactionable.html#humpack.transactions.Transactionable" title="humpack.transactions.Transactionable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code></a>, <a class="reference internal" href="savable.html#humpack.saving.Packable" title="humpack.saving.Packable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.saving.Packable</span></code></a>, <a class="reference internal" href="hashing.html#humpack.hashing.Hashable" title="humpack.hashing.Hashable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.hashing.Hashable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="transactionable.html#humpack.transactions.Transactionable" title="humpack.transactions.Transactionable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.transactions.Transactionable</span></code></a>, <a class="reference internal" href="packable.html#humpack.packing.Packable" title="humpack.packing.Packable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.packing.Packable</span></code></a>, <a class="reference internal" href="hashing.html#humpack.hashing.Hashable" title="humpack.hashing.Hashable"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.hashing.Hashable</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="humpack.basic_containers.containerify">
 <code class="sig-name descname">containerify</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#containerify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.containerify" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Recursively, convert <cite>obj</cite> from using standard python containers to HumPack containers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> – object using python containers (dict, list, set, tuple, etc.)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>deep copy of the object using HumPack containers</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="class">
 <dt id="humpack.basic_containers.tdict">
 <em class="property">class </em><code class="sig-name descname">tdict</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
+<p>Humpack dictionary, replaces the standard dict
+Has all the same functionality of a dict, plus being Transactionable or Packable</p>
 <dl class="method">
 <dt id="humpack.basic_containers.tdict.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__init__" title="Permalink to this definition">¶</a></dt>
@@ -206,6 +218,11 @@
 <dl class="method">
 <dt id="humpack.basic_containers.tdict.abort">
 <code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tdict.todict">
+<code class="sig-name descname">todict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.todict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.todict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -340,12 +357,12 @@
 
 <dl class="method">
 <dt id="humpack.basic_containers.tdict.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__str__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><em class="sig-param">default='{...}'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__str__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="humpack.basic_containers.tdict.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__repr__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><em class="sig-param">default='{...}'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdict.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -354,6 +371,8 @@
 <dt id="humpack.basic_containers.tlist">
 <em class="property">class </em><code class="sig-name descname">tlist</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<p>Humpack list, replaces the standard list
+Has all the same functionality of a list, plus being Transactionable or Packable</p>
 <dl class="method">
 <dt id="humpack.basic_containers.tlist.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__init__" title="Permalink to this definition">¶</a></dt>
@@ -377,6 +396,11 @@
 <dl class="method">
 <dt id="humpack.basic_containers.tlist.abort">
 <code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tlist.tolist">
+<code class="sig-name descname">tolist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.tolist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.tolist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -515,13 +539,13 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tlist.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tlist.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__str__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tlist.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__str__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tlist.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tlist.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tlist.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -530,6 +554,8 @@
 <dt id="humpack.basic_containers.tset">
 <em class="property">class </em><code class="sig-name descname">tset</code><span class="sig-paren">(</span><em class="sig-param">iterable=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></p>
+<p>Humpack set, replaces the standard set
+Has all the same functionality of a set, plus being Transactionable or Packable</p>
 <dl class="method">
 <dt id="humpack.basic_containers.tset.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">iterable=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__init__" title="Permalink to this definition">¶</a></dt>
@@ -553,6 +579,11 @@
 <dl class="method">
 <dt id="humpack.basic_containers.tset.abort">
 <code class="sig-name descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.abort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="humpack.basic_containers.tset.toset">
+<code class="sig-name descname">toset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.toset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.toset" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -741,13 +772,13 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tset.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tset.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><em class="sig-param">default='{...}'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__str__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tset.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__str__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tset.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><em class="sig-param">default='{...}'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tset.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tset.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -756,6 +787,8 @@
 <dt id="humpack.basic_containers.tdeque">
 <em class="property">class </em><code class="sig-name descname">tdeque</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></p>
+<p>Humpack queue, replaces the standard deque
+Has all the same functionality of a set, plus being Transactionable or Packable</p>
 <dl class="method">
 <dt id="humpack.basic_containers.tdeque.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__init__" title="Permalink to this definition">¶</a></dt>
@@ -937,13 +970,13 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tdeque.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tdeque.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__str__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="humpack.basic_containers.tdeque.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__str__" title="Permalink to this definition">¶</a></dt>
+<dt id="humpack.basic_containers.tdeque.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tdeque.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tdeque.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -952,6 +985,9 @@
 <dt id="humpack.basic_containers.tstack">
 <em class="property">class </em><code class="sig-name descname">tstack</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.tdeque" title="humpack.basic_containers.tdeque"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.tdeque</span></code></a></p>
+<p>Humpack stack
+Has all the same functionality of a deque, except it’s a stack (FIFO)
+Also implements Transactionable and Packable</p>
 <dl class="method">
 <dt id="humpack.basic_containers.tstack.pop">
 <code class="sig-name descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#tstack.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.tstack.pop" title="Permalink to this definition">¶</a></dt>
@@ -999,6 +1035,9 @@
 <dt id="humpack.basic_containers.theap">
 <em class="property">class </em><code class="sig-name descname">theap</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#humpack.basic_containers.Container" title="humpack.basic_containers.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">humpack.basic_containers.Container</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Humpack heap
+Unordered for adding/removing, ordered when iterating.
+Note that iterating through the heap empties it.</p>
 <dl class="method">
 <dt id="humpack.basic_containers.theap.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__init__" title="Permalink to this definition">¶</a></dt>
@@ -1081,12 +1120,12 @@
 
 <dl class="method">
 <dt id="humpack.basic_containers.theap.__str__">
-<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__str__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__str__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="humpack.basic_containers.theap.__repr__">
-<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__repr__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><em class="sig-param">default='[...]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/humpack/basic_containers.html#theap.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#humpack.basic_containers.theap.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1101,7 +1140,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="errors.html" class="btn btn-neutral float-right" title="Errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="security.html" class="btn btn-neutral float-right" title="Secure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="transactionable.html" class="btn btn-neutral float-left" title="Transactionable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

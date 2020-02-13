@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>humpack.secure &mdash; HumPack 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/gsm.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> HumPack
+          
+
+          
+            
+            <img src="../../_static/logo_border.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../serialization.html">Serialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transactions.html">Transactions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../packable.html">Packing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transactionable.html">Transactionable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Secure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hashing.html">Hashing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">HumPack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>humpack.secure</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for humpack.secure</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">Callable</span>
+
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.kdf.pbkdf2</span> <span class="k">import</span> <span class="n">PBKDF2HMAC</span>
+
+<span class="kn">from</span> <span class="nn">.packing</span> <span class="k">import</span> <span class="n">json_pack</span><span class="p">,</span> <span class="n">json_unpack</span><span class="p">,</span> <span class="n">SERIALIZABLE</span><span class="p">,</span> <span class="n">PACKED</span><span class="p">,</span> <span class="n">JSONABLE</span>
+<span class="kn">from</span> <span class="nn">.errors</span> <span class="k">import</span> <span class="n">WrongKeyError</span>
+<span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="k">import</span> <span class="n">Fernet</span><span class="p">,</span> <span class="n">InvalidToken</span><span class="p">,</span> <span class="n">InvalidSignature</span>
+<span class="kn">from</span> <span class="nn">crypt</span> <span class="k">import</span> <span class="n">crypt</span><span class="p">,</span> <span class="n">mksalt</span>
+<span class="kn">from</span> <span class="nn">getpass</span> <span class="k">import</span> <span class="n">getpass</span>
+<span class="c1"># from hmac import compare_digest</span>
+
+
+<span class="n">_master_salt</span> <span class="o">=</span> <span class="s1">&#39;6FwLrxJb5mTPVwthumpackMASTERsalt&#39;</span>
+
+<div class="viewcode-block" id="format_key"><a class="viewcode-back" href="../../security.html#humpack.secure.format_key">[docs]</a><span class="k">def</span> <span class="nf">format_key</span><span class="p">(</span><span class="n">hsh</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Reformat a hash (can be str or bytes)</span>
+<span class="sd">	</span>
+<span class="sd">	:param hsh: hash to be reformatted</span>
+<span class="sd">	:return: a key which can be used for decrypting the data</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+		<span class="n">hsh</span> <span class="o">=</span> <span class="n">hsh</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
+	
+	<span class="n">kdf</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span>
+		<span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">(),</span>
+		<span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+		<span class="n">salt</span><span class="o">=</span><span class="n">_master_salt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">),</span>
+		<span class="n">iterations</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+		<span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">(),</span>
+	<span class="p">)</span>
+	<span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">kdf</span><span class="o">.</span><span class="n">derive</span><span class="p">(</span><span class="n">hsh</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="secure_key"><a class="viewcode-back" href="../../security.html#humpack.secure.secure_key">[docs]</a><span class="k">def</span> <span class="nf">secure_key</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Get a hash from the raw text password</span>
+<span class="sd">	</span>
+<span class="sd">	:param word: raw text password</span>
+<span class="sd">	:param salt: random salt to seed the hash computation</span>
+<span class="sd">	:return: hash of the password</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="n">_master_salt</span>
+	<span class="n">hsh</span> <span class="o">=</span> <span class="n">crypt</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">hsh</span></div>
+
+<div class="viewcode-block" id="prompt_password_hash"><a class="viewcode-back" href="../../security.html#humpack.secure.prompt_password_hash">[docs]</a><span class="k">def</span> <span class="nf">prompt_password_hash</span><span class="p">(</span><span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Get the hash of a password which is entered by the user in a prompt</span>
+<span class="sd">	</span>
+<span class="sd">	:param salt: random salt for hash computation</span>
+<span class="sd">	:return: hash of the entered password</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="n">_master_salt</span>
+	<span class="n">hsh</span> <span class="o">=</span> <span class="n">secure_key</span><span class="p">(</span><span class="n">getpass</span><span class="p">(),</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">hsh</span></div>
+
+
+
+<div class="viewcode-block" id="encrypt"><a class="viewcode-back" href="../../security.html#humpack.secure.encrypt">[docs]</a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">hsh</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Encrypt the data from a provided hash (or prompt for a password if no hash is provided)</span>
+<span class="sd">	</span>
+<span class="sd">	:param data: bytes to be encrypted</span>
+<span class="sd">	:param hsh: hash used as key to encrypt</span>
+<span class="sd">	:return: encrypted data bytes</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">hsh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">hsh</span> <span class="o">=</span> <span class="n">prompt_password_hash</span><span class="p">()</span>
+	<span class="n">key</span> <span class="o">=</span> <span class="n">format_key</span><span class="p">(</span><span class="n">hsh</span><span class="p">)</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="decrypt"><a class="viewcode-back" href="../../security.html#humpack.secure.decrypt">[docs]</a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">hsh</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Decrypt data with provided hash (or prompt for a password to compute hash if no hash is provided)</span>
+<span class="sd">	</span>
+<span class="sd">	:param data: encrypted bytes that should be decrypted</span>
+<span class="sd">	:param hsh: hash of a password to be used as a key to decrypt (obviously, must be the same as was used to encrypt)</span>
+<span class="sd">	:return: the decrypted data, or a WrongKeyError if the key failed</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">hsh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">hsh</span> <span class="o">=</span> <span class="n">prompt_password_hash</span><span class="p">()</span>
+	<span class="n">key</span> <span class="o">=</span> <span class="n">format_key</span><span class="p">(</span><span class="n">hsh</span><span class="p">)</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">except</span> <span class="p">(</span><span class="n">InvalidToken</span><span class="p">,</span> <span class="n">InvalidSignature</span><span class="p">):</span>
+		<span class="k">pass</span>
+	<span class="k">raise</span> <span class="n">WrongKeyError</span></div>
+
+
+
+<div class="viewcode-block" id="secure_pack"><a class="viewcode-back" href="../../security.html#humpack.secure.secure_pack">[docs]</a><span class="k">def</span> <span class="nf">secure_pack</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SERIALIZABLE</span><span class="p">,</span> <span class="n">hsh</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">JSONABLE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">include_timestamp</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Pack the object and encrypt it using the provided hash (prompt user for password if none is provided)</span>
+<span class="sd">	</span>
+<span class="sd">	:param obj: object to be packed</span>
+<span class="sd">	:param hsh: hash used as key to encrypt</span>
+<span class="sd">	:param meta: meta information to store with the packed `obj`</span>
+<span class="sd">	:param include_timestamp: include timestamp in meta info</span>
+<span class="sd">	:return: encrypted bytes</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">json_pack</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">,</span> <span class="n">include_timestamp</span><span class="o">=</span><span class="n">include_timestamp</span><span class="p">)</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="n">hsh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">hsh</span> <span class="o">=</span> <span class="n">prompt_password_hash</span><span class="p">()</span>
+
+	<span class="k">return</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">hsh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="secure_unpack"><a class="viewcode-back" href="../../security.html#humpack.secure.secure_unpack">[docs]</a><span class="k">def</span> <span class="nf">secure_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">hsh</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">return_meta</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SERIALIZABLE</span><span class="p">:</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Decrypt `data` and unpack to recover the original object using the provided hash as a key</span>
+<span class="sd">	</span>
+<span class="sd">	:param data: encrypted bytes</span>
+<span class="sd">	:param hsh: hash to be used as a key to decrypt (prompt user, if not provided)</span>
+<span class="sd">	:param return_meta: include meta info in output</span>
+<span class="sd">	:return: decrypted and unpacked object, possibly including the meta info</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">hsh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">hsh</span> <span class="o">=</span> <span class="n">prompt_password_hash</span><span class="p">()</span>
+	
+	<span class="n">data</span> <span class="o">=</span> <span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">hsh</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">json_unpack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">return_meta</span><span class="o">=</span><span class="n">return_meta</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">data</span></div>
+
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Felix Leeb
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

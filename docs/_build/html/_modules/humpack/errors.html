@@ -94,9 +94,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../savable.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packable.html">Packing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transactionable.html">Transactionable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Secure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../errors.html">Errors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../hashing.html">Hashing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">Wrappers</a></li>
@@ -165,22 +166,31 @@
   <h1>Source code for humpack.errors</h1><div class="highlight"><pre>
 <span></span>
 
-<span class="c1"># saving</span>
+<span class="c1"># packing</span>
+
+<div class="viewcode-block" id="WrongKeyError"><a class="viewcode-back" href="../../errors.html#humpack.errors.WrongKeyError">[docs]</a><span class="k">class</span> <span class="nc">WrongKeyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="WrongKeyError.__init__"><a class="viewcode-back" href="../../errors.html#humpack.errors.WrongKeyError.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;Unable to decrypt the data because provided hash is invalid&#39;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="LoadInitFailureError"><a class="viewcode-back" href="../../errors.html#humpack.errors.LoadInitFailureError">[docs]</a><span class="k">class</span> <span class="nc">LoadInitFailureError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown when an object cannot be recreated&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="LoadInitFailureError.__init__"><a class="viewcode-back" href="../../errors.html#humpack.errors.LoadInitFailureError.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
-		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;An instance of </span><span class="si">{obj_type}</span><span class="s1"> was unable to load (make sure </span><span class="si">{obj_type}</span><span class="s1">.__init__ doesnt have any required arguments)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="n">obj_type</span><span class="p">))</span></div></div>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;An instance of </span><span class="si">{obj_type}</span><span class="s1"> was unable to load (make sure </span><span class="si">{obj_type}</span><span class="s1">.__init__ doesnt &#39;</span>
+		                 <span class="s1">&#39;have any required arguments)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="n">obj_type</span><span class="p">))</span></div></div>
 
 <div class="viewcode-block" id="ObjectIDReadOnlyError"><a class="viewcode-back" href="../../errors.html#humpack.errors.ObjectIDReadOnlyError">[docs]</a><span class="k">class</span> <span class="nc">ObjectIDReadOnlyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown when trying to overwrite the obj_id&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="ObjectIDReadOnlyError.__init__"><a class="viewcode-back" href="../../errors.html#humpack.errors.ObjectIDReadOnlyError.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;The attribute &quot;_obj_id&quot; is reserved for saving/loading and should not be set&#39;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="SavableClassCollisionError"><a class="viewcode-back" href="../../errors.html#humpack.errors.SavableClassCollisionError">[docs]</a><span class="k">class</span> <span class="nc">SavableClassCollisionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown when trying to re-register a class already registered&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="SavableClassCollisionError.__init__"><a class="viewcode-back" href="../../errors.html#humpack.errors.SavableClassCollisionError.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;A class with the address </span><span class="si">{}</span><span class="s1"> is already in the class register of Packable&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">cls</span> <span class="o">=</span> <span class="bp">cls</span></div></div>
 
 <div class="viewcode-block" id="UnregisteredClassError"><a class="viewcode-back" href="../../errors.html#humpack.errors.UnregisteredClassError">[docs]</a><span class="k">class</span> <span class="nc">UnregisteredClassError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Error thrown when trying to pack an instance of an unregistered class&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="UnregisteredClassError.__init__"><a class="viewcode-back" href="../../errors.html#humpack.errors.UnregisteredClassError.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">{}</span><span class="s1">&quot; is not registered (does it subclass Packable?)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div></div>
 
