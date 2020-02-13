@@ -14,6 +14,13 @@ Welcome to HumPack!
    philosophy
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Examples
+
+   serialization
+   transactions
+
+.. toctree::
    :maxdepth: 3
    :caption: Documentation
 

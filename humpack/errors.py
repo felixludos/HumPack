@@ -3,6 +3,7 @@
 # packing
 
 class WrongKeyError(Exception):
+	'''Error thrown when the provided key for decryption is incorrect'''
 	def __init__(self):
 		super().__init__('Unable to decrypt the data because provided hash is invalid')
 
