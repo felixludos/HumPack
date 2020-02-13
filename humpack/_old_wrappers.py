@@ -15,11 +15,11 @@ from .basic_containers import tdict, tset, tlist
 # note: Transactionable objects cant be wrapped
 class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 	'''
-	Wrapper to transform an object to be transactionable and poackable.
+	Wrapper to transform an object to be transactionable.
 	
 	Note: wrapped object must be copyable (shallow copy using `.copy()`)
 	
-	WARNING: It is NOT recommended to use this wrapper, instead,
+	WARNING: It is NOT recommended to use this wrapper, unless you need a transactionable features
 	
 	'''
 	
@@ -98,7 +98,7 @@ class ObjectWrapper(Transactionable, Packable, ObjectProxy):
 		raise NotImplementedError
 
 
-class Array(ObjectWrapper):
+class Transactionable_Array(ObjectWrapper):
 	'''
 	This is an example of how to use the `ObjectWrapper`.
 	Wraps numpy arrays.
