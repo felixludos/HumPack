@@ -1,5 +1,5 @@
 .. image:: docs/_static/img/logo_border.png
-    :height: 100px
+    :height: 10px
 
 HumPack
 =======
