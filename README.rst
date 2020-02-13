@@ -1,5 +1,8 @@
+
 .. image:: docs/_static/img/logo_border.png
-    :scale: 10 %
+    :scale: 20 %
+    :align: center
+
 
 HumPack
 =======
