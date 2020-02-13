@@ -1,3 +1,6 @@
+.. image:: docs/_static/img/logo_border.png
+    :height: 100px
+
 HumPack
 =======
 Human Readable Serialization of Python Objects and other useful mixins.
@@ -20,8 +23,6 @@ Install
 [missing]
 
 
-Quick Start
------------
 .. include:: docs/quickstart.rst
 
 
