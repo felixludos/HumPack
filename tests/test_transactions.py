@@ -2,14 +2,8 @@ from humpack import pack, unpack, json_unpack, json_pack
 from _util_test import get_tdict
 
 
-def test_pack_tdict():
-	data = get_tdict()
-	rec = unpack(pack(data))
-	
-	assert repr(data) == repr(rec)
-
-
 def test_json_pack_transactionable():
+	'''Test transactionable functionality'''
 	data = get_tdict()
 	
 	data.q = 0

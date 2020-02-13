@@ -16,6 +16,8 @@ def test_json_pack_transactionable():
 	s = json_pack(data)
 	assert repr(json_unpack(s)) == repr(data)
 	
+	data.begin()
+	
 	data[1234] = 'element'
 	assert 1234 in data
 	assert 'element' == data[1234]
@@ -25,5 +27,8 @@ def test_json_pack_transactionable():
 	assert data.abc == 123
 	assert data['abc'] == 123
 	
+	data.abort()
+	
+	assert repr(json_unpack(s)) == repr(data)
 	
 	
