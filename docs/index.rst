@@ -10,6 +10,7 @@ Welcome to HumPack!
    :maxdepth: 2
    :caption: Intro
 
+   installation
    quickstart
    philosophy
 

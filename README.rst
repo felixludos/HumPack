@@ -1,8 +1,10 @@
 
+.. role:: py(code)
+   :language: python
+
 .. raw:: html
 
     <img src="docs/_static/img/logo_border.png" height="100px">
-
 
 -------
 HumPack
@@ -23,18 +25,40 @@ Human Readable Serialization of Python Objects and other useful mixins.
 Primarily Packable and Transactionable mixins.
 Including Packable/Transactionable versions of python containers (dict, list, set) - called tdict, tlist, tset.
 
+.. install-marker-do-not-remove
 
 Install
 =======
 
 [missing]
 
+.. end-install-marker-do-not-remove
+.. quickstart-marker-do-not-remove
 
-.. include:: docs/quickstart.rst
+Quick Start
+===========
 
+test quickstart
+
+Containers
+----------
+
+Python has :py:`dict`
+
+Transactions
+------------
+
+
+
+
+Packing (serialization)
+-----------------------
+
+.. end-quickstart-marker-do-not-remove
 
 TODO
 ====
 
 [missing]
+
 
