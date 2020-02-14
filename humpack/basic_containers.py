@@ -2,9 +2,9 @@
 from collections import OrderedDict, deque
 import heapq
 
-from ._utils import safe_self_execute
+from .utils import safe_self_execute
 from .errors import LoadInitFailureError
-from .packing import Packable, pack_data, unpack_data
+from .packing import Packable, pack_member, unpack_member
 from .transactions import Transactionable
 from .hashing import Hashable
 
@@ -147,7 +147,7 @@ class tdict(Container, OrderedDict):
 		data['_order'] = []
 		
 		for key, value in self.items():
-			k, v = pack_data(key, force_str=True), pack_data(value)
+			k, v = pack_member(key, force_str=True), pack_member(value)
 			data['_pairs'][k] = v
 			data['_order'].append(k)
 		
@@ -157,7 +157,7 @@ class tdict(Container, OrderedDict):
 			data['_shadow_order'] = []
 			
 			for key, value in self._shadow.items():
-				k, v = pack_data(key, force_str=True), pack_data(value)
+				k, v = pack_member(key, force_str=True), pack_member(value)
 				data['_shadow_pairs'][k] = v
 				data['_shadow_order'].append(k)
 		
@@ -172,12 +172,12 @@ class tdict(Container, OrderedDict):
 		self.abort()
 		self._data.clear()
 		for key in data['_order']:
-			self._data[unpack_data(key)] = unpack_data(data['_pairs'][key])
+			self._data[unpack_member(key)] = unpack_member(data['_pairs'][key])
 		
 		if '_shadow_pairs' in data:  # TODO: maybe write warning about loading into a partially completed transaction
 			self._shadow = OrderedDict()
 			for key in data['_shadow_order']:
-				self._shadow[unpack_data(key)] = unpack_data(data['_shadow_pairs'][key])
+				self._shadow[unpack_member(key)] = unpack_member(data['_shadow_pairs'][key])
 		
 		return self
 	
@@ -287,9 +287,9 @@ class tlist(Container, list):
 	
 	def __pack__(self):
 		state = {}
-		state['_entries'] = [pack_data(elm) for elm in iter(self)]
+		state['_entries'] = [pack_member(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_member(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
@@ -298,9 +298,9 @@ class tlist(Container, list):
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack_data(elm) for elm in state['_entries'])
+		self._data.extend(unpack_member(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_member(elm) for elm in state['_shadow']]
 	
 	def __getitem__(self, item):
 		if isinstance(item, slice):
@@ -358,7 +358,7 @@ class tlist(Container, list):
 		self._data.clear()
 	
 	def sort(self, key=None, reverse=False):
-		self._data.sort(key, reverse)
+		self._data.sort(key=key, reverse=reverse)
 	
 	def index(self, object, start=None, stop=None):
 		self._data.index(object, start, stop)
@@ -456,9 +456,9 @@ class tset(Container, set):
 	
 	def __pack__(self):
 		state = {}
-		state['_elements'] = [pack_data(elm) for elm in iter(self)]
+		state['_elements'] = [pack_member(elm) for elm in iter(self)]
 		if self.in_transaction():
-			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_member(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, data):
@@ -467,12 +467,12 @@ class tset(Container, set):
 		# if self.in_transaction():
 		# 	pass
 		
-		self.update(unpack_data(elm) for elm in data['_elements'])
+		self.update(unpack_member(elm) for elm in data['_elements'])
 		
 		if '_shadow' in data:  # TODO: maybe write warning about loading into a partially completed transaction
 			self._shadow = OrderedDict()
 			for elm in data['_shadow']:
-				self._shadow[unpack_data(elm)] = None
+				self._shadow[unpack_member(elm)] = None
 	
 	def __hash__(self):
 		return id(self)
@@ -684,9 +684,9 @@ class tdeque(Container, deque):
 	
 	def __pack__(self):
 		state = {}
-		state['_entries'] = [pack_data(elm) for elm in iter(self)]
+		state['_entries'] = [pack_member(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_member(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
@@ -695,9 +695,9 @@ class tdeque(Container, deque):
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack_data(elm) for elm in state['_entries'])
+		self._data.extend(unpack_member(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_member(elm) for elm in state['_shadow']]
 	
 	def __getitem__(self, item):
 		if isinstance(item, slice):
@@ -892,9 +892,9 @@ class theap(Container, object):
 	
 	def __pack__(self):
 		state = {}
-		state['_entries'] = [pack_data(elm) for elm in iter(self)]
+		state['_entries'] = [pack_member(elm) for elm in iter(self)]
 		if self.in_transaction():  # TODO: maybe write warning about saving in the middle of a transaction
-			state['_shadow'] = [pack_data(elm) for elm in self._shadow]
+			state['_shadow'] = [pack_member(elm) for elm in self._shadow]
 		return state
 	
 	def __unpack__(self, state):
@@ -903,9 +903,9 @@ class theap(Container, object):
 		# if self.in_transaction():
 		# 	pass
 		
-		self._data.extend(unpack_data(elm) for elm in state['_entries'])
+		self._data.extend(unpack_member(elm) for elm in state['_entries'])
 		if '_shadow' in state:  # TODO: maybe write warning about loading into a partially completed transaction
-			self._shadow = [unpack_data(elm) for elm in state['_shadow']]
+			self._shadow = [unpack_member(elm) for elm in state['_shadow']]
 			
 	def __iter__(self): # Note: this actually pops entries - iterating through heap will empty it
 		return _theap_iter(self.copy())

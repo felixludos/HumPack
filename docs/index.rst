@@ -25,6 +25,7 @@ Welcome to HumPack!
    errors
    hashing
    wrappers
+   common
 
 
 

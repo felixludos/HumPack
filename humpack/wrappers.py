@@ -7,7 +7,7 @@ try:
 except ImportError:
 	print('WARNING: unable to import numpy')
 
-from .packing import Packable, pack_data, unpack_data
+from .packing import Packable, pack_member, unpack_member
 from .transactions import Transactionable
 from .basic_containers import tdict, tset, tlist
 
@@ -48,7 +48,7 @@ class Packable_Array(Packable, use_cls=np.ndarray):
 		data['shape'] = list(obj.shape)
 		data['dtype'] = obj.dtype.name
 		
-		data['data'] = pack_data(obj.tolist())
+		data['data'] = pack_member(obj.tolist())
 		
 		return data
 	
@@ -62,7 +62,7 @@ class Packable_Array(Packable, use_cls=np.ndarray):
 		:return: None
 		'''
 		
-		obj[:] = np.array(unpack_data(data['data']), dtype=data['dtype'])
+		obj[:] = np.array(unpack_member(data['data']), dtype=data['dtype'])
 
 
 # all wrapped objects must be able to be copied (shallow copy) using
@@ -188,9 +188,9 @@ class Array(ObjectWrapper):
 		:return: packed data
 		'''
 		data = {
-			'dtype': pack_data(self.dtype.name),
-			'data': pack_data(self.tolist()),
-			'shape': pack_data(self.shape),
+			'dtype': pack_member(self.dtype.name),
+			'data': pack_member(self.tolist()),
+			'shape': pack_member(self.shape),
 		}
 		
 		return data
@@ -202,7 +202,7 @@ class Array(ObjectWrapper):
 		:param data: packed data
 		:return: restored state
 		'''
-		return np.array(unpack_data(data['data']), dtype=unpack_data(data['dtype']))
+		return np.array(unpack_member(data['data']), dtype=unpack_member(data['dtype']))
 
 
 

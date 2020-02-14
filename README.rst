@@ -36,8 +36,11 @@ Install
 Everything is tested with Python 3.7 on Ubuntu 18.04, but there is no reason it shouldn't also work for Windows.
 
 [TODO]
+
 .. You can install this package through pip:
+
 .. .. code-block:: bash
+
 ..     pip install humpack
 
 This is not on pip yet, but you can clone this repo and install the local version for development:
@@ -62,17 +65,134 @@ Quick Start
 Containers
 ----------
 
-[TODO]
+The provided containers: :py:`tdict`, :py:`tlist`, and :py:`tset` serve as drop-in replacements for pythons :py:`dict`, :py:`list`, and :py:`set` types that are :py:`Transactionable` and :py:`Packable` (more info below). Furthermore, all keys in :py:`tdict` that are valid attribute names, can be treated as attributes.
 
-- entries where the keys are valid attribute names can be treated like (get/set/del)
-- containerify
-- show heaps
+A few examples:
+
+.. code-block:: python
+
+    from humpack import tdict, tlist, tset
+    from humpack import json_pack, json_unpack
+    from humpack import AbortTransaction
+
+    d = tdict({'apple':1, 'orange':10, 'pear': 3})
+    d.apple += 10
+    d.update({'non-det banana':tset({2,3,7}), 'orange': None})
+    del d.pear
+    assert d.apple == 11 and 2 in d['non-det banana'] and 'pear' not in d
+    options = tlist(d.keys())
+    options.sort()
+    first = options[0]
+    assert first == 'apple'
+    d.order = options
+
+    json_d = json_pack(d)
+    assert isinstance(json_d, str)
+
+    d.begin() # starts a transaction (tracking all changes)
+    assert options.in_transaction()
+
+    d['non-det banana'].discard(7)
+    d.cherry = 4.2
+    assert 'cherry' in d and len(d['non-det banana']) == 2
+    d['order'].extend(['grape', 'lemon', 'apricot'])
+    assert 'grape' in options
+    del d.order[0]
+    del d['orange']
+    d.order.sort()
+    assert options[0] == 'apricot'
+
+    d.abort()
+    assert 'cherry' not in d and 7 in d['non-det banana']
+    assert 'grape' not in options
+
+    with d:
+        assert d['non-det banana'].in_transaction()
+        d.clear()
+        assert len(d) == 0
+        d.melon = 100j
+        assert 'melon' in d and d['melon'].real == 0
+        raise AbortTransaction
+
+    assert 'melon' not in d
+
+    assert json_pack(d) == json_d
+    assert sum(d['non-det banana']) == sum(json_unpack(json_d)['non-det banana'])
+
+    with d:
+        assert 'cherry' not in d
+        d.cherry = 5
+        # automatically commits transaction on exiting the context if no exception is thrown
+
+    assert 'cherry' in d
+
+When starting with data in standard python, it can be converted to using the "t" series counter parts using :py:`containerify`.
+
+.. code-block:: python
+
+    from humpack import containerify
+    from humpack import AbortTransaction
+
+    x = {'one': 1, 1:2, None: ['hello', 123j, {1,3,4,5}]}
+
+    d = containerify(x)
+
+    assert len(x) == len(d)
+    assert len(x[None]) == len(d[None])
+    assert x['one'] == d.one
+    with d:
+        assert d[None][-1].in_transaction()
+        del d.one
+        d.two = 2
+        d[None][-1].add(1000)
+        assert d['two'] == 2 and 'one' not in d and sum(d[None][-1]) > 1000
+        raise AbortTransaction
+    assert 1000 not in d[None][-1] and 'one' in d and 'two' not in d
+
+Finally, there are a few useful containers which don't have explicit types in standard python are also provided including heaps and stacks: :py:`theap` and :py:`tstack`.
 
 
 Packing (serialization)
 -----------------------
 
-[TODO]
+To serializing an object into a human-readable, json compliant format, this library implements packing and unpacking. When an object is packed, it can still be read (and manipulated, although that not recommended), converted to a valid json string, or encrypted/decrypted (see the Security section below). However for an obejct to be packable it and all of it's submembers (recursively) must either be primitives (:py:`int`, :py:`float`, :py:`str`, :py:`bool`, :py:`None`) or registered as a :py:`Packable`, which can be done
+
+Packing and unpacking is primarily done using the :py:`pack` and :py:`unpack` functions, however, several higher level functions are provided to combine packing and unpacking with other common features in object serialization. For custom classes to be :py:`Packable`, they must implement three methods: :py:`__pack__`, :py:`__create__`, :py:`__unpack__` (for more info see the documentation for :py:`Packable`). When implementing these methods, all members of the objects that should be packed/unpacked, must use :py:`pack_member` and :py:`unpack_member` to avoid reference loops.
+
+.. code-block:: python
+
+    from humpack import pack, unpack
+
+    x = {'one': 1, 1:2, None: ['hello', 123j, {1,3,4,5}]}
+
+    p = pack(x) # several standard python types are already packable
+    assert isinstance(p, dict)
+    deepcopy_x = unpack(p)
+    assert repr(x) == repr(deepcopy_x)
+
+    from humpack import json_pack, json_unpack # Convert to/from json string
+
+    j = json_pack(x)
+    assert isinstance(j, str)
+    deepcopy_x = json_unpack(j)
+    assert repr(x) == repr(deepcopy_x)
+
+
+    from humpack import save_pack, load_pack # Save/load packed object to disk as json file
+    import os, tempfile
+
+    fd, path = tempfile.mkstemp()
+    try:
+        with open(path, 'w') as tmp:
+            save_pack(x, tmp)
+        with open(path, 'r') as tmp:
+            deepcopy_x = load_pack(tmp)
+    finally:
+        os.remove(path)
+    assert repr(x) == repr(deepcopy_x)
+
+
+For examples of how to any types can registered to be :py:`Packable` or objects can be wrapped in :py:`Packable` wrappers, see the :code:`humpack/common.py` and :code:`humpack/wrappers.py` scripts.
 
 Transactions
 ------------
@@ -154,7 +274,7 @@ Features that could be added/improved:
 
 - Enable simple conversion from containers to standard python (eg. decontainerify)
 - Add security functions to encrypt/decrypt files and directories (collecting/zipping contents in a tar)
-- Add Transactionable/Packable replacements for more standard python types
+- Add Transactionable/Packable replacements for more standard python types (especially tuples)
 - Possibly add 1-2 tutorials
 - Write more comprehensive unit tests and report test coverage
 

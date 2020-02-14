@@ -2,7 +2,7 @@ Packing
 ==========
 
 .. automodule:: humpack.packing
-    :members: register_packable,Packable,pack,unpack,pack_data,unpack_data,PRIMITIVE,SERIALIZABLE,JSONABLE,save_pack,load_pack,json_pack,json_unpack
+    :members: register_packable,Packable,pack,unpack,pack_member,unpack_member,PRIMITIVE,SERIALIZABLE,JSONABLE,save_pack,load_pack,json_pack,json_unpack
     :undoc-members:
     :show-inheritance:
     :private-members:

@@ -202,7 +202,7 @@ PACKED = NewType('PACKED', object)
 _ref_table = None
 _obj_table = None
 
-def pack_data(obj: 'SERIALIZABLE', force_str: bool = False) -> PACKED:
+def pack_member(obj: 'SERIALIZABLE', force_str: bool = False) -> PACKED:
 	'''
 	Store the object state by packing it, possibly returning a reference.
 	
@@ -240,7 +240,7 @@ def pack_data(obj: 'SERIALIZABLE', force_str: bool = False) -> PACKED:
 
 		elif typ in _py_cls2name:  # known python types
 			if typ == dict:
-				data['_data'] = {pack_data(k, force_str=True): pack_data(v) for k, v in obj.items()}
+				data['_data'] = {pack_member(k, force_str=True): pack_member(v) for k, v in obj.items()}
 			elif typ == range:
 				data['_data'] = {'start': obj.start, 'stop': obj.stop, 'step': obj.step}
 			elif typ == complex:
@@ -248,14 +248,14 @@ def pack_data(obj: 'SERIALIZABLE', force_str: bool = False) -> PACKED:
 			elif typ == bytes:
 				data['_data'] = obj.decode('latin1')
 			else:
-				data['_data'] = [pack_data(x) for x in obj]
+				data['_data'] = [pack_member(x) for x in obj]
 			data['_type'] = _py_cls2name[typ]
 		else:
 			raise TypeError('Unrecognized type: {}'.format(type(obj)))
 	
 	return ref
 
-def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
+def unpack_member(data: 'PACKED') -> 'SERIALIZABLE':
 	'''
 	Restore the object data by unpacking it.
 	
@@ -285,7 +285,7 @@ def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
 			if typname in {'str', 'int', 'float', 'bool'}:
 				obj = data
 			elif typname == 'tuple':  # since tuples are immutable they have to created right away (no loop issues)
-				obj = tuple(unpack_data(x) for x in data)
+				obj = tuple(unpack_member(x) for x in data)
 			elif typname == 'range':
 				obj = range(data['start'], data['stop'], data['step'])
 			elif typname == 'bytes':
@@ -303,11 +303,11 @@ def unpack_data(data: 'PACKED') -> 'SERIALIZABLE':
 
 			# after adding empty obj to obj table, populate obj with state from data
 			if typname == 'dict':
-				obj.update({unpack_data(k): unpack_data(v) for k, v in data.items()})
+				obj.update({unpack_member(k): unpack_member(v) for k, v in data.items()})
 			elif typname == 'set':
-				obj.update(unpack_data(x) for x in data)
+				obj.update(unpack_member(x) for x in data)
 			elif typname == 'list':
-				obj.extend(unpack_data(x) for x in data)
+				obj.extend(unpack_member(x) for x in data)
 			elif item is not None:
 				item.unpack_fn(obj, data)
 	else:
@@ -329,7 +329,7 @@ def pack(obj: 'SERIALIZABLE', meta: Dict[str, 'PACKED'] = None, include_timestam
 	_ref_table = {}
 
 	try:
-		out = pack_data(obj)
+		out = pack_member(obj)
 
 		# additional meta info
 		if meta is None:
@@ -364,7 +364,7 @@ def unpack(data: 'PACKED', return_meta: bool = False) -> 'SERIALIZABLE':
 	_obj_table = {}
 
 	try:
-		obj = unpack_data(data['head'])
+		obj = unpack_member(data['head'])
 	except Exception as e:
 		raise e
 	finally:
@@ -396,7 +396,7 @@ def load_pack(fp: TextIO, return_meta: bool = False) -> 'SERIALIZABLE':
 	:param return_meta: return the meta information stored
 	:return: unpacked object from json file
 	'''
-	return unpack(json.loads(fp), return_meta=return_meta)
+	return unpack(json.load(fp), return_meta=return_meta)
 
 
 def json_pack(obj: 'SERIALIZABLE', meta: Dict[str, 'JSONABLE'] = None, include_timestamp:bool = False) -> str:
@@ -408,7 +408,7 @@ def json_pack(obj: 'SERIALIZABLE', meta: Dict[str, 'JSONABLE'] = None, include_t
 	:param include_timestamp: include timestamp in meta information
 	:return: json string of the serialized data
 	'''
-	return json.dumps(pack(obj, include_timestamp=include_timestamp))
+	return json.dumps(pack(obj, meta=meta, include_timestamp=include_timestamp))
 
 def json_unpack(data: str, return_meta: bool = False) -> 'SERIALIZABLE':
 	'''

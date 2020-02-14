@@ -23,6 +23,7 @@ path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 install_requires = []
 if 'requirements.txt' not in os.listdir(path):
     print('WARNING: no requirements.txt found')
+    install_requires = ['wrapt', 'cryptography']
     # raise FileNotFoundError('requirements.txt not found, this usually happens if part of this library is missing')
 else:
     with open(os.path.join(path, 'requirements.txt'), 'r') as f:
