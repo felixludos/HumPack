@@ -4,7 +4,7 @@
 long_name = 'HumPack'
 name = 'humpack'
 
-version = '0.1'
+version = '0.1.1'
 
 description = 'Human Readable Object Serialization and more'
 
