@@ -1,5 +1,6 @@
 from setuptools import setup
-from humpack import _lib_info as info
+# from humpack import _lib_info as info
+import humpack._lib_info as info
 
 setup(name=info.name,
       version=info.version,
