@@ -6,7 +6,7 @@
 
 .. raw:: html
 
-    <img align="left" width="120" height="120" src="docs/_static/img/logo_border.png" alt="HumPack">
+    <img align="right" width="120" height="120" src="docs/_static/img/logo_border.png" alt="HumPack">
 
 -------
 HumPack
