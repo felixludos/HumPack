@@ -39,17 +39,13 @@ Install
 
 Everything is tested with Python 3.7 on Ubuntu 18.04, but there is no reason it shouldn't also work for Windows.
 
-[TODO]
+You can install this package through pip:
 
-.. You can install this package through pip:
+.. code-block:: bash
 
-.. .. code-block:: bash
+    pip install humpack
 
-..     pip install humpack
-
-This is not on pip yet, but you can clone this repo and install the local version for development:
-
-.. Alternatively, you can clone this repo and install the local version for development:
+Alternatively, you can clone this repo and install the local version for development:
 
 .. code-block:: bash
 
