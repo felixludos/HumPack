@@ -65,3 +65,7 @@ class Transactionable(object):
 		else:
 			self.abort()
 		return None if type is None else type.__name__ == 'AbortTransaction'
+	
+
+class AbortTransaction(Exception):
+	pass
