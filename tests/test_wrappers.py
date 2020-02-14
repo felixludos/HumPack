@@ -3,7 +3,7 @@ import numpy as np
 
 from _util_test import get_tdict
 from humpack import json_pack, json_unpack
-from humpack import Array
+from humpack.wrappers import Array
 
 def test_numpy_wrapper():
 	
