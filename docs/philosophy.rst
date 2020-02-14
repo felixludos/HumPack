@@ -4,9 +4,11 @@ Philosophy
 .. role:: py(code)
    :language: python
 
-This library is not meant to replace standard python objects (such as :py:`dict`, :py:`list`, etc.)
+[incomplete]
 
-Focus is not on performance but on high-level features for fast and easy development
+.. This library is not meant to replace standard python objects (such as :py:`dict`, :py:`list`, etc.)
+
+Focus is not on performance but on high-level features for fast and easy development.
 
 
 Serialization

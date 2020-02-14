@@ -3,7 +3,21 @@ from setuptools import setup
 from humpack import _lib_info as info
 
 with open('README.rst', 'r') as f:
-      README = f.read()
+      lines = f.readlines()
+
+readme = []
+valid = False
+for line in lines:
+      if valid:
+            if 'end-setup-marker-do-not-remove' in line:
+                  valid = False
+            else:
+                  readme.append(line)
+      elif 'setup-marker-do-not-remove' in line:
+            valid = True
+
+README = '\n'.join(readme)
+
 
 setup(name=info.name,
       version=info.version,

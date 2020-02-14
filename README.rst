@@ -6,7 +6,7 @@
 
 .. raw:: html
 
-    <img align="right" width="120" height="120" src="docs/_static/img/logo_border.png" alt="HumPack">
+    <img align="right" width="150" height="150" src="docs/_static/img/logo_border.png" alt="HumPack">
 
 -------
 HumPack
@@ -19,6 +19,10 @@ HumPack
 .. image:: https://travis-ci.com/fleeb24/HumPack.svg?branch=master
     :target: https://travis-ci.com/fleeb24/HumPack
 
+.. setup-marker-do-not-remove
+
+.. role:: py(code)
+   :language: python
 
 This package contains several high level utilities for python development, including:
 
@@ -280,3 +284,4 @@ Features that could be added/improved:
 
 Contributions and suggestions are always welcome.
 
+.. end-setup-marker-do-not-remove
