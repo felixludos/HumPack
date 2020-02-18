@@ -277,6 +277,7 @@ Features that could be added/improved:
 - Add Transactionable/Packable replacements for more standard python types (especially tuples)
 - Possibly add 1-2 tutorials
 - Write more comprehensive unit tests and report test coverage
+- Allow packing bound methods of Packable types
 
 Contributions and suggestions are always welcome.
 
