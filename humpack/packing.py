@@ -127,7 +127,7 @@ class Packable(object):
 		:param use_cls: The class to register (if it is different than `cls`)
 		:return: None
 		'''
-		super().__init_subclass__()
+		super().__init_subclass__() # TODO: remove
 		
 		if use_cls is None:
 			use_cls = cls

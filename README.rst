@@ -278,6 +278,7 @@ Features that could be added/improved:
 - Possibly add 1-2 tutorials
 - Write more comprehensive unit tests and report test coverage
 - Allow packing bound methods of Packable types
+- Add option to save class attributes
 
 Contributions and suggestions are always welcome.
 
