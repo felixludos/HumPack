@@ -8,10 +8,10 @@ version = '0.1.1'
 
 description = 'Human Readable Object Serialization and more'
 
-url = 'https://github.com/fleeb24/HumPack'
+url = 'https://github.com/felixludos/HumPack'
 
 author = 'Felix Leeb'
-author_email = 'felix.leeb@hotmail.com'
+author_email = 'felixludos.info@gmail.com'
 
 license = 'GPL3'
 

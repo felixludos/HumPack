@@ -16,8 +16,8 @@ HumPack
     :target: https://humpack.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://travis-ci.com/fleeb24/HumPack.svg?branch=master
-    :target: https://travis-ci.com/fleeb24/HumPack
+.. image:: https://travis-ci.com/felixludos/HumPack.svg?branch=master
+    :target: https://travis-ci.com/felixludos/HumPack
 
 .. setup-marker-do-not-remove
 
@@ -49,7 +49,7 @@ Alternatively, you can clone this repo and install the local version for develop
 
 .. code-block:: bash
 
-    git clone https://github.com/fleeb24/HumPack
+    git clone https://github.com/felixludos/HumPack
     pip install -e ./HumPack
 
 .. end-install-marker-do-not-remove
@@ -283,3 +283,5 @@ Features that could be added/improved:
 Contributions and suggestions are always welcome.
 
 .. end-setup-marker-do-not-remove
+
+Last maintained: May 29, 2020
