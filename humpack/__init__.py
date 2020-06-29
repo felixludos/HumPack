@@ -15,7 +15,3 @@ else: # Register additional common packable types
 
 from .basic_containers import tdict, tlist, tset, tstack, tdeque, theap
 from .basic_containers import containerify
-
-from ._lib_info import version as __version__
-from ._lib_info import author as __author__
-from ._lib_info import path as __home__
