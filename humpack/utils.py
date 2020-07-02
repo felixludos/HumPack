@@ -1,4 +1,5 @@
 
+# from omnibelt import safe_self_execute
 
 def safe_self_execute(obj, fn, default='<<short circuit>>',
                  flag='safe execute flag'):

@@ -15,3 +15,7 @@ else: # Register additional common packable types
 
 from .basic_containers import tdict, tlist, tset, tstack, tdeque, theap
 from .basic_containers import containerify
+
+__author__ = 'Felix Leeb'
+__version__ = '0.1.1'
+
