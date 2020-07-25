@@ -1,5 +1,4 @@
 import os
-from yaml import safe_load
 from setuptools import setup
 
 info = {'__file__':os.path.join(os.path.abspath(os.path.dirname(__file__)), 'humpack', '_info.py')}

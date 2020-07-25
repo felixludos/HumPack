@@ -2,7 +2,7 @@
 name = 'humpack'
 long_name = 'HumPack'
 
-version = '0.2'
+version = '0.2.1'
 
 url = 'https://github.com/felixludos/HumPack'
 
