@@ -18,6 +18,7 @@ HumPack
 
 .. image:: https://travis-ci.com/felixludos/HumPack.svg?branch=master
     :target: https://travis-ci.com/felixludos/HumPack
+    :alt: Test Status
 
 .. setup-marker-do-not-remove
 
