@@ -18,6 +18,12 @@ from .basic_containers import containerify
 
 from .structured import TreeSpace, Table, Key_Table
 
-__author__ = 'Felix Leeb'
-__version__ = '0.1.1'
+import os
+__info__ = {'__file__':os.path.join(os.path.abspath(os.path.dirname(__file__)), '_info.py')}
+with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '_info.py'), 'r') as f:
+	exec(f.read(), __info__)
+del os
+del __info__['__file__']
+__author__ = __info__['author']
+__version__ = __info__['version']
 
