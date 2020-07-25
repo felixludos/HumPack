@@ -18,6 +18,13 @@ from .basic_containers import containerify
 
 from .structured import TreeSpace, Table, Key_Table
 
-__author__ = 'Felix Leeb'
-__version__ = '0.1.1'
+import os
+
+from yaml import safe_load
+with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.fig.yaml'), 'r') as f:
+	info = safe_load(f)
+
+__author__ = info['author']
+__version__ = info['version']
+__info__ = info
 
