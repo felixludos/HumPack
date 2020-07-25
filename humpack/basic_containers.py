@@ -181,8 +181,8 @@ class tdict(Container, OrderedDict):
 		
 		return self
 	
-	def get(self, k):
-		return self._data.get(k)
+	def get(self, k, *args, **kwargs):
+		return self._data.get(k, *args, **kwargs)
 	
 	def setdefault(self, key, default=None):
 		self._data.setdefault(key, default)

@@ -16,6 +16,8 @@ else: # Register additional common packable types
 from .basic_containers import tdict, tlist, tset, tstack, tdeque, theap
 from .basic_containers import containerify
 
+from .structured import TreeSpace, Table, Key_Table
+
 __author__ = 'Felix Leeb'
 __version__ = '0.1.1'
 
