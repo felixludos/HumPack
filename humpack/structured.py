@@ -157,6 +157,10 @@ class _nothing:
 	pass
 
 class Key_Table(Table):
+	'''
+	Very similar to Table, but with a specified key that can be used with the get() function
+	(so the table acts a little more like a dict)
+	'''
 	
 	def __init__(self, *args, _get_key=None, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -170,7 +174,7 @@ class Key_Table(Table):
 		return obj
 
 	def get(self, key, default=_nothing):
-		if default == _nothing:
+		if default is _nothing:
 			return self.__dict__['_keys'][key]
 		return self.__dict__['_keys'].get(key, default)
 
