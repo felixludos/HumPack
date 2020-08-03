@@ -5,7 +5,7 @@ from .basic_containers import tdict, tlist
 
 
 
-class TreeSpace(tdict): # NOTE: avoid hasattr! - always returns true (creating new attrs), use __contains__ instead
+class TreeSpace(tdict):
 	'''
 	Namespace - like a dictionary but where keys can be accessed as attributes, and if not found will create new NS
 	allowing:
@@ -13,6 +13,8 @@ class TreeSpace(tdict): # NOTE: avoid hasattr! - always returns true (creating n
 	a = TreeSpace()
 	a.b.c.d = 'hello'
 	print(repr(a)) # --> {{'b':{{'c':{{'d':'hello'}}}}}}
+
+	NOTE: avoid ``hasattr``! - always returns true (creating new attrs), use ``__contains__`` instead
 
 	'''
 	
@@ -26,8 +28,12 @@ class TreeSpace(tdict): # NOTE: avoid hasattr! - always returns true (creating n
 				return super().__getattribute__(key)
 			except AttributeError:
 				# print('**WARNING: defaulting {}'.format(key))
-				self.__setitem__(key, self.__class__())
-				return super().__getitem__(key)
+				return self._missing_key(key)
+	
+	def _missing_key(self, key):
+		obj = self.__class__()
+		self.__setitem__(key, obj)
+		return obj
 	
 	def todict(self):
 		d = {}
