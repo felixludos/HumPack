@@ -66,17 +66,17 @@ Quick Start
 Containers
 ----------
 
-The provided containers: :py:`tdict`, :py:`tlist`, and :py:`tset` serve as drop-in replacements for pythons :py:`dict`, :py:`list`, and :py:`set` types that are :py:`Transactionable` and :py:`Packable` (more info below). Furthermore, all keys in :py:`tdict` that are valid attribute names, can be treated as attributes.
+The provided containers: :py:`tdict`, :py:`tlist`, and :py:`tset` serve as drop-in replacements for pythons :py:`dict`, :py:`list`, and :py:`set` types that are :py:`Transactionable` and :py:`Packable` (more info below). Furthermore, all keys in :py:`adict` that are valid attribute names, can be treated as attributes.
 
 A few examples:
 
 .. code-block:: python
 
-    from humpack import tdict, tlist, tset
+    from humpack import adict, tdict, tlist, tset
     from humpack import json_pack, json_unpack
     from humpack import AbortTransaction
 
-    d = tdict({'apple':1, 'orange':10, 'pear': 3})
+    d = adict({'apple':1, 'orange':10, 'pear': 3})
     d.apple += 10
     d.update({'non-det banana':tset({2,3,7}), 'orange': None})
     del d.pear
