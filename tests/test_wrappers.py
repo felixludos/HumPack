@@ -1,7 +1,7 @@
 
 import numpy as np
 
-from _util_test import get_tdict
+from _util_test import get_adict
 from humpack import json_pack, json_unpack
 from humpack.wrappers import Array
 
@@ -9,7 +9,7 @@ def test_numpy_wrapper():
 	
 	x = Array(np.random.randn(4).astype(object))
 	
-	x[0] = get_tdict()
+	x[0] = get_adict()
 	x[1] = 0
 	
 	assert x[1] == 0
@@ -43,7 +43,7 @@ def test_numpy_arrays():
 def test_complex_array():
 	x = np.arange(3).astype(object)
 	
-	x[0] = get_tdict()
+	x[0] = get_adict()
 	
 	p = json_pack(x)
 	c = json_unpack(p)

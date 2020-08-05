@@ -1,11 +1,11 @@
 
 import traceback
 
-from .basic_containers import tdict, tlist
+from .basic_containers import adict, tlist
 
 
 
-class TreeSpace(tdict):
+class TreeSpace(adict):
 	'''
 	Namespace - like a dictionary but where keys can be accessed as attributes, and if not found will create new NS
 	allowing:
@@ -53,7 +53,7 @@ class Table(tlist):
 	All elements should be dicts (or ideally tdicts)
 	'''
 	
-	def __init__(self, *args, _type=tdict, **kwargs):
+	def __init__(self, *args, _type=adict, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.__dict__['_el_type'] = _type
 	

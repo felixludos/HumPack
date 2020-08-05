@@ -1,5 +1,5 @@
 
-from _util_test import get_tdict
+from _util_test import get_adict
 import humpack.secure as scr
 
 
@@ -38,7 +38,7 @@ def test_secure_pack():
 	
 	hsh = 'test'
 	
-	data = get_tdict()
+	data = get_adict()
 	b = scr.secure_pack(data, hsh=hsh)
 	rec = scr.secure_unpack(b, hsh=hsh)
 	

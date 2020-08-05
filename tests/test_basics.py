@@ -1,13 +1,13 @@
 
-from _util_test import get_tdict
-from humpack import tdict, tlist, tset
+from _util_test import get_adict
+from humpack import adict, tdict, tlist, tset
 
 
 def test_init():
 	'''
 	Test creating some standard humpack objects
 	'''
-	x = tdict()
+	x = adict()
 	assert len(x) == 0
 	
 	x = tlist()
@@ -17,12 +17,12 @@ def test_init():
 	assert len(x) == 0
 
 
-def test_tdict():
+def test_adict():
 	'''
 	Test basic operations with tdict
 	'''
 	
-	x = tdict()
+	x = adict()
 	assert str(x) == 't{}'
 	
 	x.a = 'a'
@@ -40,7 +40,7 @@ def test_tdict():
 
 
 def test_elements():
-	data = get_tdict()
+	data = get_adict()
 	
 	data[dict] = data
 	assert len(data) == len(data[dict])

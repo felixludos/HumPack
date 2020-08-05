@@ -1,10 +1,10 @@
 from humpack import pack, unpack, json_unpack, json_pack
-from _util_test import get_tdict
+from _util_test import get_adict
 
 
 def test_json_pack_transactionable():
 	'''Test transactionable functionality'''
-	data = get_tdict()
+	data = get_adict()
 	
 	data.q = 0
 	assert 'q' in data and data.q == 0

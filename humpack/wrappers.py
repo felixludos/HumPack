@@ -9,7 +9,7 @@ except ImportError:
 
 from .packing import Packable, pack_member, unpack_member
 from .transactions import Transactionable
-from .basic_containers import tdict, tset, tlist
+from .basic_containers import adict, tset, tlist
 
 
 class Packable_Array(Packable, use_cls=np.ndarray):

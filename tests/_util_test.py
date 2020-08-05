@@ -1,7 +1,7 @@
-from humpack import tdict, tlist, tset
+from humpack import adict, tdict, tlist, tset
 
-def get_tdict():
-	x = tdict()
+def get_adict():
+	x = adict()
 	x.a = 1
 	x.x = x
 	x.l = [tlist(), tset()]

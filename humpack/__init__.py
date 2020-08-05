@@ -13,7 +13,7 @@ except ImportError:
 else: # Register additional common packable types
 	from . import common
 
-from .basic_containers import tdict, tlist, tset, tstack, tdeque, theap
+from .basic_containers import adict, tdict, tlist, tset, tstack, tdeque, theap
 from .basic_containers import containerify
 
 from .structured import TreeSpace, Table, Key_Table

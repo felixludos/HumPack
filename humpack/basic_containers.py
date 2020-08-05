@@ -11,25 +11,6 @@ from .hashing import Hashable
 class Container(Transactionable, Packable, Hashable):
 	pass
 
-def containerify(obj):
-	'''
-	Recursively, convert `obj` from using standard python containers to HumPack containers.
-	
-	:param obj: object using python containers (dict, list, set, tuple, etc.)
-	:return: deep copy of the object using HumPack containers
-	'''
-	if isinstance(obj, deque):
-		return tdeque(containerify(o) for o in obj)
-	if isinstance(obj, list):
-		return tlist(containerify(o) for o in obj)
-	if isinstance(obj, set):
-		return tset(containerify(o) for o in obj)
-	if isinstance(obj, tuple):
-		return tuple(containerify(o) for o in obj)
-	if isinstance(obj, dict):
-		return tdict({containerify(k):containerify(v) for k,v in obj.items()})
-	
-	return obj
 
 # keys must be primitives, values can be primitives or Packable instances/subclasses
 class tdict(Container, OrderedDict):
@@ -196,21 +177,6 @@ class tdict(Container, OrderedDict):
 	def __delitem__(self, key):
 		del self._data[key]
 	
-	def __getattr__(self, item):
-		if item in self.__dict__:
-			return super().__getattribute__(item)
-		return self.__getitem__(item)
-	
-	def __setattr__(self, key, value):
-		if key in self.__dict__:
-			return super().__setattr__(key, value)
-		return self.__setitem__(key, value)
-	
-	def __delattr__(self, item):
-		if item in self.__dict__:
-			# raise Exception('{} cannot be deleted'.format(item))
-			return super().__delattr__(item)
-		return self.__delitem__(item)
 	
 	def __str__(self, default='{...}'):
 		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(str(key) for key in iter(self)), '}'),
@@ -220,6 +186,24 @@ class tdict(Container, OrderedDict):
 		return safe_self_execute(self, lambda: 't{}{}{}'.format('{', ', '.join(
 			('{}:{}'.format(repr(key), repr(value)) for key, value in self.items())), '}'),
 		                         default=default, flag='self printed flag')
+
+class adict(tdict):
+
+	def __getattr__(self, item):
+		if item in self.__dict__:
+			return super().__getattribute__(item)
+		return self.__getitem__(item)
+
+	def __setattr__(self, key, value):
+		if key in self.__dict__:
+			return super().__setattr__(key, value)
+		return self.__setitem__(key, value)
+
+	def __delattr__(self, item):
+		if item in self.__dict__:
+			# raise Exception('{} cannot be deleted'.format(item))
+			return super().__delattr__(item)
+		return self.__delitem__(item)
 
 class tlist(Container, list):
 	'''
@@ -942,4 +926,24 @@ class theap(Container, object):
 		return safe_self_execute(self, lambda: 't[{}]'.format(', '.join(map(repr, self._data))),
 		                         default=default, flag='self printed flag')
 
+
+def containerify(obj, dtype=tdict):
+	'''
+	Recursively, convert `obj` from using standard python containers to HumPack containers.
+
+	:param obj: object using python containers (dict, list, set, tuple, etc.)
+	:return: deep copy of the object using HumPack containers
+	'''
+	if isinstance(obj, deque):
+		return tdeque(containerify(o, dtype=dtype) for o in obj)
+	if isinstance(obj, list):
+		return tlist(containerify(o, dtype=dtype) for o in obj)
+	if isinstance(obj, set):
+		return tset(containerify(o, dtype=dtype) for o in obj)
+	if isinstance(obj, tuple):
+		return tuple(containerify(o, dtype=dtype) for o in obj)
+	if isinstance(obj, dict):
+		return dtype({containerify(k, dtype=dtype): containerify(v, dtype=dtype) for k, v in obj.items()})
+	
+	return obj
 
