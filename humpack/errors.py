@@ -30,3 +30,20 @@ class UnregisteredClassError(Exception):
 		super().__init__('"{}" is not registered (does it subclass Packable?)'.format(name))
 
 
+class UnknownUserError(Exception):
+	pass
+
+class UnknownActionError(Exception):
+	pass
+
+class InsufficientPermissionsError(Exception):
+	def __init__(self, user, action=None):
+		msg = f'{user} is not permitted to take this action' if action is None \
+			else f'{user} is not permitted to take action: {action}'
+		
+		super().__init__(msg)
+		self.user = user
+		self.action = action
+
+
+
