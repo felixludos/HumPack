@@ -59,7 +59,7 @@ class Farmer(object):
 
 	'''
 	def __init__(self, fn, shared_args={}, private_args={}, unique_worker_args=None, volatile_gen=None,
-	             init_fn=None, num_workers=0, timeout=20, waiting=None, auto_dispatch=True):
+	             init_fn=None, num_workers=0, timeout=20, daemon=True, waiting=None, auto_dispatch=True):
 		'''
 
 		:param fn:
@@ -100,7 +100,8 @@ class Farmer(object):
 			
 			self.out_queue = mp.Queue()
 			self.workers = [
-				mp.Process(target=_worker_loop, args=(fn, private_args, self.in_queue, self.out_queue, u, init_fn))
+				mp.Process(target=_worker_loop, daemon=daemon,
+				           args=(fn, private_args, self.in_queue, self.out_queue, u, init_fn))
 				for i, u in enumerate(unique_worker_args)]
 			
 			for w in self.workers:

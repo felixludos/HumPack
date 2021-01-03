@@ -2,7 +2,7 @@
 name = 'humpack'
 long_name = 'HumPack'
 
-version = '0.3'
+version = '0.3.1'
 
 url = 'https://github.com/felixludos/HumPack'
 
@@ -11,7 +11,7 @@ description = 'Human Readable Object Serialization and more'
 author = 'Felix Leeb'
 author_email = 'felixludos.info@gmail.com'
 
-license = 'GPL3'
+license = 'MIT'
 
 readme = 'README.rst'
 
