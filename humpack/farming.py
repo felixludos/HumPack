@@ -167,6 +167,9 @@ class Farmer(object):
 		# quit()
 		return output
 	
+	def complete(self):
+		return [x for x in self]
+	
 	def __del__(self):
 		if self.workers is not None:
 			for _ in self.workers:
